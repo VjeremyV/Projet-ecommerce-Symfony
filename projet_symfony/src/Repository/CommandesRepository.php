@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Customers;
+use App\Entity\Commandes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Customers>
+ * @extends ServiceEntityRepository<Commandes>
  *
- * @method Customers|null find($id, $lockMode = null, $lockVersion = null)
- * @method Customers|null findOneBy(array $criteria, array $orderBy = null)
- * @method Customers[]    findAll()
- * @method Customers[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Commandes|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Commandes|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Commandes[]    findAll()
+ * @method Commandes[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CustomersRepository extends ServiceEntityRepository
+class CommandesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Customers::class);
+        parent::__construct($registry, Commandes::class);
     }
 
-    public function add(Customers $entity, bool $flush = false): void
+    public function add(Commandes $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CustomersRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Customers $entity, bool $flush = false): void
+    public function remove(Commandes $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CustomersRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Customers[] Returns an array of Customers objects
+//     * @return Commandes[] Returns an array of Commandes objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CustomersRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Customers
+//    public function findOneBySomeField($value): ?Commandes
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

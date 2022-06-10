@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\CommandeContent;
+use App\Entity\Commentaires;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CommandeContent>
+ * @extends ServiceEntityRepository<Commentaires>
  *
- * @method CommandeContent|null find($id, $lockMode = null, $lockVersion = null)
- * @method CommandeContent|null findOneBy(array $criteria, array $orderBy = null)
- * @method CommandeContent[]    findAll()
- * @method CommandeContent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Commentaires|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Commentaires|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Commentaires[]    findAll()
+ * @method Commentaires[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CommandeContentRepository extends ServiceEntityRepository
+class CommentairesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CommandeContent::class);
+        parent::__construct($registry, Commentaires::class);
     }
 
-    public function add(CommandeContent $entity, bool $flush = false): void
+    public function add(Commentaires $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CommandeContentRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(CommandeContent $entity, bool $flush = false): void
+    public function remove(Commentaires $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CommandeContentRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return CommandeContent[] Returns an array of CommandeContent objects
+//     * @return Commentaires[] Returns an array of Commentaires objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CommandeContentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?CommandeContent
+//    public function findOneBySomeField($value): ?Commentaires
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

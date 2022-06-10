@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
+use App\Repository\CommentairesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CommentRepository::class)]
-class Comment
+#[ORM\Entity(repositoryClass: CommentairesRepository::class)]
+class Commentaires
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -14,7 +14,7 @@ class Comment
     private $id;
 
     #[ORM\Column(type: 'text')]
-    private $text;
+    private $contenu;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $note;
@@ -22,23 +22,23 @@ class Comment
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'comments')]
+    #[ORM\ManyToOne(targetEntity: Produit::class, inversedBy: 'commentaire')]
     #[ORM\JoinColumn(nullable: false)]
-    private $product;
+    private $produit;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getText(): ?string
+    public function getContenu(): ?string
     {
-        return $this->text;
+        return $this->contenu;
     }
 
-    public function setText(string $text): self
+    public function setContenu(string $contenu): self
     {
-        $this->text = $text;
+        $this->contenu = $contenu;
 
         return $this;
     }
@@ -67,14 +67,14 @@ class Comment
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getProduit(): ?Produit
     {
-        return $this->product;
+        return $this->produit;
     }
 
-    public function setProduct(?Product $product): self
+    public function setProduit(?Produit $produit): self
     {
-        $this->product = $product;
+        $this->produit = $produit;
 
         return $this;
     }

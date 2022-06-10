@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Comment;
+use App\Entity\Contenu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Comment>
+ * @extends ServiceEntityRepository<Contenu>
  *
- * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
- * @method Comment|null findOneBy(array $criteria, array $orderBy = null)
- * @method Comment[]    findAll()
- * @method Comment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Contenu|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Contenu|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Contenu[]    findAll()
+ * @method Contenu[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CommentRepository extends ServiceEntityRepository
+class ContenuRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Comment::class);
+        parent::__construct($registry, Contenu::class);
     }
 
-    public function add(Comment $entity, bool $flush = false): void
+    public function add(Contenu $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Comment $entity, bool $flush = false): void
+    public function remove(Contenu $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CommentRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Comment[] Returns an array of Comment objects
+//     * @return Contenu[] Returns an array of Contenu objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CommentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Comment
+//    public function findOneBySomeField($value): ?Contenu
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
