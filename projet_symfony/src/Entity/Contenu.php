@@ -23,7 +23,8 @@ class Contenu
     #[ORM\JoinColumn(nullable: false)]
     private $commandes;
 
-    #[ORM\OneToOne(mappedBy: 'contenu', targetEntity: Produit::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: produit::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $produit;
 
     public function getId(): ?int

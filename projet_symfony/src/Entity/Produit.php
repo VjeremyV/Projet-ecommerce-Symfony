@@ -36,9 +36,6 @@ class Produit
     #[ORM\Column(type: 'boolean')]
     private $is_active;
 
-    #[ORM\OneToOne(inversedBy: 'produit', targetEntity: contenu::class, cascade: ['persist', 'remove'])]
-    private $contenu;
-
     #[ORM\OneToMany(mappedBy: 'produit', targetEntity: commentaires::class, orphanRemoval: true)]
     private $commentaire;
 
