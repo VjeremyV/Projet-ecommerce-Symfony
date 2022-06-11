@@ -15,8 +15,9 @@ class AdminCategoriesController extends AbstractController
     {
         $categorie = new Categories();
         $form = $this->createForm(CategorieAddFormType::class, $categorie);
+
         return $this->render('admin_categories/index.html.twig', [
-        'form' => $form
+        'form' => $form->createView()
         ]);
     }
 }
