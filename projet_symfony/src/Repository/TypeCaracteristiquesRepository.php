@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\TypeCaracteristiques;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,21 +39,42 @@ class TypeCaracteristiquesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public const PAGINATOR_PER_PAGE = 2;
+    public function getTypeCaracteristiquesPaginator( int $offset, string $nom,$searchNom): Paginator
+    {
+        $query = $this->createQueryBuilder('t');
+        if ($nom){
+            $query = $query->andWhere('t.nom =:nom')
+                ->setParameter('nom',$nom);
+        }
+        if ($searchNom){
+            $query =$query->andWhere('t.nom LIKE :nom')
+                ->setParameter('nom','%'.$searchNom.'%');
+        }
+        $query = $query
+            ->OrderBy('t.nom')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
 
-//    /**
-//     * @return TypeCaracteristiques[] Returns an array of TypeCaracteristiques objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return TypeCaracteristiques[] Returns an array of TypeCaracteristiques objects
+     */
+    public function getListTypeCaracteristique(): array
+    {
+        $nom =[];
+        foreach ($this->createQueryBuilder('t')
+            ->select('t.nom')
+            ->distinct(true)
+            ->orderBy('t.nom', 'ASC')
+            ->getQuery()
+            ->getResult() as $cols){
+            $nom[] = $cols['nom'];
+    }
+        return $nom;
+    }
 
 //    public function findOneBySomeField($value): ?TypeCaracteristiques
 //    {
