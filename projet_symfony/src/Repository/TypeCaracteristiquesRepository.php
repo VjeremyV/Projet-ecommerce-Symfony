@@ -44,11 +44,11 @@ class TypeCaracteristiquesRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('t');
         if ($nom){
-            $query = $query->andWhere('t.nom =:nom')
+            $query = $query->Where('t.nom =:nom')
                 ->setParameter('nom',$nom);
         }
         if ($searchNom){
-            $query =$query->andWhere('t.nom LIKE :nom')
+            $query =$query->Where('t.nom LIKE :nom')
                 ->setParameter('nom','%'.$searchNom.'%');
         }
         $query = $query

@@ -18,13 +18,13 @@ class AddTypeCaracteristiqueFormType extends AbstractType
             ->add('nom', TextType::class,[
                 'label'=> 'Nom du type de la caractéristique : '
             ])
-            ->add('categories', ChoiceType::class,  [
-                'label'=>'Choisir une catégorie',
-                'choices'=>
-                    [
-                        'Category 1' => '1',
-                    ]
-            ])
+//            ->add('categories', ChoiceType::class,  [
+//                'label'=>'Choisir une catégorie',
+//                'choices'=>
+//                    [
+//                        'Category 1' => '1',
+//                    ]
+//            ])
             ->add('Ajouter', SubmitType::class )
         ;
     }
