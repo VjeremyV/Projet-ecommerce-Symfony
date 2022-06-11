@@ -23,7 +23,7 @@ class Contenu
     #[ORM\JoinColumn(nullable: false)]
     private $commandes;
 
-    #[ORM\OneToOne(targetEntity: produit::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Produit::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $produit;
 

@@ -24,10 +24,10 @@ class Utilisateurs
     #[ORM\Column(type: 'string', length: 255)]
     private $role;
 
-    #[ORM\OneToOne(inversedBy: 'utilisateurs', targetEntity: clients::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'utilisateurs', targetEntity: Clients::class, cascade: ['persist', 'remove'])]
     private $client;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateurs', targetEntity: commandes::class)]
+    #[ORM\OneToMany(mappedBy: 'utilisateurs', targetEntity: Commandes::class)]
     private $commande;
 
     public function __construct()

@@ -36,18 +36,18 @@ class Produit
     #[ORM\Column(type: 'boolean')]
     private $is_active;
 
-    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: commentaires::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Commentaires::class, orphanRemoval: true)]
     private $commentaire;
 
-    #[ORM\ManyToOne(targetEntity: fournisseur::class, inversedBy: 'produits')]
+    #[ORM\ManyToOne(targetEntity: Fournisseur::class, inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
     private $fournisseur;
 
-    #[ORM\ManyToOne(targetEntity: categories::class, inversedBy: 'produits')]
+    #[ORM\ManyToOne(targetEntity: Categories::class, inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
     private $categorie;
 
-    #[ORM\ManyToOne(targetEntity: typeCaracteristiques::class, inversedBy: 'produits')]
+    #[ORM\ManyToOne(targetEntity: TypeCaracteristiques::class, inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
     private $typeCaracteristique;
 

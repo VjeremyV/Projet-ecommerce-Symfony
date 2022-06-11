@@ -25,7 +25,7 @@ class Commandes
     #[ORM\JoinColumn(nullable: false)]
     private $utilisateurs;
 
-    #[ORM\OneToMany(mappedBy: 'commandes', targetEntity: contenu::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'commandes', targetEntity: Contenu::class, orphanRemoval: true)]
     private $contenu;
 
     public function __construct()

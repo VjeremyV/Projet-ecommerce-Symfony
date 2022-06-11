@@ -24,7 +24,7 @@ class TypeCaracteristiques
     #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: 'typeCaracteristique')]
     private $categories;
 
-    #[ORM\OneToMany(mappedBy: 'typeCaracteristiques', targetEntity: caracteristiques::class)]
+    #[ORM\OneToMany(mappedBy: 'typeCaracteristiques', targetEntity: Caracteristiques::class)]
     private $caracteristiques;
 
     public function __construct()

@@ -21,7 +21,7 @@ class Categories
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Produit::class)]
     private $produits;
 
-    #[ORM\ManyToMany(targetEntity: typeCaracteristiques::class, inversedBy: 'categories')]
+    #[ORM\ManyToMany(targetEntity: TypeCaracteristiques::class, inversedBy: 'categories')]
     private $typeCaracteristique;
 
     public function __construct()
