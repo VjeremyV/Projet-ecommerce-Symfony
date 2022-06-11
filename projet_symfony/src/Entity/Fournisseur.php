@@ -87,4 +87,11 @@ class Fournisseur
 
         return $this;
     }
+
+    // Add function __toString()
+    // Return string with represent entity
+    public function __toString(): string
+    {
+        return $this->nom ;
+    }
 }

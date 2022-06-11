@@ -20,10 +20,6 @@
 	<div class="example-wrapper">
 		<h1>Fournisseur</h1>
 
-		<ul>
-			{% for fournisseur in fournisseurs %}
-				<li>{{fournisseurs.id ~ " - " ~ fournisseurs.name}}</li>
-			{% endfor %}
-		</ul>
-	</div>
-{% endblock %}
+		{{form(form_add_fournisseur)}}
+		</div>
+	{% endblock %}
