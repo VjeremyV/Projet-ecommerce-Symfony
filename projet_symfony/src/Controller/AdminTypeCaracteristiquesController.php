@@ -16,18 +16,27 @@ class AdminTypeCaracteristiquesController extends AbstractController
     public function indexup(TypeCaracteristiquesRepository $typeCaracteristiquesRepository,Request $request): Response
     {
         $gettypeCaracteristiques = $typeCaracteristiquesRepository->getListTypeCaracteristique();
-        $optionTypeCaracteristiques = $request->query->get('optionTypeCaracteristiques','');
         $typeCaracteristiquesSearch = $request->query->get('typeCaracteristiquesSearch','');
+        //paginator
         $offset = max(0,$request->query->getInt('offset',0));
-        $paginator = $typeCaracteristiquesRepository->getTypeCaracteristiquesPaginator($offset,$optionTypeCaracteristiques,$typeCaracteristiquesSearch);
+        $paginator = $typeCaracteristiquesRepository->getTypeCaracteristiquesPaginator($offset, $typeCaracteristiquesSearch);
+        $nbrePages = ceil(count($paginator) / TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE);
+        $next = min(count($paginator),$offset + TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE);
+        $pageActuelle = ceil($next / TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE);
+        $difPages = $nbrePages - $pageActuelle;
+
         return $this->render('admin_type_caracteristiques/modifyShow.html.twig', [
             'gettypeCaracteristiques' => $gettypeCaracteristiques,
-            'searchTypeCaracteristiques'=>$optionTypeCaracteristiques,
             'typeCaracteristiques' => $paginator,
             'previous' => $offset - TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE,
-            'next' => min(count($paginator),$offset + TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE)
+            'offset'=> TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE,
+            'next' => $next,
+            'nbrePages' => $nbrePages,
+            'pageActuelle' => $pageActuelle,
+            'difPages' => $difPages,
         ]);
     }
+
     #[Route('/admin/type/caracteristiques{id}', name: 'update_caracteristiques')]
     public function modifyTypeCaract(TypeCaracteristiques $typeCaracteristiques, TypeCaracteristiquesRepository $typeCaracteristiquesRepository, Request $request): Response
     {
@@ -36,11 +45,11 @@ class AdminTypeCaracteristiquesController extends AbstractController
         if ($formTypeCaract->isSubmitted() && $formTypeCaract->isValid())
         {
             $typeCaracteristiquesRepository->add($typeCaracteristiques,true);
+            $this->addFlash('info', 'Le type de caracteristiques a bien été modifié');
             return $this->redirectToRoute('TypeCaracteristiques');
         }
         return $this->render('admin_type_caracteristiques/modify.html.twig', [
             'form_type_caract'=>$formTypeCaract->createView(),
-            'typeCaracteristiques'=>$typeCaracteristiques
         ]);
     }
 
@@ -50,14 +59,23 @@ class AdminTypeCaracteristiquesController extends AbstractController
         $gettypeCaracteristiques = $typeCaracteristiquesRepository->getListTypeCaracteristique();
         $optionTypeCaracteristiques = $request->query->get('optionTypeCaracteristiques','');
         $typeCaracteristiquesSearch = $request->query->get('typeCaracteristiquesSearch','');
+//paginator
         $offset = max(0,$request->query->getInt('offset',0));
         $paginator = $typeCaracteristiquesRepository->getTypeCaracteristiquesPaginator($offset,$optionTypeCaracteristiques,$typeCaracteristiquesSearch);
+        $nbrePages = ceil(count($paginator) / TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE);
+        $next = min(count($paginator),$offset + TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE);
+        $pageActuelle = ceil($next / TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE);
+        $difPages = $nbrePages - $pageActuelle;
         return $this->render('admin_type_caracteristiques/deleteShow.html.twig', [
             'gettypeCaracteristiques' => $gettypeCaracteristiques,
             'searchTypeCaracteristiques'=>$optionTypeCaracteristiques,
             'typeCaracteristiques' => $paginator,
             'previous' => $offset - TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE,
-            'next' => min(count($paginator),$offset + TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE)
+            'offset'=> TypeCaracteristiquesRepository::PAGINATOR_PER_PAGE,
+            'next' => $next,
+            'nbrePages' => $nbrePages,
+            'pageActuelle' => $pageActuelle,
+            'difPages' => $difPages,
         ]);
     }
 
@@ -70,6 +88,7 @@ class AdminTypeCaracteristiquesController extends AbstractController
         if ($formTypeCaract->isSubmitted() && $formTypeCaract->isValid())
         {
             $typeCaracteristiquesRepository->add($addtypeCaract,true);
+            $this->addFlash('info', 'Le nouveau type de caracteristiques a bien été ajouté');
             return $this->redirectToRoute('app_admin_type_caracteristiques');
         }
         return $this->render('admin_type_caracteristiques/index.html.twig', [
@@ -78,10 +97,12 @@ class AdminTypeCaracteristiquesController extends AbstractController
             'form_type_caract'=> $formTypeCaract->createView(),
         ]);
     }
+
     #[Route('/admin/type/caracteristiques/delete/{id}', name: 'delete_caracteristiques')]
     public function delConference(TypeCaracteristiquesRepository $typeCaracteristiquesRepository,TypeCaracteristiques $typeCaracteristiques): Response
     {
         $typeCaracteristiquesRepository->remove($typeCaracteristiques,true);
+        $this->addFlash('info', 'Le type de caracteristiques a bien été supprimé');
         return $this->redirectToRoute('TypeCaracteristiquesdel');
     }
 }

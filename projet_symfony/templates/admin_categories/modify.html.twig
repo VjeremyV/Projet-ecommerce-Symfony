@@ -1,0 +1,20 @@
+{% extends 'admin/template.html.twig' %}
+
+{% block title %}Modifier une catégorie
+{% endblock %}
+{% block titre %}Modifier une catégorie
+{% endblock %}
+
+{% block body %}
+	{{ form(form) }}
+		<span>Selectionnez les types de caractéristiques que vous souhaitez attacher à cette catégorie</span>
+
+		<h2>Types de caractéristiques actuellement séléctionnées</h2>
+		<ul>
+			{% for typcarac in typCaracs %}
+				<li>
+					{{ typcarac }}
+				</li>
+			{% endfor %}
+		</ul>
+	{% endblock %}

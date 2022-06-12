@@ -40,13 +40,9 @@ class TypeCaracteristiquesRepository extends ServiceEntityRepository
         }
     }
     public const PAGINATOR_PER_PAGE = 2;
-    public function getTypeCaracteristiquesPaginator( int $offset, string $nom,$searchNom): Paginator
+    public function getTypeCaracteristiquesPaginator( int $offset ,$searchNom): Paginator
     {
         $query = $this->createQueryBuilder('t');
-        if ($nom){
-            $query = $query->Where('t.nom =:nom')
-                ->setParameter('nom',$nom);
-        }
         if ($searchNom){
             $query =$query->Where('t.nom LIKE :nom')
                 ->setParameter('nom','%'.$searchNom.'%');

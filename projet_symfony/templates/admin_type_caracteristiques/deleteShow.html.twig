@@ -1,13 +1,12 @@
 {% extends 'admin/template.html.twig' %}
 
-{% block title %}Ajouter un Type de caractéristique{% endblock %}
+{% block title %}Supprimer un Type de caractéristique{% endblock %}
+{% block titre %}Supprimer un Type de caractéristique{% endblock %}
 
 {% block body %}
     <div class="example-wrapper p-5">
-        <h1 class="py-5">
-            Modifier un type de caractéristique
-        </h1>
-        <form action="">
+
+        {# <form action="">
             <div class="row form-group">
                 <label for="year" class="col-sm-6 col-form-label">Nom du type de la caractéristique : </label>
                 <div class="col-sm-6">
@@ -22,7 +21,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+        </form> #}
         <form action="">
             <label for="searchTypeCaracteristiques">Rechercher un type de la caractéristique
                 <input type="search"  id="typeCaracteristiquesSearch" name="typeCaracteristiquesSearch">
@@ -32,18 +31,52 @@
         <ul class="list-group ">
             {% for typeCaracteristique in typeCaracteristiques %}
                 <li class="list-group-item list-group-item-action d-flex justify-content-between">{{typeCaracteristique.nom}}
-                    <a href="{{ path('delete_caracteristiques', {id: typeCaracteristique.id }) }}" class="btn btn-danger">Supprimer</a>
+                    <a href="{{ path('delete_caracteristiques', {id: typeCaracteristique.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a>
                 </li>
             {% endfor %}
         </ul>
     </div>
-    <div class="col-12">
-        {% if previous >= 0 %}
-            <a href="{{ path('TypeCaracteristiquesdel', {offset: previous }) }}" class="btn btn-sm btn-primary"> previous </a>
-        {% endif %}
-        Il y a {{ typeCaracteristiques|length~' type de caracteristique'~( typeCaracteristiques|length > 1 ? 's' : '') }}
-        {% if next < typeCaracteristiques|length %}
-            <a href="{{ path('TypeCaracteristiquesdel', {offset: next }) }}" class="btn btn-sm btn-primary">next </a>
-        {% endif %}
-    </div>
+	<div class="col-12">
+		{% if previous >= 0 %}
+			<a href="{{ path('TypeCaracteristiques', {offset: previous }) }}" class="btn btn-sm btn-primary">
+				previous
+			</a>
+		{% endif %}
+
+		{% if pageActuelle <= 3 %}
+			{%if pageActuelle > 1 %}
+				{% for i in 2..pageActuelle %}
+					<a href="{{ path('TypeCaracteristiques', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in pageActuelle-2..pageActuelle %}
+				<a href="{{ path('TypeCaracteristiques', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+			{% endfor %}
+		{% endif %}
+
+
+	<span class="btn btn-sm btn-primary m-3 bg-warning"> {{ pageActuelle }}</span>
+
+
+	{% if difPages < 3 %}
+	 	{% if  difPages > 0 %}
+			{% for i in 1..difPages %}
+		 		<a href="{{ path('TypeCaracteristiques', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+			{% endfor %}
+		{% endif %}
+	{% else %}
+		{% for i in 1..3 %}
+		 	<a href="{{ path('TypeCaracteristiques', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+		{% endfor %}
+	{% endif %}
+
+		{% if next < typeCaracteristiques|length %}
+			<a href="{{ path('TypeCaracteristiques', {offset: next }) }}" class="btn btn-sm btn-primary">next
+			</a>
+		{% endif %}
+	</div>
+		<div>
+        Il y a {{ typeCaracteristiques|length~' type de caracteristique'~( typeCaracteristiques|length > 1 ? 's' : '') }} et vous êtes sur la page {{ pageActuelle }}/{{nbrePages}}
+        </div>
 {% endblock %}

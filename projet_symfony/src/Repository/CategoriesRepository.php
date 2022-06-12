@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Categories;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,38 @@ class CategoriesRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+      /**
+     * @return array Returns an array of categories objects
+     */
+    public function getListCategories(): array
+    {
+        $nom =[];
+        foreach ($this->createQueryBuilder('t')
+            ->select('t.nom')
+            ->orderBy('t.nom', 'ASC')
+            ->getQuery()
+            ->getResult() as $cols){
+            $nom[] = $cols['nom'];
+    }
+        return $nom;
+    }
+
+    public const PAGINATOR_PER_PAGE = 4;
+    public function getPaginator( int $offset, $searchNom): Paginator
+    {
+        $query = $this->createQueryBuilder('t');
+        if ($searchNom){
+            $query =$query->Where('t.nom LIKE :nom')
+                ->setParameter('nom','%'.$searchNom.'%');
+        }
+        $query = $query
+            ->OrderBy('t.nom')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
     }
 
 //    /**

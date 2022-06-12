@@ -9,7 +9,10 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>{% block title %}title du template{% endblock %}</title>
+		<title>
+			{% block title %}title du template
+			{% endblock %}
+		</title>
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
@@ -23,6 +26,7 @@
 		id="page-top">
 
 		<!-- Page Wrapper -->
+
 		<div
 			id="wrapper">
 
@@ -67,6 +71,7 @@
 					</a>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
+							<a class="collapse-item" href="">Consulter</a>
 							<a class="collapse-item" href="buttons.html">Ajouter</a>
 							<a class="collapse-item" href="cards.html">Modifier</a>
 							<a class="collapse-item" href="cards.html">Supprimer</a>
@@ -74,16 +79,17 @@
 					</div>
 				</li>
 
-                		<li class="nav-item">
+				<li class="nav-item">
 					<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCat" aria-expanded="true" aria-controls="collapseUtilities">
 						<i class="fa-solid fa-angle-right"></i>
 						<span>Catégories</span>
 					</a>
 					<div id="collapseCat" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
+							<a class="collapse-item" href="">Consulter</a>
 							<a class="collapse-item" href="{{ path('app_admin_categories_add')}}">Ajouter</a>
-							<a class="collapse-item" href="utilities-border.html">Modifier</a>
-							<a class="collapse-item" href="utilities-animation.html">Supprimer</a>
+							<a class="collapse-item" href="{{ path('categories_update_list')}}">Editer</a>
+							<a class="collapse-item" href="{{ path('delete_categories_list')}}">Supprimer</a>
 						</div>
 					</div>
 				</li>
@@ -94,13 +100,14 @@
 					</a>
 					<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
+							<a class="collapse-item" href="">Consulter</a>
 							<a class="collapse-item" href="{{ path('app_admin_type_caracteristiques') }}">Ajouter</a>
 							<a class="collapse-item" href="{{ path('TypeCaracteristiques') }}">Modifier</a>
 							<a class="collapse-item" href="{{ path('TypeCaracteristiquesdel') }}">Supprimer</a>
 						</div>
 					</div>
 				</li>
-		
+
 				<li class="nav-item">
 					<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCarac" aria-expanded="true" aria-controls="collapseUtilities">
 						<i class="fa-solid fa-circle-plus"></i>
@@ -108,6 +115,7 @@
 					</a>
 					<div id="collapseCarac" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
+							<a class="collapse-item" href="">Consulter</a>
 							<a class="collapse-item" href="utilities-color.html">Ajouter</a>
 							<a class="collapse-item" href="utilities-border.html">Modifier</a>
 							<a class="collapse-item" href="utilities-animation.html">Supprimer</a>
@@ -132,7 +140,8 @@
 					</a>
 					<div id="collapseFour" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="utilities-color.html">Ajouter</a>
+							<a class="collapse-item" href="">Consulter</a>
+							<a class="collapse-item" href="{{ path('app_admin_fournisseur_Add')}}">Ajouter</a>
 							<a class="collapse-item" href="utilities-border.html">Modifier</a>
 							<a class="collapse-item" href="utilities-animation.html">Supprimer</a>
 						</div>
@@ -258,6 +267,11 @@
 						</h1>
 
 						<div class="container-fluid">
+							{% for message in app.session.flashBag.get('info')%}
+								<div class='alert alert-success'>
+									{{ message }}
+								</div>
+							{% endfor %}
 							{% block body %}
 								le contenu du body
 							{% endblock %}
