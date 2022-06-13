@@ -103,6 +103,6 @@ class AdminCaracteristiqueController extends AbstractController
     {
         $caracteristiquesRepository->remove($caracteristiques,true);
         $this->addFlash('info', 'La caracteristique a bien été supprimé');
-        return $this->redirectToRoute('Caracteristiquesdel');
+        return $this->redirectToRoute('Caracteristiques');
     }
 }

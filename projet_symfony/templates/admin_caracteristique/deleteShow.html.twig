@@ -31,7 +31,7 @@
         <ul class="list-group ">
             {% for Caracteristique in Caracteristiques %}
                 <li class="list-group-item list-group-item-action d-flex justify-content-between">{{Caracteristique.nom}}
-                    <a href="{{ path('delete_caracteristiques', {id: Caracteristique.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a>
+
                 </li>
             {% endfor %}
         </ul>
