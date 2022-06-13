@@ -1,0 +1,13 @@
+{% extends 'admin/template.html.twig' %}
+
+{% block title %}Modifier un produit
+{% endblock %}
+{% block titre %}Modifier un produit
+{% endblock %}
+
+{% block body %}
+	{{ form(form) }}
+
+    <h2>Choisissez les caractéristiques du produit</h2>
+    	{{ form(form2) }}
+	{% endblock %}

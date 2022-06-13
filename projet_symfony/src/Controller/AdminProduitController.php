@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitAddFormType;
+use App\Form\ProduitEditCaracFormType;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,10 +67,27 @@ class AdminProduitController extends AbstractController
     }
 
     #[Route('/admin/produit/update/{id}', name: 'update_produit')]
-    public function updateProduit(): Response
+    public function updateProduit(Produit $produit, ProduitRepository $produitRepository, Request $request): Response
     {
-        return $this->render('admin_produit/index.html.twig', [
-            'controller_name' => 'AdminProduitController',
+        $form = $this->createForm(ProduitAddFormType::class, $produit);
+        $form2 = $this->createForm(ProduitEditCaracFormType::class, $produit, ['data' => $produit]);
+
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('info', 'Le produit a bien été modifié');
+            $produitRepository->add($produit, true);
+            return $this->redirectToRoute('update_produit', ['id' => $produit->getId()]);
+        }
+        $form2->handleRequest($request);
+        if ($form2->isSubmitted() && $form2->isValid()) {
+            $this->addFlash('info', 'Le produit a bien été modifié');
+            $produitRepository->add($produit, true);
+            return $this->redirectToRoute('update_produit', ['id' => $produit->getId()]);
+        }
+        return $this->render('admin_produit/update_produit.html.twig', [
+            'form' => $form->createView(),
+            'form2' => $form2->createView()
         ]);
     }
 
