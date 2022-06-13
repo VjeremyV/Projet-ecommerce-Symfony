@@ -74,6 +74,9 @@
 						<td>
 							<a href="{{ path('update_produit', {id: produit.id }) }}" class="btn btn-primary">Editer</a>
 						</td>
+						<td>
+							<a href="{{ path('delete_produit', {id: produit.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a>
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>

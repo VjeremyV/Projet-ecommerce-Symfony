@@ -73,18 +73,11 @@ class AdminProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/produit/delete', name: 'admin_produit_deleteListe')]
-    public function deleteListeProduit(): Response
+    #[Route('/admin/produit/delete/{id}', name: 'delete_produit')]
+    public function deleteProduit(ProduitRepository $produitRepository, Produit $produit): Response
     {
-        return $this->render('admin_produit/index.html.twig', [
-            'controller_name' => 'AdminProduitController',
-        ]);
-    }
-    #[Route('/admin/produit/delete', name: 'delete_produit')]
-    public function deleteProduit(): Response
-    {
-        return $this->render('admin_produit/index.html.twig', [
-            'controller_name' => 'AdminProduitController',
-        ]);
+        $produitRepository->remove($produit, true);
+        $this->addFlash('info', 'Le produit a bien été supprimée');
+        return $this->redirectToRoute('admin_produit_updateListe');
     }
 }

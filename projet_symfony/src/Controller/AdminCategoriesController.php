@@ -80,30 +80,7 @@ class AdminCategoriesController extends AbstractController
     {
         $CategoriesRepository->remove($Categories, true);
         $this->addFlash('info', 'La catégorie a bien été supprimée');
-        return $this->redirectToRoute('delete_categories_list');
+        return $this->redirectToRoute('categories_update_list');
     }
 
-    #[Route('/admin/categories/delete', name: 'delete_categories_list')]
-    public function indexdel(CategoriesRepository $CategoriesRepository, Request $request): Response
-    {
-        $search = $request->query->get('search', '');
-        //pagination
-        $offset = max(0, $request->query->getInt('offset', 0));
-        $paginator = $CategoriesRepository->getPaginator($offset, $search);
-        $nbrePages = ceil(count($paginator) / CategoriesRepository::PAGINATOR_PER_PAGE);
-        $next = min(count($paginator), $offset + CategoriesRepository::PAGINATOR_PER_PAGE);
-        $pageActuelle = ceil($next / CategoriesRepository::PAGINATOR_PER_PAGE);
-        $difPages = $nbrePages - $pageActuelle;
-
-        return $this->render('admin_categories/deletelist.html.twig', [
-            'search' => $search,
-            'categories' => $paginator,
-            'previous' => $offset - CategoriesRepository::PAGINATOR_PER_PAGE,
-            'offset' => CategoriesRepository::PAGINATOR_PER_PAGE,
-            'next' => $next,
-            'nbrePages' => $nbrePages,
-            'pageActuelle' => $pageActuelle,
-            'difPages' => $difPages,
-        ]);
-    }
 }
