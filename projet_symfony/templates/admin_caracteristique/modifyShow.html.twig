@@ -56,7 +56,7 @@
 	</div>
 	<div class="col-12">
 		{% if previous >= 0 %}
-			<a href="{{ path('Caracteristiques', {offset: previous }) }}" class="btn btn-sm btn-primary">
+			<a href="{{ path('Caracteristiques', {offset: previous , nom_search: app.request.query.get("nom_search"), type_Caracteristiques_search: app.request.query.get("type_Caracteristiques_search")}) }}" class="btn btn-sm btn-primary">
 				previous
 			</a>
 		{% endif %}
@@ -64,12 +64,12 @@
 		{% if pageActuelle <= 3 %}
 			{%if pageActuelle > 1 %}
 				{% for i in 2..pageActuelle %}
-					<a href="{{ path('Caracteristiques', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+					<a href="{{ path('Caracteristiques', {offset: previous - (offset * (pageActuelle - i)) , nom_search: app.request.query.get("nom_search"), type_Caracteristiques_search: app.request.query.get("type_Caracteristiques_search")}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
 				{% endfor %}
 			{% endif %}
 		{% else %}
 			{% for i in pageActuelle-2..pageActuelle %}
-				<a href="{{ path('Caracteristiques', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+				<a href="{{ path('Caracteristiques', {offset: previous - (offset * (pageActuelle - i)) , nom_search: app.request.query.get("nom_search"), type_Caracteristiques_search: app.request.query.get("type_Caracteristiques_search")}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
 			{% endfor %}
 		{% endif %}
 
@@ -80,17 +80,17 @@
 	{% if difPages < 3 %}
 	 	{% if  difPages > 0 %}
 			{% for i in 1..difPages %}
-		 		<a href="{{ path('Caracteristiques', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+		 		<a href="{{ path('Caracteristiques', {offset: next + (offset * (i - 1)) , nom_search: app.request.query.get("nom_search"), type_Caracteristiques_search: app.request.query.get("type_Caracteristiques_search")}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
 			{% endfor %}
 		{% endif %}
 	{% else %}
 		{% for i in 1..3 %}
-		 	<a href="{{ path('Caracteristiques', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+		 	<a href="{{ path('Caracteristiques', {offset: next + (offset * (i - 1)) , nom_search: app.request.query.get("nom_search"), type_Caracteristiques_search: app.request.query.get("type_Caracteristiques_search")}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
 		{% endfor %}
 	{% endif %}
 
 		{% if next < Caracteristiques|length %}
-			<a href="{{ path('Caracteristiques', {offset: next }) }}" class="btn btn-sm btn-primary">next
+			<a href="{{ path('Caracteristiques', {offset: next , nom_search: app.request.query.get("nom_search"), type_Caracteristiques_search: app.request.query.get("type_Caracteristiques_search")}) }}" class="btn btn-sm btn-primary">next
 			</a>
 		{% endif %}
 	</div>

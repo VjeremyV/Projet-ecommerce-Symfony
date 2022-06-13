@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminCaracteristiqueController extends AbstractController
 {
     #[Route('/admin/caracteristiques/update', name: 'Caracteristiques')]
-    public function indexup(CaracteristiquesRepository $caracteristiquesRepository,Request $request): Response
+    public function indexup(CaracteristiquesRepository $caracteristiquesRepository,Request $request, $type_Caracteristiques_search = '', $nom_search= '', $offset =''): Response
     {
         $getCaracteristiques = $caracteristiquesRepository->getListCaracteristique();
         $CaracteristiquesSearch = $request->query->get('CaracteristiquesSearch','');
