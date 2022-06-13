@@ -17,7 +17,7 @@
 		<ul class="list-group ">
 			{% for typeCaracteristique in typeCaracteristiques %}
 				<li class="list-group-item list-group-item-action d-flex justify-content-between">{{typeCaracteristique.nom}}
-					<a href="{{ path('update_caracteristiques', {id: typeCaracteristique.id }) }}" class="btn btn-primary">Editer</a>
+					<a href="{{ path('update_type_caracteristiques', {id: typeCaracteristique.id }) }}" class="btn btn-primary">Editer</a>
 				</li>
 			{% endfor %}
 		</ul>

@@ -1,7 +1,7 @@
 {% extends 'admin/template.html.twig' %}
 
-{% block title %}Supprimer un Type de caractéristique{% endblock %}
-{% block titre %}Supprimer un Type de caractéristique{% endblock %}
+{% block title %}Supprimer une caractéristique{% endblock %}
+{% block titre %}Supprimer une caractéristique{% endblock %}
 
 {% block body %}
     <div class="example-wrapper p-5">
@@ -23,22 +23,22 @@
             </div>
         </form> #}
         <form action="">
-            <label for="searchTypeCaracteristiques">Rechercher un type de la caractéristique
-                <input type="search"  id="typeCaracteristiquesSearch" name="typeCaracteristiquesSearch">
+            <label for="searchTypeCaracteristiques">Rechercher une caractéristique
+                <input type="search"  id="CaracteristiquesSearch" name="CaracteristiquesSearch">
             </label>
             <button type="submit">Envoyer</button>
         </form>
         <ul class="list-group ">
-            {% for typeCaracteristique in typeCaracteristiques %}
-                <li class="list-group-item list-group-item-action d-flex justify-content-between">{{typeCaracteristique.nom}}
-                    <a href="{{ path('delete_type_caracteristiques', {id: typeCaracteristique.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a>
+            {% for Caracteristique in Caracteristiques %}
+                <li class="list-group-item list-group-item-action d-flex justify-content-between">{{Caracteristique.nom}}
+                    <a href="{{ path('delete_caracteristiques', {id: Caracteristique.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a>
                 </li>
             {% endfor %}
         </ul>
     </div>
 	<div class="col-12">
 		{% if previous >= 0 %}
-			<a href="{{ path('TypeCaracteristiques', {offset: previous }) }}" class="btn btn-sm btn-primary">
+			<a href="{{ path('Caracteristiques', {offset: previous }) }}" class="btn btn-sm btn-primary">
 				previous
 			</a>
 		{% endif %}
@@ -46,12 +46,12 @@
 		{% if pageActuelle <= 3 %}
 			{%if pageActuelle > 1 %}
 				{% for i in 2..pageActuelle %}
-					<a href="{{ path('TypeCaracteristiques', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+					<a href="{{ path('Caracteristiques', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
 				{% endfor %}
 			{% endif %}
 		{% else %}
 			{% for i in pageActuelle-2..pageActuelle %}
-				<a href="{{ path('TypeCaracteristiques', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+				<a href="{{ path('Caracteristiques', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
 			{% endfor %}
 		{% endif %}
 
@@ -62,21 +62,21 @@
 	{% if difPages < 3 %}
 	 	{% if  difPages > 0 %}
 			{% for i in 1..difPages %}
-		 		<a href="{{ path('TypeCaracteristiques', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+		 		<a href="{{ path('Caracteristiques', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
 			{% endfor %}
 		{% endif %}
 	{% else %}
 		{% for i in 1..3 %}
-		 	<a href="{{ path('TypeCaracteristiques', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+		 	<a href="{{ path('Caracteristiques', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
 		{% endfor %}
 	{% endif %}
 
-		{% if next < typeCaracteristiques|length %}
-			<a href="{{ path('TypeCaracteristiques', {offset: next }) }}" class="btn btn-sm btn-primary">next
+		{% if next < Caracteristiques|length %}
+			<a href="{{ path('Caracteristiques', {offset: next }) }}" class="btn btn-sm btn-primary">next
 			</a>
 		{% endif %}
 	</div>
 		<div>
-        Il y a {{ typeCaracteristiques|length~' type de caracteristique'~( typeCaracteristiques|length > 1 ? 's' : '') }} et vous êtes sur la page {{ pageActuelle }}/{{nbrePages}}
+        Il y a {{ Caracteristiques|length~' caracteristique'~( Caracteristiques|length > 1 ? 's' : '') }} et vous êtes sur la page {{ pageActuelle }}/{{nbrePages}}
         </div>
 {% endblock %}
