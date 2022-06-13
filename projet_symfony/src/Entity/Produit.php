@@ -47,10 +47,6 @@ class Produit
     #[ORM\JoinColumn(nullable: false)]
     private $categorie;
 
-    #[ORM\ManyToOne(targetEntity: TypeCaracteristiques::class, inversedBy: 'produits')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $typeCaracteristique;
-
     #[ORM\ManyToMany(targetEntity: Caracteristiques::class, inversedBy: 'produits')]
     private $caracteristiques;
 
@@ -215,17 +211,6 @@ class Produit
         return $this;
     }
 
-    public function getTypeCaracteristique(): ?typeCaracteristiques
-    {
-        return $this->typeCaracteristique;
-    }
-
-    public function setTypeCaracteristique(?typeCaracteristiques $typeCaracteristique): self
-    {
-        $this->typeCaracteristique = $typeCaracteristique;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Caracteristiques>

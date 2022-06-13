@@ -18,9 +18,6 @@ class TypeCaracteristiques
     #[ORM\Column(type: 'string', length: 255)]
     private $nom;
 
-    #[ORM\OneToMany(mappedBy: 'typeCaracteristique', targetEntity: Produit::class)]
-    private $produits;
-
     #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: 'typeCaracteristique')]
     private $categories;
 
@@ -29,7 +26,6 @@ class TypeCaracteristiques
 
     public function __construct()
     {
-        $this->produits = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->caracteristiques = new ArrayCollection();
     }
@@ -51,35 +47,6 @@ class TypeCaracteristiques
         return $this;
     }
 
-    /**
-     * @return Collection<int, Produit>
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
-
-    public function addProduit(Produit $produit): self
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-            $produit->setTypeCaracteristique($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produits->removeElement($produit)) {
-            // set the owning side to null (unless already changed)
-            if ($produit->getTypeCaracteristique() === $this) {
-                $produit->setTypeCaracteristique(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Categories>
