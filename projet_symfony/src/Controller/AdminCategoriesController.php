@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Categories;
 use App\Form\CategorieAddFormType;
 use App\Form\EditCategoryFormType;
-use App\Form\EditCategoryFormTypeSupprType;
 use App\Repository\CategoriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -15,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminCategoriesController extends AbstractController
 {
+    
     #[Route('/admin/categories/add', name: 'app_admin_categories_add')]
     public function AddCategorie(Request $request, CategoriesRepository $categoriesRepository): Response
     {

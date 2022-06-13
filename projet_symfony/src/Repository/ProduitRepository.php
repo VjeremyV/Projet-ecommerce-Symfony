@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,6 +40,22 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+
+    public const PAGINATOR_PER_PAGE = 4;
+    public function getPaginator( int $offset, $searchNom): Paginator
+    {
+        $query = $this->createQueryBuilder('t');
+        if ($searchNom){
+            $query =$query->Where('t.nom LIKE :nom')
+                ->setParameter('nom','%'.$searchNom.'%');
+        }
+        $query = $query
+            ->OrderBy('t.nom')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */

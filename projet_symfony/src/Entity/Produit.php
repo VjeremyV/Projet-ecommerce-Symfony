@@ -51,9 +51,13 @@ class Produit
     #[ORM\JoinColumn(nullable: false)]
     private $typeCaracteristique;
 
+    #[ORM\ManyToMany(targetEntity: Caracteristiques::class, inversedBy: 'produits')]
+    private $caracteristiques;
+
     public function __construct()
     {
         $this->commentaire = new ArrayCollection();
+        $this->caracteristiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +223,30 @@ class Produit
     public function setTypeCaracteristique(?typeCaracteristiques $typeCaracteristique): self
     {
         $this->typeCaracteristique = $typeCaracteristique;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Caracteristiques>
+     */
+    public function getCaracteristiques(): Collection
+    {
+        return $this->caracteristiques;
+    }
+
+    public function addCaracteristique(Caracteristiques $caracteristique): self
+    {
+        if (!$this->caracteristiques->contains($caracteristique)) {
+            $this->caracteristiques[] = $caracteristique;
+        }
+
+        return $this;
+    }
+
+    public function removeCaracteristique(Caracteristiques $caracteristique): self
+    {
+        $this->caracteristiques->removeElement($caracteristique);
 
         return $this;
     }

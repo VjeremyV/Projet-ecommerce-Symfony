@@ -71,10 +71,9 @@
 					</a>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="">Consulter</a>
-							<a class="collapse-item" href="buttons.html">Ajouter</a>
-							<a class="collapse-item" href="cards.html">Modifier</a>
-							<a class="collapse-item" href="cards.html">Supprimer</a>
+							<a class="collapse-item" href="{{ path('admin_produit_add')}}">Ajouter</a>
+							<a class="collapse-item" href="{{ path('admin_produit_updateListe')}}">Consulter / Modifier</a>
+							<a class="collapse-item" href="{{ path('admin_produit_deleteListe')}}">Supprimer</a>
 						</div>
 					</div>
 				</li>
@@ -88,7 +87,7 @@
 						<div class="bg-white py-2 collapse-inner rounded">
 							<a class="collapse-item" href="">Consulter</a>
 							<a class="collapse-item" href="{{ path('app_admin_categories_add')}}">Ajouter</a>
-							<a class="collapse-item" href="{{ path('categories_update_list')}}">Editer</a>
+							<a class="collapse-item" href="{{ path('categories_update_list')}}">Consulter / Editer</a>
 							<a class="collapse-item" href="{{ path('delete_categories_list')}}">Supprimer</a>
 						</div>
 					</div>
@@ -100,9 +99,8 @@
 					</a>
 					<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="">Consulter</a>
 							<a class="collapse-item" href="{{ path('app_admin_type_caracteristiques') }}">Ajouter</a>
-							<a class="collapse-item" href="{{ path('TypeCaracteristiques') }}">Modifier</a>
+							<a class="collapse-item" href="{{ path('TypeCaracteristiques') }}">Consulter / Modifier</a>
 							<a class="collapse-item" href="{{ path('TypeCaracteristiquesdel') }}">Supprimer</a>
 						</div>
 					</div>
@@ -115,9 +113,8 @@
 					</a>
 					<div id="collapseCarac" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="">Consulter</a>
 							<a class="collapse-item" href="utilities-color.html">Ajouter</a>
-							<a class="collapse-item" href="utilities-border.html">Modifier</a>
+							<a class="collapse-item" href="utilities-border.html">Consulter / Modifier</a>
 							<a class="collapse-item" href="utilities-animation.html">Supprimer</a>
 						</div>
 					</div>
@@ -140,9 +137,8 @@
 					</a>
 					<div id="collapseFour" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="">Consulter</a>
 							<a class="collapse-item" href="{{ path('app_admin_fournisseur_Add')}}">Ajouter</a>
-							<a class="collapse-item" href="utilities-border.html">Modifier</a>
+							<a class="collapse-item" href="utilities-border.html">Consulter / Modifier</a>
 							<a class="collapse-item" href="utilities-animation.html">Supprimer</a>
 						</div>
 					</div>
