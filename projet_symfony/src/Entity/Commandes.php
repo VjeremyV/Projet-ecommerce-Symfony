@@ -21,12 +21,13 @@ class Commandes
     #[ORM\Column(type: 'boolean')]
     private $is_panier;
 
-    #[ORM\ManyToOne(targetEntity: Utilisateurs::class, inversedBy: 'commande')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $utilisateurs;
 
     #[ORM\OneToMany(mappedBy: 'commandes', targetEntity: Contenu::class, orphanRemoval: true)]
     private $contenu;
+
+    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'commandes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $Client;
 
     public function __construct()
     {
@@ -62,18 +63,6 @@ class Commandes
         return $this;
     }
 
-    public function getUtilisateurs(): ?Utilisateurs
-    {
-        return $this->utilisateurs;
-    }
-
-    public function setUtilisateurs(?Utilisateurs $utilisateurs): self
-    {
-        $this->utilisateurs = $utilisateurs;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, contenu>
      */
@@ -100,6 +89,18 @@ class Commandes
                 $contenu->setCommandes(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClient(): ?Clients
+    {
+        return $this->Client;
+    }
+
+    public function setClient(?Clients $Client): self
+    {
+        $this->Client = $Client;
 
         return $this;
     }

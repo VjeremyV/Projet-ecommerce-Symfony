@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClientsRepository::class)]
@@ -34,8 +36,17 @@ class Clients
     #[ORM\Column(type: 'text')]
     private $adresse;
 
-    #[ORM\OneToOne(mappedBy: 'client', targetEntity: Utilisateurs::class, cascade: ['persist', 'remove'])]
-    private $utilisateurs;
+
+    #[ORM\OneToOne(mappedBy: 'client', targetEntity: Admin::class, cascade: ['persist', 'remove'])]
+    private $admin;
+
+    #[ORM\OneToMany(mappedBy: 'Client', targetEntity: Commandes::class)]
+    private $commandes;
+
+    public function __construct()
+    {
+        $this->commandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -126,24 +137,56 @@ class Clients
         return $this;
     }
 
-    public function getUtilisateurs(): ?Utilisateurs
+ 
+
+    public function getAdmin(): ?Admin
     {
-        return $this->utilisateurs;
+        return $this->admin;
     }
 
-    public function setUtilisateurs(?Utilisateurs $utilisateurs): self
+    public function setAdmin(?Admin $admin): self
     {
         // unset the owning side of the relation if necessary
-        if ($utilisateurs === null && $this->utilisateurs !== null) {
-            $this->utilisateurs->setClient(null);
+        if ($admin === null && $this->admin !== null) {
+            $this->admin->setClient(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($utilisateurs !== null && $utilisateurs->getClient() !== $this) {
-            $utilisateurs->setClient($this);
+        if ($admin !== null && $admin->getClient() !== $this) {
+            $admin->setClient($this);
         }
 
-        $this->utilisateurs = $utilisateurs;
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commandes>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commandes $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commandes $commande): self
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getClient() === $this) {
+                $commande->setClient(null);
+            }
+        }
 
         return $this;
     }
