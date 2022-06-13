@@ -40,15 +40,23 @@ class CaracteristiquesRepository extends ServiceEntityRepository
         }
     }
     public const PAGINATOR_PER_PAGE = 2;
-    public function getCaracteristiquesPaginator( int $offset ,$searchNom): Paginator
+    public function getCaracteristiquesPaginator( int $offset ,$searchNom,array $options = null): Paginator
     {
         $query = $this->createQueryBuilder('c');
         if ($searchNom){
             $query =$query->Where('c.nom LIKE :nom')
                 ->setParameter('nom','%'.$searchNom.'%');
         }
+        if(isset($options['nom_search'])){
+            $query = $query
+                ->addOrderBy('c.nom');
+        }
+        if(isset($options['type_Caracteristiques_search'])){
+            $query = $query
+                ->join('c.typeCaracteristiques', 'typeCaracteristiques')
+                ->addOrderBy('typeCaracteristiques.id');
+        }
         $query = $query
-            ->OrderBy('c.nom')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery();

@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\TypeCaracteristiques;
 use App\Form\AddTypeCaracteristiqueFormType;
+use App\Repository\CaracteristiquesRepository;
 use App\Repository\TypeCaracteristiquesRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,9 +41,9 @@ class AdminTypeCaracteristiquesController extends AbstractController
     }
 
     #[Route('/admin/type/caracteristiques{id}', name: 'update_type_caracteristiques')]
-    public function modifyTypeCaract(TypeCaracteristiques $typeCaracteristiques, TypeCaracteristiquesRepository $typeCaracteristiquesRepository, Request $request): Response
+    public function modifyTypeCaract(CaracteristiquesRepository $caracteristiquesRepository,TypeCaracteristiques $typeCaracteristiques, TypeCaracteristiquesRepository $typeCaracteristiquesRepository, Request $request): Response
     {
-
+        $query = $caracteristiquesRepository->findBy(['typeCaracteristiques'=> $typeCaracteristiques]);
         $formTypeCaract = $this->createForm(AddTypeCaracteristiqueFormType::class, $typeCaracteristiques);
         $formTypeCaract->handleRequest($request);
         if ($formTypeCaract->isSubmitted() && $formTypeCaract->isValid())
@@ -51,8 +54,7 @@ class AdminTypeCaracteristiquesController extends AbstractController
         }
         return $this->render('admin_type_caracteristiques/modify.html.twig', [
             'form_type_caract'=>$formTypeCaract->createView(),
-
-
+            'getcaracteristiques'=>$query
         ]);
     }
 

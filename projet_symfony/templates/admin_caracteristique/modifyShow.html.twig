@@ -14,6 +14,23 @@
 			</label>
 			<button type="submit">Envoyer</button>
 		</form>
+		<form action="">
+			<div class="row form-group">
+				<div class="row w-100">
+					<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+						<label for="nom_search" class="col-sm-6 col-form-label text-center">Nom</label>
+						<input type="checkbox" name="nom_search" id="nom_search" {% if app.request.query.get("nom_search") %} checked {% endif %}>
+					</div>
+					<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+						<label for="categorie_search" class="col-sm-6 col-form-label text-center">Type de caractéristique</label>
+						<input type="checkbox" name="type_Caracteristiques_search" id="type_Caracteristiques_search " {% if app.request.query.get("type_Caracteristiques_search") %} checked {% endif %}>
+					</div>
+					<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+						<input type="submit" value="Trier" class="btn btn-primary">
+					</div>
+				</div>
+			</div>
+		</form>
 				<table class="table">
 					<thead>
 					<tr>
