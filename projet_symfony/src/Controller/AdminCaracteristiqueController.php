@@ -46,10 +46,10 @@ class AdminCaracteristiqueController extends AbstractController
         {
             $caracteristiquesRepository->add($caracteristiques,true);
             $this->addFlash('info', 'La caracteristiques a bien été modifié');
-            return $this->redirectToRoute('TypeCaracteristiques');
+            return $this->redirectToRoute('Caracteristiques');
         }
         return $this->render('admin_caracteristique/modify.html.twig', [
-            'form_type_caract'=>$formCaract->createView(),
+            'form_caract'=>$formCaract->createView(),
         ]);
     }
 
