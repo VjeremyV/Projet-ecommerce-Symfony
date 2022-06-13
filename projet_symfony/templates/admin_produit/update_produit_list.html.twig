@@ -1,0 +1,133 @@
+{% extends 'admin/template.html.twig' %}
+
+{% block title %}Editer un produit
+{% endblock %}
+
+{% block titre %}
+	Editer un produit
+{% endblock %}
+
+
+{% block body %}
+	<div class="example-wrapper p-5">
+
+		<form action="">
+			<label for="search">Rechercher un produit
+				<input type="search" id="search" name="search">
+			</label>
+			<button type="submit">Envoyer</button>
+		</form>
+		<form action="">
+			<div class="row form-group">
+				<div class="row w-100">
+					<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+						<label for="nom_search" class="col-sm-6 col-form-label text-center">Nom</label>
+						<input type="checkbox" name="nom_search" id="nom_search" {% if app.request.query.get("nom_search") %} checked {% endif %}>
+					</div>
+					<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+						<label for="categorie_search" class="col-sm-6 col-form-label text-center">Catégorie</label>
+						<input type="checkbox" name="categorie_search" id="categorie_search " {% if app.request.query.get("categorie_search") %} checked {% endif %}>
+					</div>
+					<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+						<label for="four_search" class="col-sm-6 col-form-label align-items-center text-center">Fournisseur</label>
+						<input type="checkbox" name="four_search" id="four_search" {% if app.request.query.get("four_search") %} checked {% endif %}>
+
+					</div>
+					<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+						<label for="actif_search" class="col-sm-6 col-form-label text-center">Actif</label>
+						<input type="checkbox" name="actif_search" id="actif_search" {% if app.request.query.get("actif_search") %} checked {% endif %}>
+					</div>
+					<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+						<input type="submit" value="Trier" class="btn btn-primary">
+
+					</div>
+				</div>
+			</div>
+		</form>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Nom</th>
+					<th scope="col">Prix</th>
+					<th scope="col">stock</th>
+					<th scope="col">Catégorie</th>
+					<th scope="col">Fournisseur</th>
+					<th scope="col">Actif</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for produit in listProduits %}
+					<tr scope="row">
+						<td>{{produit.nom}}</td>
+						<td>{{ produit.prix}}</td>
+						<td>{{ produit.stock}}</td>
+						<td>{{produit.categorie}}</td>
+						<td>{{produit.fournisseur}}</td>
+						<td>
+							{% if produit.isIsActive %}
+								actif
+							{% else %}
+								Inactif
+							{% endif %}
+						</td>
+
+						<td>
+							<a href="{{ path('update_produit', {id: produit.id }) }}" class="btn btn-primary">Editer</a>
+						</td>
+						<td>
+							<a href="{{ path('delete_produit', {id: produit.id }) }}" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="col-12">
+		{% if previous >= 0 %}
+			<a href="{{ path('admin_produit_updateListe', {offset: previous }) }}" class="btn btn-sm btn-primary">
+				previous
+			</a>
+		{% endif %}
+
+		{% if pageActuelle <= 3 %}
+			{%if pageActuelle > 1 %}
+				{% for i in 2..pageActuelle %}
+					<a href="{{ path('admin_produit_updateListe', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in pageActuelle-2..pageActuelle %}
+				<a href="{{ path('admin_produit_updateListe', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+			{% endfor %}
+		{% endif %}
+
+
+		<span class="btn btn-sm btn-primary m-3 bg-warning">
+			{{ pageActuelle }}</span>
+
+
+		{% if difPages < 3 %}
+			{% if  difPages > 0 %}
+				{% for i in 1..difPages %}
+					<a href="{{ path('admin_produit_updateListe', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in 1..3 %}
+				<a href="{{ path('admin_produit_updateListe', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+			{% endfor %}
+		{% endif %}
+
+		{% if next < listProduits|length %}
+			<a href="{{ path('admin_produit_updateListe', {offset: next }) }}" class="btn btn-sm btn-primary">next
+			</a>
+		{% endif %}
+	</div>
+	<div>
+		Il y a
+		{{ listProduits|length~' produit'~( listProduits|length > 1 ? 's' : '') }}
+		et vous êtes sur la page
+		{{ pageActuelle }}/{{nbrePages}}
+	</div>
+{% endblock %}

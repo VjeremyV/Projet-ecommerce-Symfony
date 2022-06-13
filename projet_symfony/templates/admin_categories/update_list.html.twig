@@ -16,7 +16,7 @@
         <ul class="list-group ">
             {% for categorie in listCategories %}
                 <li class="list-group-item list-group-item-action d-flex justify-content-between">{{categorie.nom}}
-                    <a href="{{ path('update_categorie', {id: categorie.id }) }}" class="btn btn-primary">Editer</a>
+                   <div><a href="{{ path('update_categorie', {id: categorie.id }) }}" class="m-2 btn btn-primary">Editer</a><a href="{{ path('delete_categories', {id: categorie.id }) }}" class="btn btn-danger m-2" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a></div> 
                 </li>
             {% endfor %}
         </ul>
