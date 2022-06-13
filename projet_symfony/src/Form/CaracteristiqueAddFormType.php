@@ -15,7 +15,7 @@ class CaracteristiqueAddFormType extends AbstractType
         $builder
             ->add('nom')
             ->add('typeCaracteristiques')
-            ->add('Ajouter', SubmitType::class )
+            ->add('Soumettre', SubmitType::class )
         ;
     }
 

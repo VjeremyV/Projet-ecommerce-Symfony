@@ -25,7 +25,7 @@ class AddTypeCaracteristiqueFormType extends AbstractType
 //                        'Category 1' => '1',
 //                    ]
 //            ])
-            ->add('Ajouter', SubmitType::class )
+            ->add('Soumettre', SubmitType::class )
         ;
     }
 

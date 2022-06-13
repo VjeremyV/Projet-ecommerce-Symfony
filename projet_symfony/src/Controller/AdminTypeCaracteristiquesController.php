@@ -40,6 +40,7 @@ class AdminTypeCaracteristiquesController extends AbstractController
     #[Route('/admin/type/caracteristiques{id}', name: 'update_type_caracteristiques')]
     public function modifyTypeCaract(TypeCaracteristiques $typeCaracteristiques, TypeCaracteristiquesRepository $typeCaracteristiquesRepository, Request $request): Response
     {
+
         $formTypeCaract = $this->createForm(AddTypeCaracteristiqueFormType::class, $typeCaracteristiques);
         $formTypeCaract->handleRequest($request);
         if ($formTypeCaract->isSubmitted() && $formTypeCaract->isValid())
@@ -50,6 +51,8 @@ class AdminTypeCaracteristiquesController extends AbstractController
         }
         return $this->render('admin_type_caracteristiques/modify.html.twig', [
             'form_type_caract'=>$formTypeCaract->createView(),
+
+
         ]);
     }
 
@@ -85,6 +88,7 @@ class AdminTypeCaracteristiquesController extends AbstractController
         $addtypeCaract = new TypeCaracteristiques();
         $formTypeCaract = $this->createForm(AddTypeCaracteristiqueFormType::class,$addtypeCaract);
         $formTypeCaract->handleRequest($request);
+        $gettypeCaracteristiques = $typeCaracteristiquesRepository->getListTypeCaracteristique();
         if ($formTypeCaract->isSubmitted() && $formTypeCaract->isValid())
         {
             $typeCaracteristiquesRepository->add($addtypeCaract,true);
@@ -95,6 +99,7 @@ class AdminTypeCaracteristiquesController extends AbstractController
             'controller_name' => 'AdminTypeCaracteristiquesController',
             'type_caract'=> $typeCaracteristiquesRepository,
             'form_type_caract'=> $formTypeCaract->createView(),
+            'gettypeCaracteristiques'=>$gettypeCaracteristiques
         ]);
     }
 

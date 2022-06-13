@@ -6,4 +6,11 @@
 {% block body %}
 
     {{form(form_type_caract)}}
+    <ul class="list-group ">
+        {% for gettypeCaracteristique in gettypeCaracteristiques %}
+            <li class="list-group-item list-group-item-action d-flex justify-content-between">{{gettypeCaracteristique}}
+
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
