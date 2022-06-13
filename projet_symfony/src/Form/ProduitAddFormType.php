@@ -23,7 +23,7 @@ class ProduitAddFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('is_active', CheckboxType::class, ['label' => "Cocher pour que votre produit soit actif dans le catalogue"])
+            ->add('is_active', CheckboxType::class, ['required' => false,'label' => "Cocher pour que votre produit soit actif dans le catalogue"])
             ->add('nom', TextType::class, ['label' => 'Nom du produit'])
             ->add('description', TextareaType::class, ['label' => 'Description'])
             ->add('groupProduit', TextType::class, ['required' => false ,'label' => 'Le nom du groupement de produit si celui-ci fait parti d\'un ensemble'])
@@ -31,7 +31,7 @@ class ProduitAddFormType extends AbstractType
             ->add('stock', IntegerType::class, ['label' => 'Quantité en stock'])
             ->add('image')
             ->add('fournisseur', EntityType::class, ['label' => 'Fournisseur', 'choice_label' => 'nom', 'class' => Fournisseur::class])
-            ->add('categorie', EntityType::class, ['expanded' => true, 'label' => 'Catégories', 'multiple' => true, 'choice_label' => 'nom', 'class' => Categories::class])
+            ->add('categorie')
             ->add('Soumettre', SubmitType::class);
     }
 

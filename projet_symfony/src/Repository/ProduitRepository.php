@@ -42,20 +42,38 @@ class ProduitRepository extends ServiceEntityRepository
 
 
     public const PAGINATOR_PER_PAGE = 4;
-    public function getPaginator( int $offset, $searchNom): Paginator
+    public function getPaginator( int $offset, $searchNom, array $options = null): Paginator
     {
         $query = $this->createQueryBuilder('t');
         if ($searchNom){
             $query =$query->Where('t.nom LIKE :nom')
                 ->setParameter('nom','%'.$searchNom.'%');
         }
+        if(isset($options['nom_search'])){
+            $query = $query
+            ->addOrderBy('t.nom');
+        }
+        if(isset($options['categorie_search'])){
+            $query = $query
+            ->join('t.categorie', 'Categories')
+            ->OrderBy('Categories.id');
+        }
+        if(isset($options['four_search'])){
+            $query = $query
+            ->join('t.fournisseur', 'Fournisseur')
+            ->addOrderBy('t.id');
+        }
+        if(isset($options['actif_search'])){
+            $query = $query
+            ->addOrderBy('t.is_active');
+        }
         $query = $query
-            ->OrderBy('t.nom')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery();
         return new Paginator($query);
     }
+
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */
