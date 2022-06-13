@@ -7,6 +7,7 @@ use App\Form\ProduitAddFormType;
 use App\Form\ProduitEditCaracFormType;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,13 +15,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminProduitController extends AbstractController
 {
     #[Route('/admin/produit/add', name: 'admin_produit_add')]
-    public function index(ProduitRepository $produitRepository, Request $request): Response
+    public function index(ProduitRepository $produitRepository, Request $request,string $ProduitUpDir): Response
     {
         $produit = new Produit;
         $form = $this->createForm(ProduitAddFormType::class, $produit);
         
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($photo = $form['image']->getData()) {
+                $filename = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
+                try {
+                    $photo->move($ProduitUpDir, $filename);
+                } catch (FileException $e) {
+                    // unable to upload the photo, give up
+                }
+                $produit->setImage($filename);
+                $produitRepository->add($produit, true);
+            }
+            
             $this->addFlash('info', 'Le produit a bien été ajoutée');
             $produitRepository->add($produit, true);
             return $this->redirectToRoute('admin_produit_updateListe');
@@ -67,7 +80,7 @@ class AdminProduitController extends AbstractController
     }
 
     #[Route('/admin/produit/update/{id}', name: 'update_produit')]
-    public function updateProduit(Produit $produit, ProduitRepository $produitRepository, Request $request): Response
+    public function updateProduit(Produit $produit, ProduitRepository $produitRepository, Request $request, string $ProduitUpDir, string $ProduitDir): Response
     {
         $form = $this->createForm(ProduitAddFormType::class, $produit);
         $form2 = $this->createForm(ProduitEditCaracFormType::class, $produit, ['data' => $produit]);
@@ -75,6 +88,17 @@ class AdminProduitController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($photo = $form['image']->getData()) {
+                $filename = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
+                try {
+                    $photo->move($ProduitUpDir, $filename);
+                } catch (FileException $e) {
+                    // unable to upload the photo, give up
+                }
+                $produit->setImage($filename);
+                $produitRepository->add($produit, true);
+            }
+
             $this->addFlash('info', 'Le produit a bien été modifié');
             $produitRepository->add($produit, true);
             return $this->redirectToRoute('update_produit', ['id' => $produit->getId()]);
@@ -87,7 +111,9 @@ class AdminProduitController extends AbstractController
         }
         return $this->render('admin_produit/update_produit.html.twig', [
             'form' => $form->createView(),
-            'form2' => $form2->createView()
+            'form2' => $form2->createView(),
+            'produit' => $produit,
+            'dir' => $ProduitDir
         ]);
     }
 

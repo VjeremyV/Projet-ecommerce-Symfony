@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,7 +30,11 @@ class ProduitAddFormType extends AbstractType
             ->add('groupProduit', TextType::class, ['required' => false ,'label' => 'Le nom du groupement de produit si celui-ci fait parti d\'un ensemble'])
             ->add('prix', NumberType::class, ['label' => 'Prix'])
             ->add('stock', IntegerType::class, ['label' => 'Quantité en stock'])
-            ->add('image')
+            ->add('image', FileType::class, [
+                'label' => 'Image (Obligatoire)',
+                'required' => true,
+                'mapped' => false
+            ])
             ->add('fournisseur', EntityType::class, ['label' => 'Fournisseur', 'choice_label' => 'nom', 'class' => Fournisseur::class])
             ->add('categorie')
             ->add('Soumettre', SubmitType::class);

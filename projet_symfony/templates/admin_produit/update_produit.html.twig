@@ -6,8 +6,16 @@
 {% endblock %}
 
 {% block body %}
+	<div class='d-flex justify-content-center'>
+	{% if produit.image %}
+	<img src="{{ dir ~ produit.image}}">
+	{% else %}
+	<span class="display-4 alert alert-warning">Aucune Image n'a été ajoutée pour cet article</span>
+	{% endif %}
+	</div>
 	{{ form(form) }}
 
     <h2>Choisissez les caractéristiques du produit</h2>
     	{{ form(form2) }}
+
 	{% endblock %}

@@ -25,7 +25,7 @@ class AdminCategoriesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'La catégorie a bien été ajoutée');
             $categoriesRepository->add($categorie, true);
-            return $this->redirectToRoute('app_admin_categories_add');
+            return $this->redirectToRoute('categories_update_list');
         }
         return $this->render('admin_categories/index.html.twig', [
             'form' => $form->createView()
