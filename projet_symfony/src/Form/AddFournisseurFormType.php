@@ -15,11 +15,13 @@ class AddFournisseurFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom',TextType::class, ['label' => 'Nom du nouveau fournisseur'])
-            // ->add('image', FileType::class, ['label' => 'Logo du nouveau fournisseur', 'required' => false])
-            ->add('Soumettre', SubmitType::class)
-
-        ;
+            ->add('nom', TextType::class, ['label' => 'Nom du fournisseur'])
+            ->add('image', FileType::class, [
+                'label' => 'Logo du fournisseur(optionnel)',
+                'required' => false,
+                'mapped' => false
+            ])
+            ->add('Soumettre', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
