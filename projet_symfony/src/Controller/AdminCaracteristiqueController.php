@@ -17,9 +17,17 @@ class AdminCaracteristiqueController extends AbstractController
     {
         $getCaracteristiques = $caracteristiquesRepository->getListCaracteristique();
         $CaracteristiquesSearch = $request->query->get('CaracteristiquesSearch','');
+
+        $options = [];
+        if($nom_search = $request->query->get('nom_search')){
+            $options['nom_search'] = $nom_search;
+        }
+        if($type_Caracteristiques_search = $request->query->get('type_Caracteristiques_search')){
+            $options['type_Caracteristiques_search'] = $type_Caracteristiques_search;
+        }
         //paginator
         $offset = max(0,$request->query->getInt('offset',0));
-        $paginator = $caracteristiquesRepository->getCaracteristiquesPaginator($offset, $CaracteristiquesSearch);
+        $paginator = $caracteristiquesRepository->getCaracteristiquesPaginator($offset, $CaracteristiquesSearch,$options);
         $nbrePages = ceil(count($paginator) / CaracteristiquesRepository::PAGINATOR_PER_PAGE);
         $next = min(count($paginator),$offset + CaracteristiquesRepository::PAGINATOR_PER_PAGE);
         $pageActuelle = ceil($next / CaracteristiquesRepository::PAGINATOR_PER_PAGE);

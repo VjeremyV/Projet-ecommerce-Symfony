@@ -47,6 +47,7 @@ class AdminProduitController extends AbstractController
     public function indexup(ProduitRepository $produitRepository, Request $request): Response
     {
         $search = $request->query->get('search');
+
         $options = [];
         if($nom_search = $request->query->get('nom_search')){
             $options['nom_search'] = $nom_search;
