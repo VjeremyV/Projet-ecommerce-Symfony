@@ -12,29 +12,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminFournisseurController extends AbstractController
 {
-    #[Route('/admin/fournisseurs/add', name: 'app_admin_fournisseurs_add')]
-    public function AddFournisseur(Request $request, FournisseurRepository $fournisseurRepository): Response
+    #[Route('/admin/fournisseurs/add', name: 'app_admin_fournisseurs')]
+
+    public function indexUp(FournisseurRepository $fournisseurRepository, Request $request)
     {
+        $searchFournisseur = $request->query->get('search');
         $fournisseur = new Fournisseur();
         $form = $this->createForm(AddFournisseurFormType::class, $fournisseur);
-        $getFounisseur = $fournisseurRepository -> getListFournisseurs();
+
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'Le fournisseur a bien été ajouté');
             $fournisseurRepository->add($fournisseur, true);
-            return $this->redirectToRoute('app_admin_fournisseurs_add');
+            return $this->redirectToRoute('app_admin_fournisseurs');
         }
-        return $this->render('admin_fournisseur/index.html.twig', [
-            'formFournisseur' => $form->createView(),
-            'getFournisseurs' => $getFounisseur,
-        ]);
-    }
-
-    #[Route('/admin/fournisseurs/update', name: 'fournisseurs_update_list')]
-    public function indexUp(FournisseurRepository $fournisseurRepository, Request $request)
-    {
-        $searchFournisseur = $request->query->get('search');
 
         //pagination
         $offset = max(0, $request->query->getInt('offset', 0));
@@ -44,7 +36,7 @@ class AdminFournisseurController extends AbstractController
         $pageActuelle = ceil($next / FournisseurRepository::PAGINATOR_PER_PAGE);
         $difPages = $nbrePages - $pageActuelle;
 
-        return $this->render('admin_fournisseur/update_list.html.twig', [
+        return $this->render('admin_fournisseur/index.html.twig', [
             'listFournisseurs' => $paginator,
             'searchFournisseur' => $searchFournisseur,
             'previous' => $offset - FournisseurRepository::PAGINATOR_PER_PAGE,
@@ -53,6 +45,7 @@ class AdminFournisseurController extends AbstractController
             'nbrePages' => $nbrePages,
             'pageActuelle' => $pageActuelle,
             'difPages' => $difPages,
+            'formFournisseur' => $form->createView(),
         ]);
     }
 
@@ -64,7 +57,7 @@ class AdminFournisseurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'Le fournisseur a bien été modifiée');
             $fournisseurRepository->add($fournisseur, true);
-            return $this->redirectToRoute('update_fournisseur', ['id' => $fournisseur -> getId()]);
+            return $this->redirectToRoute('update_fournisseur', ['id' => $fournisseur->getId()]);
         }
         return $this->render('admin_fournisseur/modify.html.twig', [
             'formFournisseur' => $form->createView(),
@@ -76,6 +69,6 @@ class AdminFournisseurController extends AbstractController
     {
         $FournisseurRepository->remove($Fournisseur, true);
         $this->addFlash('info', 'Le fournisseur a bien été supprimée');
-        return $this->redirectToRoute('fournisseurs_update_list');
+        return $this->redirectToRoute('app_admin_fournisseurs');
     }
 }
