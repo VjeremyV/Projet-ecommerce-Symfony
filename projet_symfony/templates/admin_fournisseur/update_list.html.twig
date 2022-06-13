@@ -1,0 +1,76 @@
+{% extends 'admin/template.html.twig' %}
+
+{% block title %}Editer un fournisseur
+{% endblock %}
+
+{% block titre %}
+	Editer un fournisseur
+{% endblock %}
+{% block body %}
+	<div class="example-wrapper p-5">
+		<form action="">
+			<label for="search">Rechercher un fournisseur
+				<input type="search" id="search" name="search">
+			</label>
+			<button type="submit">Envoyer</button>
+		</form>
+		<ul class="list-group ">
+			{% for listfournisseur in listFournisseurs %}
+				<li class="list-group-item list-group-item-action d-flex justify-content-between">{{listfournisseur.nom}}
+					<div>
+						<a href="{{ path('update_fournisseur', {id: listfournisseur.id }) }}" class="m-2 btn btn-primary">Editer</a>
+						<a href="{{ path('delete_fournisseur', {id: listfournisseur.id }) }}" class="btn btn-danger m-2" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a>
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+
+	<div class="col-12">
+		{% if previous >= 0 %}
+			<a href="{{ path('fournisseurs_update_list', {offset: previous }) }}" class="btn btn-sm btn-primary">
+				previous
+			</a>
+		{% endif %}
+
+		{% if pageActuelle <= 3 %}
+			{%if pageActuelle > 1 %}
+				{% for i in 2..pageActuelle %}
+					<a href="{{ path('fournisseurs_update_list', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in pageActuelle-2..pageActuelle %}
+				<a href="{{ path('fournisseurs_update_list', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+			{% endfor %}
+		{% endif %}
+
+
+		<span class="btn btn-sm btn-primary m-3 bg-warning">
+			{{ pageActuelle }}</span>
+
+
+		{% if difPages < 3 %}
+			{% if  difPages > 0 %}
+				{% for i in 1..difPages %}
+					<a href="{{ path('fournisseurs_update_list', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in 1..3 %}
+				<a href="{{ path('fournisseurs_update_list', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+			{% endfor %}
+		{% endif %}
+
+		{% if next < listFournisseurs|length %}
+			<a href="{{ path('fournisseurs_update_list', {offset: next }) }}" class="btn btn-sm btn-primary">next
+			</a>
+		{% endif %}
+	</div>
+	<div>
+		Il y a
+		{{ listFournisseurs|length~' fournisseurs'~( listFournisseurs|length > 1 ? 's' : '') }}
+		et vous êtes sur la page
+		{{ pageActuelle }}/{{nbrePages}}
+	</div>
+{% endblock %}

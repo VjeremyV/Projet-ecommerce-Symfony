@@ -1,29 +1,22 @@
 {% extends 'admin/template.html.twig' %}
 
-{% block title %}Administration des fournisseurs
+
+{% block titre %}
+	Ajouter un fournisseur
+{% endblock %}
+
+{% block title %}
+	Ajouter un fournisseur
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	{{ form(formFournisseur) }}
 
-	<div class="example-wrapper">
-		<h1>Fournisseur</h1>
-
-		<ul>
-			{% for fournisseur in fournisseurs %}
-				<li>{{fournisseurs.id ~ " - " ~ fournisseurs.name}}</li>
+		<h2>Liste des fournisseurs</h2>
+		<ul class="list-group ">
+			{% for getFournisseur in getFournisseurs %}
+				<li class="list-group-item list-group-item-action d-flex justify-content-between">{{getFournisseur}}
+				</li>
 			{% endfor %}
 		</ul>
-	</div>
-{% endblock %}
+	{% endblock %}
