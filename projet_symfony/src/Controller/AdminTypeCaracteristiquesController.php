@@ -37,7 +37,7 @@ class AdminTypeCaracteristiquesController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/type/caracteristiques{id}', name: 'update_caracteristiques')]
+    #[Route('/admin/type/caracteristiques{id}', name: 'update_type_caracteristiques')]
     public function modifyTypeCaract(TypeCaracteristiques $typeCaracteristiques, TypeCaracteristiquesRepository $typeCaracteristiquesRepository, Request $request): Response
     {
         $formTypeCaract = $this->createForm(AddTypeCaracteristiqueFormType::class, $typeCaracteristiques);
@@ -98,7 +98,7 @@ class AdminTypeCaracteristiquesController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/type/caracteristiques/delete/{id}', name: 'delete_caracteristiques')]
+    #[Route('/admin/type/caracteristiques/delete/{id}', name: 'delete_type_caracteristiques')]
     public function delConference(TypeCaracteristiquesRepository $typeCaracteristiquesRepository,TypeCaracteristiques $typeCaracteristiques): Response
     {
         $typeCaracteristiquesRepository->remove($typeCaracteristiques,true);

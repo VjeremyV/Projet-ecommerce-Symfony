@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Caracteristiques;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,35 @@ class CaracteristiquesRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+    public const PAGINATOR_PER_PAGE = 2;
+    public function getCaracteristiquesPaginator( int $offset ,$searchNom): Paginator
+    {
+        $query = $this->createQueryBuilder('c');
+        if ($searchNom){
+            $query =$query->Where('c.nom LIKE :nom')
+                ->setParameter('nom','%'.$searchNom.'%');
+        }
+        $query = $query
+            ->OrderBy('c.nom')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
+
+    public function getListCaracteristique(): array
+    {
+        $nom =[];
+        foreach ($this->createQueryBuilder('c')
+                     ->select('c.nom')
+                     ->distinct(true)
+                     ->orderBy('c.nom', 'ASC')
+                     ->getQuery()
+                     ->getResult() as $cols){
+            $nom[] = $cols['nom'];
+        }
+        return $nom;
     }
 
 //    /**
