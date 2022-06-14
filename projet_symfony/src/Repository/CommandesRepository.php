@@ -3,9 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Commandes;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Commandes>
@@ -40,44 +39,28 @@ class CommandesRepository extends ServiceEntityRepository
         }
     }
 
-    public const PAGINATOR_PER_PAGE = 4;
-    public function getPaginator(int $offset, $searchNom): Paginator
-    {
-        $query = $this->createQueryBuilder('c');
-        if ($searchNom) {
-            $query = $query->Where('c.nom LIKE :nom')
-                ->setParameter('nom', '%' . $searchNom . '%');
-        }
-        $query = $query
-            ->OrderBy('c.nom')
-            ->setMaxResults(self::PAGINATOR_PER_PAGE)
-            ->setFirstResult($offset)
-            ->getQuery();
-        return new Paginator($query);
-    }
+//    /**
+//     * @return Commandes[] Returns an array of Commandes objects
+//     */
+//    public function findByExampleField($value): array
+//    {
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('c.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
-    //    /**
-    //     * @return Commandes[] Returns an array of Commandes objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Commandes
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+//    public function findOneBySomeField($value): ?Commandes
+//    {
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }
