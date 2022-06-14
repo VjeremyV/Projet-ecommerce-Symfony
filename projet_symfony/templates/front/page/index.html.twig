@@ -3,3 +3,15 @@
 {% block title %}
 	Bienvenue chez Cerfunos
 {% endblock %}
+
+{% block content %}
+	{% block titre %}Les Incontournables du moment
+	{% endblock %}
+	{% for produit in produits %}
+		<div>
+			<img src="{{ dir ~ produit.image }}" alt="{{ produit.description }}">
+			{{ produit.nom}}
+			{{ produit.prix}}
+		</div>
+	{% endfor %}
+{% endblock %}

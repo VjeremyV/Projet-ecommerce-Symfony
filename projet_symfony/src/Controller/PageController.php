@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Categories;
 use App\Repository\CategoriesRepository;
+use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,11 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class PageController extends AbstractController
 {
     #[Route('/', name: 'app_accueil')]
-    public function index(CategoriesRepository $categoriesRepository): Response
-    {
+    public function index(ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository, string $ProduitDir): Response
+    {   
+        $produits = $produitRepository->findBy(['groupProduit'=>'PDM']);
         $getcaract = $categoriesRepository->getListCategories();
         return $this->render('front/page/index.html.twig', [
-            'getcaract'=> $getcaract
+            'getcaract'=> $getcaract,
+            'produits'=> $produits,
+            'dir' => $ProduitDir
         ]);
     }
 
