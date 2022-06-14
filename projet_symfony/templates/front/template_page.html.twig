@@ -13,34 +13,8 @@
 			{% endblock %}
 		</title>
 		<link rel="stylesheet" href="{{ asset('css/style_front.css')}}">
+		<link rel="shortcut icon" href="{{asset('assets/favicon.ico')}}" type="image/x-icon">
 	</head>
-	<style>
-		.border-bottom {
-			border-bottom: 6px solid #f2a950 !important;
-		}
-		.carousel-control-prev-icon {
-			background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
-		}
-		.carousel-control-next-icon {
-			background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
-		}
-		#search {
-			border: #f2a950 solid 4px;
-		}
-		svg:hover {
-			color: #ff8b00 !important;
-			transform: scale(1.2);
-			transition-duration: 0.3s;
-		}
-		footer {
-			background-color: #f2a950;
-		}
-		@media screen and(max-width: 760px) {
-			#nav_log {
-				flex-direction: column !important;
-			}
-		}
-	</style>
 	<body>
 		<div class="container-fluid bg-dark">
 			<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom border-warning container">

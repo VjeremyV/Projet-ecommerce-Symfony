@@ -61,7 +61,7 @@ class ProduitRepository extends ServiceEntityRepository
         if (isset($options['four_search'])) {
             $query = $query
                 ->join('t.fournisseur', 'Fournisseur')
-                ->addOrderBy('t.id');
+                ->addOrderBy('Fournisseur.id');
         }
         if (isset($options['actif_search'])) {
             $query = $query

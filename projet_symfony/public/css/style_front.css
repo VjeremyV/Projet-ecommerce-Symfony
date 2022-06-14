@@ -1,1 +1,55 @@
 /************************Global*************************************/
+
+.border-bottom {
+    border-bottom: 6px solid #f2a950 !important;
+}
+.border-orange{
+    border :  3px solid #f2a950 !important;
+}
+#search {
+    border: #f2a950 solid 4px;
+}
+.boutonCompte:hover{
+    color: black !important;
+}
+.menuLiens{
+    transition: 0.3s ease;
+}
+.menuLiens:hover{
+    color: #f2a950 !important;
+}
+.carousel-caption {
+    bottom: 25rem !important;
+    font-weight: bold !important;
+}
+svg:hover {
+    color: #ff8b00 !important;
+    transition-duration: 0.3s;
+}
+footer {
+    background-color: #f2a950;
+}
+/***********************************customText Accueil**********************************/
+#custom_text{
+    background: url('../blockText/blockTextImg.png') center/cover no-repeat fixed;
+}
+/*******************************************card accueil*****************************/
+.boutonPlus:hover{
+    background: white;
+    color: black;
+    transition: 0.3s ease;
+}
+.card{
+    transition: 0.3s ease;
+}
+.card:hover{
+    transform: scale(1.1);
+}
+
+
+/*************************mediaqueries**********************************/
+@media screen and(max-width: 760px) {
+    #nav_log {
+        flex-direction: column !important;
+    }
+}
