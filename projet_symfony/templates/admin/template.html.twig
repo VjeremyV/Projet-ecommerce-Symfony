@@ -121,7 +121,7 @@
 					</a>
 					<div id="collapseCom" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="utilities-color.html">Consulter</a>
+							<a class="collapse-item" href="{{path('app_admin_commande')}}">Consulter</a>
 						</div>
 					</div>
 				</li>
@@ -258,6 +258,11 @@
 						<div class="container-fluid">
 							{% for message in app.session.flashBag.get('info')%}
 								<div class='alert alert-success'>
+									{{ message }}
+								</div>
+							{% endfor %}
+							{% for message in app.session.flashBag.get('error')%}
+								<div class='alert alert-danger'>
 									{{ message }}
 								</div>
 							{% endfor %}

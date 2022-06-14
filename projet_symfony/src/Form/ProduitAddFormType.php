@@ -31,8 +31,8 @@ class ProduitAddFormType extends AbstractType
             ->add('prix', NumberType::class, ['label' => 'Prix'])
             ->add('stock', IntegerType::class, ['label' => 'Quantité en stock'])
             ->add('image', FileType::class, [
-                'label' => 'Image (Obligatoire)',
-                'required' => true,
+                'label' => 'Image ',
+                'required' => false,
                 'mapped' => false
             ])
             ->add('fournisseur', EntityType::class, ['label' => 'Fournisseur', 'choice_label' => 'nom', 'class' => Fournisseur::class])
