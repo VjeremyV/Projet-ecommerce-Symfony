@@ -1,13 +1,122 @@
 {% extends 'admin/template.html.twig' %}
 
 {% block title %}
-Admin Commandes
+	Administration des commandes
 {% endblock %}
 
 {% block titre %}
-Commandes
+	Administration des commandes
 {% endblock %}
 
 {% block body %}
-{{ dump(commandes) }}
+	{{ dump(commandes) }}
+	{{ dump(clients) }}
+	{# {{ dump(contenus) }} #}
+	<div class="example-wrapper p-5">
+
+		<form action="">
+			<label for="search">Rechercher une commande
+				<input type="search" id="search" name="search">
+			</label>
+			<button type="submit">Envoyer</button>
+		</form>
+		{# <form action="">
+											<div class="row form-group">
+												<div class="row w-100">
+													<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+														<label for="nom_search" class="col-sm-6 col-form-label text-center">Nom</label>
+														<input type="checkbox" name="nom_search" id="nom_search" {% if app.request.query.get("nom_search") %} checked {% endif %}>
+													</div>
+													<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+														<label for="categorie_search" class="col-sm-6 col-form-label text-center">Catégorie</label>
+														<input type="checkbox" name="categorie_search" id="categorie_search " {% if app.request.query.get("categorie_search") %} checked {% endif %}>
+													</div>
+													<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+														<label for="four_search" class="col-sm-6 col-form-label align-items-center text-center">Fournisseur</label>
+														<input type="checkbox" name="four_search" id="four_search" {% if app.request.query.get("four_search") %} checked {% endif %}>
+								
+													</div>
+													<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+														<label for="actif_search" class="col-sm-6 col-form-label text-center">Actif</label>
+														<input type="checkbox" name="actif_search" id="actif_search" {% if app.request.query.get("actif_search") %} checked {% endif %}>
+													</div>
+													<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
+														<input type="submit" value="Trier" class="btn btn-primary">
+													</div>
+												</div>
+											</div>
+										</form> #}
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">ID commande</th>
+					<th scope="col">Nom client</th>
+					<th scope="col">Montant commande</th>
+					<th scope="col">Consulter</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for commande in commandes %}
+					<tr scope="row">
+						<td>{{commande.id}}</td>
+						<td>{{commande.client.nom}}</td>
+						<td>montant commande</td>
+						<td>
+							<a href="{{ path('app_admin_commande_view', {id: commande.id }) }}" class="btn btn-primary">Consulter</a>
+						</td>
+
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+    {# Pagination #}
+	{# <div class="col-12">
+		{% if previous >= 0 %}
+			<a href="{{ path('app_admin_commande', {offset: previous }) }}" class="btn btn-sm btn-primary">
+				previous
+			</a>
+		{% endif %}
+
+		{% if pageActuelle <= 3 %}
+			{%if pageActuelle > 1 %}
+				{% for i in 2..pageActuelle %}
+					<a href="{{ path('app_admin_commande', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in pageActuelle-2..pageActuelle %}
+				<a href="{{ path('app_admin_commande', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+			{% endfor %}
+		{% endif %}
+
+
+		<span class="btn btn-sm btn-primary m-3 bg-warning">
+			{{ pageActuelle }}</span>
+
+
+		{% if difPages < 3 %}
+			{% if  difPages > 0 %}
+				{% for i in 1..difPages %}
+					<a href="{{ path('app_admin_commande', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in 1..3 %}
+				<a href="{{ path('app_admin_commande', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+			{% endfor %}
+		{% endif %}
+
+		{% if next < listCommandes|length %}
+			<a href="{{ path('app_admin_commande', {offset: next }) }}" class="btn btn-sm btn-primary">next
+			</a>
+		{% endif %}
+	</div>
+	<div>
+		Il y a
+		{{ listCommandes|length~' commande'~( listCommandes|length > 1 ? 's' : '') }}
+		et vous êtes sur la page
+		{{ pageActuelle }}/{{nbrePages}}
+	</div> #}
 {% endblock %}
