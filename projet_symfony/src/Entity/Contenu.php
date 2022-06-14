@@ -23,9 +23,11 @@ class Contenu
     #[ORM\JoinColumn(nullable: false)]
     private $commandes;
 
-    #[ORM\OneToOne(targetEntity: Produit::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Produit::class, inversedBy: 'contenus')]
     #[ORM\JoinColumn(nullable: false)]
-    private $produit;
+    private $produits;
+
+ 
 
     public function getId(): ?int
     {
@@ -68,25 +70,17 @@ class Contenu
         return $this;
     }
 
-    public function getProduit(): ?Produit
+    public function getProduits(): ?Produit
     {
-        return $this->produit;
+        return $this->produits;
     }
 
-    public function setProduit(?Produit $produit): self
+    public function setProduits(?Produit $produits): self
     {
-        // unset the owning side of the relation if necessary
-        if ($produit === null && $this->produit !== null) {
-            $this->produit->setContenu(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($produit !== null && $produit->getContenu() !== $this) {
-            $produit->setContenu($this);
-        }
-
-        $this->produit = $produit;
+        $this->produits = $produits;
 
         return $this;
     }
+
+   
 }

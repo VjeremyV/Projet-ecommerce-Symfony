@@ -50,10 +50,14 @@ class Produit
     #[ORM\ManyToMany(targetEntity: Caracteristiques::class, inversedBy: 'produits')]
     private $caracteristiques;
 
+    #[ORM\OneToMany(mappedBy: 'produits', targetEntity: Contenu::class)]
+    private $contenus;
+
     public function __construct()
     {
         $this->commentaire = new ArrayCollection();
         $this->caracteristiques = new ArrayCollection();
+        $this->contenus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,17 +149,7 @@ class Produit
         return $this;
     }
 
-    public function getContenu(): ?contenu
-    {
-        return $this->contenu;
-    }
-
-    public function setContenu(?contenu $contenu): self
-    {
-        $this->contenu = $contenu;
-
-        return $this;
-    }
+   
 
     /**
      * @return Collection<int, commentaires>
@@ -232,6 +226,36 @@ class Produit
     public function removeCaracteristique(Caracteristiques $caracteristique): self
     {
         $this->caracteristiques->removeElement($caracteristique);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contenu>
+     */
+    public function getContenus(): Collection
+    {
+        return $this->contenus;
+    }
+
+    public function addContenu(Contenu $contenu): self
+    {
+        if (!$this->contenus->contains($contenu)) {
+            $this->contenus[] = $contenu;
+            $contenu->setProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContenu(Contenu $contenu): self
+    {
+        if ($this->contenus->removeElement($contenu)) {
+            // set the owning side to null (unless already changed)
+            if ($contenu->getProduits() === $this) {
+                $contenu->setProduits(null);
+            }
+        }
 
         return $this;
     }
