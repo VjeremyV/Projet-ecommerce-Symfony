@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220614113841 extends AbstractMigration
+final class Version20220614124434 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -33,7 +33,7 @@ final class Version20220614113841 extends AbstractMigration
         $this->addSql('ALTER TABLE contenu DROP FOREIGN KEY FK_89C2003FCD11A2CF');
         $this->addSql('DROP INDEX IDX_89C2003FCD11A2CF ON contenu');
         $this->addSql('ALTER TABLE contenu CHANGE produits_id produit_id INT NOT NULL');
-        $this->addSql('ALTER TABLE contenu ADD CONSTRAINT FK_89C2003FF347EFB FOREIGN KEY (produit_id) REFERENCES produit (id)');
+        $this->addSql('ALTER TABLE contenu ADD CONSTRAINT FK_89C2003FF347EFB FOREIGN KEY (produit_id) REFERENCES produit (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_89C2003FF347EFB ON contenu (produit_id)');
     }
 }
