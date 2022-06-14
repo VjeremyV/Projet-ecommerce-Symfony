@@ -1,10 +1,109 @@
 {% extends 'admin/template.html.twig' %}
 
-
-{% block titre %}
-Accueil Administration
+{% block title %}
+	Accueil Administration
 {% endblock %}
 
-{% block title %}
-Accueil Administration
+{% block titre %}
+	Accueil Administration
+{% endblock %}
+
+{% block body %}
+	<h2>Bienvenue {{app.user.pseudo}} !</h2>
+	<h3>Commencez à gérer l'administration de votre site depuis votre espace :</h3>
+
+	<div class="list-group">
+
+		<a href="admin/commande" class="list-group-item list-group-item-action" aria-current="true">
+			<div class="d-flex w-100 justify-content-between">
+				<h4 class="mb-1">Vous voulez consulter les commandes ?</h4>
+				<small>>>></small>
+			</div>
+			<p class="mb-1">Rendez vous dans la rubrique " COMMANDES " !</p>
+			<small>Pour visualiser les commandes  >> CONSULTER
+											
+										, puis visualiser la liste des commandes qui s'affiche.</small>
+	    </a>
+
+		<a href="admin/produit/update" class="list-group-item list-group-item-action" aria-current="true">
+			<div class="d-flex w-100 justify-content-between">
+				<h4 class="mb-1">Vous voulez ajouter ou éditer un produit ?</h4>
+				<small>>>></small>
+			</div>
+			<p class="mb-1">Rendez vous dans la rubrique " PRODUITS " !</p>
+			<small>Pour ajouter un nouveau produit  >> AJOUTER
+											
+										, puis remplissez simplement la fiche produit qui s'affiche.</small>
+		    </br>
+		    <small>Pour ajouter un nouveau produit  >> EDITER
+							        
+							            , puis modifier simplement la fiche produit qui s'affiche.
+		    </small>
+            </br>
+            <small>Lors de la création ou de la modification , les produits sont liés à leurs fournisseur et catégorie</small>
+	    </a>
+
+	    <a href="admin/categories/update" class="list-group-item list-group-item-action" aria-current="true">
+		    <div class="d-flex w-100 justify-content-between">
+			<h4 class="mb-1">Vous voulez ajouter ou éditer une catégorie ?</h4>
+			<small>>>></small>
+		    </div>
+		    <p class="mb-1">Rendez vous dans la rubrique " CATEGORIES " !</p>
+		    <small>Pour ajouter une nouvelle catégorie  >> AJOUTER
+										
+									, puis remplissez simplement la fiche catégorie qui s'affiche.</small>
+	        </br>
+	        <small>Pour éditer une nouvelle catégorie  >> EDITER
+						        
+						            , puis modifier simplement la fiche catégorie qui s'affiche.
+	        </small>
+        </a>
+
+        <a href="admin/type/caracteristiques/update" class="list-group-item list-group-item-action" aria-current="true">
+		    <div class="d-flex w-100 justify-content-between">
+			<h4 class="mb-1">Vous voulez ajouter ou éditer un type de caractéristique ?</h4>
+			<small>>>></small>
+		    </div>
+		    <p class="mb-1">Rendez vous dans la rubrique " TYPE DE CARACTERISTIQUES " !</p>
+		    <small>Pour ajouter un nouveau type de caracteristiques  >> AJOUTER
+										
+									, puis remplissez simplement la fiche type de caractéristique qui s'affiche.</small>
+	        </br>
+	        <small>Pour éditer un nouveau type de caracteristiques  >> EDITER
+						        
+						            , puis modifier simplement la fiche type de caracteristiques qui s'affiche.
+	        </small>
+        </a>
+
+        <a href="admin/caracteristiques/update" class="list-group-item list-group-item-action" aria-current="true">
+		    <div class="d-flex w-100 justify-content-between">
+			<h4 class="mb-1">Vous voulez ajouter ou éditer une caracteristique ?</h4>
+			<small>>>></small>
+		    </div>
+		    <p class="mb-1">Rendez vous dans la rubrique " CARACTERISTIQUES " !</p>
+		    <small>Pour ajouter un nouveaue caracteristique  >> AJOUTER
+										
+									, puis remplissez simplement la fiche caracteristique qui s'affiche.</small>
+	        </br>
+	        <small>Pour éditer un nouveaue caracteristique  >> EDITER
+						        
+						            , puis modifier simplement la fiche caracteristique qui s'affiche.
+	        </small>
+            </br>
+            <small>Lors de la création ou de la modification , les caractéristiques sont liés à un types de caractéristique</small>
+        </a>
+
+        <a href="admin/fournisseurs/add" class="list-group-item list-group-item-action" aria-current="true">
+		    <div class="d-flex w-100 justify-content-between">
+			<h4 class="mb-1">Vous voulez ajouter ou éditer un fournisseur ?</h4>
+			<small>>>></small>
+		    </div>
+		    <p class="mb-1">Rendez vous dans la rubrique  " FOURNISSEURS" " !</p>
+		    <small>Pour ajouter et éditer un nouveau fournisseur  >> AJOUTER / EDITER
+										
+									, puis remplissez ou modifiez simplement la fiche fournisseur qui s'affiche.
+	        </br>
+            </small>
+        </a>
+    </div>
 {% endblock %}
