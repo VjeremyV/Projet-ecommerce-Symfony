@@ -46,9 +46,9 @@
 			</header>
 			<nav class="d-flex flex-wrap justify-content-center py-3">
 				<ul class="nav nav-pills">
-					{% for getcaracts in getcaract %}
+					{% for categorie in categories %}
 						<li class="nav-item">
-							<a href="#" class="nav-link text-white menuLiens">{{ getcaracts }}</a>
+							<a href="{{path('app_categories_catalogue', {idCat: categorie.id})}}" class="nav-link text-white menuLiens">{{ categorie }}</a>
 						</li>
 					{% endfor %}
 				</ul>
@@ -162,9 +162,9 @@
 						<div class="col mb-4">
 							<h5>Le site</h5>
 							<ul class="nav flex-column">
-								{% for getcaracts in getcaract %}
+								{% for categorie in categories %}
 									<li class="nav-item">
-										<a href="#" class="nav-link text-black">{{ getcaracts }}</a>
+										<a href="{{path('app_categories_catalogue', {idCat: categorie.id})}}" class="nav-link text-black">{{ categorie }}</a>
 									</li>
 								{% endfor %}
 							</ul>

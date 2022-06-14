@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/inscription', name: 'app_signin')]
     public function signIn(UserPasswordHasherInterface $hashedPwd, CategoriesRepository $categoriesRepository, ClientsRepository $clientsRepository, Request $request, AdminRepository $adminRepository): Response
     {   //    on va chercher les catégories à afficher dans le menu
-        $getcaract = $categoriesRepository->getListCategories();
+        $getCategories = $categoriesRepository->findAll();
         // on instancie un nouveau client et on créée un formulaire
         $user = new Clients;
         $form = $this->createForm(SigninUserFormType::class, $user);
@@ -88,7 +88,7 @@ class SecurityController extends AbstractController
         }
         return $this->render('security/signin.html.twig', [
             'form' => $form->createView(),
-            'getcaract' => $getcaract
+            'categories' => $getCategories,
         ]);
     }
 }

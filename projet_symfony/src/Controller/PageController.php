@@ -16,9 +16,9 @@ class PageController extends AbstractController
     {   
         $fournisseurs = $fournisseurRepository->findAll();
         $produits = $produitRepository->findBy(['groupProduit'=>'PDM']);
-        $getcaract = $categoriesRepository->getListCategories();
+        $getCategories = $categoriesRepository->findAll();
         return $this->render('front/page/index.html.twig', [
-            'getcaract'=> $getcaract,
+            'categories'=> $getCategories,
             'produits'=> $produits,
             'dir' => $ProduitDir,
             'fournisseurs' => $fournisseurs,
@@ -26,6 +26,13 @@ class PageController extends AbstractController
         ]);
     }
 
-
+    #[Route('/categories/{idCat}', name: 'app_categories_catalogue')]
+    public function categoriesCatalogue($idCat, CategoriesRepository $categoriesRepository): Response
+    {   
+        $getCategories = $categoriesRepository->findAll();
+        return $this->render('front/page/index.html.twig', [
+            'categories'=> $getCategories,
+        ]);
+    }
 
 }
