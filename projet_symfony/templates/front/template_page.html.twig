@@ -50,8 +50,9 @@
 									</form>
 
 									<div class="d-flex text-end col-lg-auto m-3 mb-lg-12">
-										<button type="button" class="btn btn-outline-light me-2">Créer un compte</button>
-										<button type="button" class="btn btn-warning">Se connecter</button>
+										<button type="button" class="btn btn-outline-light me-2"> <a class='text-decoration-none text-white' href="{{path('app_login')}}">Créer un compte</a></button>
+									
+										<button type="button" class="btn btn-warning"><a class='text-decoration-none text-dark'href="{{path('app_signin')}}"> Se connecter</a></button>
 									</div>
 										<a href="#" class="nav-link px-3">
 											<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" color="#f2a950" class="bi bi-cart-fill" viewBox="0 0 16 16">
