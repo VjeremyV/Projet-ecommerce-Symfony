@@ -41,31 +41,31 @@ class ProduitRepository extends ServiceEntityRepository
     }
 
 
-    public const PAGINATOR_PER_PAGE = 4;
-    public function getPaginator( int $offset, $searchNom, array $options = null): Paginator
+    public const PAGINATOR_PER_PAGE = 15;
+    public function getPaginator(int $offset, $searchNom, array $options = null): Paginator
     {
         $query = $this->createQueryBuilder('t');
-        if ($searchNom){
-            $query =$query->Where('t.nom LIKE :nom')
-                ->setParameter('nom','%'.$searchNom.'%');
+        if ($searchNom) {
+            $query = $query->Where('t.nom LIKE :nom')
+                ->setParameter('nom', '%' . $searchNom . '%');
         }
-        if(isset($options['nom_search'])){
+        if (isset($options['nom_search'])) {
             $query = $query
-            ->addOrderBy('t.nom');
+                ->addOrderBy('t.nom');
         }
-        if(isset($options['categorie_search'])){
+        if (isset($options['categorie_search'])) {
             $query = $query
-            ->join('t.categorie', 'Categories')
-            ->OrderBy('Categories.id');
+                ->join('t.categorie', 'Categories')
+                ->OrderBy('Categories.id');
         }
-        if(isset($options['four_search'])){
+        if (isset($options['four_search'])) {
             $query = $query
-            ->join('t.fournisseur', 'Fournisseur')
-            ->addOrderBy('t.id');
+                ->join('t.fournisseur', 'Fournisseur')
+                ->addOrderBy('t.id');
         }
-        if(isset($options['actif_search'])){
+        if (isset($options['actif_search'])) {
             $query = $query
-            ->addOrderBy('t.is_active');
+                ->addOrderBy('t.is_active');
         }
         $query = $query
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
@@ -74,28 +74,28 @@ class ProduitRepository extends ServiceEntityRepository
         return new Paginator($query);
     }
 
-//    /**
-//     * @return Produit[] Returns an array of Produit objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Produit[] Returns an array of Produit objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('p.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Produit
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Produit
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

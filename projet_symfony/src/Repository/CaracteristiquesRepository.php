@@ -39,19 +39,19 @@ class CaracteristiquesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public const PAGINATOR_PER_PAGE = 2;
-    public function getCaracteristiquesPaginator( int $offset ,$searchNom,array $options = null): Paginator
+    public const PAGINATOR_PER_PAGE = 15;
+    public function getCaracteristiquesPaginator(int $offset, $searchNom, array $options = null): Paginator
     {
         $query = $this->createQueryBuilder('c');
-        if ($searchNom){
-            $query =$query->Where('c.nom LIKE :nom')
-                ->setParameter('nom','%'.$searchNom.'%');
+        if ($searchNom) {
+            $query = $query->Where('c.nom LIKE :nom')
+                ->setParameter('nom', '%' . $searchNom . '%');
         }
-        if(isset($options['nom_search'])){
+        if (isset($options['nom_search'])) {
             $query = $query
                 ->addOrderBy('c.nom');
         }
-        if(isset($options['type_Caracteristiques_search'])){
+        if (isset($options['type_Caracteristiques_search'])) {
             $query = $query
                 ->join('c.typeCaracteristiques', 'typeCaracteristiques')
                 ->addOrderBy('typeCaracteristiques.id');
@@ -65,40 +65,40 @@ class CaracteristiquesRepository extends ServiceEntityRepository
 
     public function getListCaracteristique(): array
     {
-        $nom =[];
+        $nom = [];
         foreach ($this->createQueryBuilder('c')
-                     ->select('c.nom')
-                     ->distinct(true)
-                     ->orderBy('c.nom', 'ASC')
-                     ->getQuery()
-                     ->getResult() as $cols){
+            ->select('c.nom')
+            ->distinct(true)
+            ->orderBy('c.nom', 'ASC')
+            ->getQuery()
+            ->getResult() as $cols) {
             $nom[] = $cols['nom'];
         }
         return $nom;
     }
 
-//    /**
-//     * @return Caracteristiques[] Returns an array of Caracteristiques objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Caracteristiques[] Returns an array of Caracteristiques objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Caracteristiques
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Caracteristiques
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

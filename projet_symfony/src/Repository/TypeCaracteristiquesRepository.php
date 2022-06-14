@@ -39,13 +39,13 @@ class TypeCaracteristiquesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public const PAGINATOR_PER_PAGE = 2;
-    public function getTypeCaracteristiquesPaginator( int $offset ,$searchNom): Paginator
+    public const PAGINATOR_PER_PAGE = 10;
+    public function getTypeCaracteristiquesPaginator(int $offset, $searchNom): Paginator
     {
         $query = $this->createQueryBuilder('t');
-        if ($searchNom){
-            $query =$query->Where('t.nom LIKE :nom')
-                ->setParameter('nom','%'.$searchNom.'%');
+        if ($searchNom) {
+            $query = $query->Where('t.nom LIKE :nom')
+                ->setParameter('nom', '%' . $searchNom . '%');
         }
         $query = $query
             ->OrderBy('t.nom')
@@ -60,25 +60,25 @@ class TypeCaracteristiquesRepository extends ServiceEntityRepository
      */
     public function getListTypeCaracteristique(): array
     {
-        $nom =[];
+        $nom = [];
         foreach ($this->createQueryBuilder('t')
             ->select('t.nom')
             ->distinct(true)
             ->orderBy('t.nom', 'ASC')
             ->getQuery()
-            ->getResult() as $cols){
+            ->getResult() as $cols) {
             $nom[] = $cols['nom'];
-    }
+        }
         return $nom;
     }
 
-//    public function findOneBySomeField($value): ?TypeCaracteristiques
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?TypeCaracteristiques
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
