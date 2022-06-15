@@ -41,15 +41,31 @@ class CommandesRepository extends ServiceEntityRepository
     }
 
     public const PAGINATOR_PER_PAGE = 4;
-    public function getPaginator(int $offset, $searchNom): Paginator
+    public function getPaginator(int $offset, $search = null, $options = null): Paginator
     {
         $query = $this->createQueryBuilder('c');
-        if ($searchNom) {
-            $query = $query->Where('c.nom LIKE :nom')
-                ->setParameter('nom', '%' . $searchNom . '%');
+        if ($search) {
+            $query = $query->join('c.Client', 'client')
+            ->Where('client.nom LIKE :nom')
+                ->setParameter('nom', '%' . $search . '%');
+        }
+        if (isset($options['nom_search'])) {
+            $query = $query->join('c.Client', 'client')
+                ->addOrderBy('client.nom');
+        }
+        if (isset($options['date_search'])) {
+            $query = $query
+                ->addOrderBy('c.createdAt');
+        }
+        if (isset($options['id_search'])) {
+            $query = $query
+                ->addOrderBy('c.id');
+        }
+        if (isset($options['montant_search'])) {
+            $query = $query
+                ->addOrderBy('c.Montant');
         }
         $query = $query
-            ->OrderBy('c.nom')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery();

@@ -9,14 +9,17 @@
 {% endblock %}
 
 {% block body %}
-	{{ dump(commandes) }}
+	<a class='float-right'href="{{path('app_admin_commande')}}">Retourner à la liste des commandes</a>
 	<div class="example-wrapper p-5">
-		{% for commande in commandes %}
-			<h2>Vous consultez la commande :
-				{{commande.id}}
-			</h2>
-			{{ dump(commande) }}
-		{% endfor %}
+		<div class="card m-5" style="width: 24rem;">
+			<div class="card-body ">
+				<h5 class="card-title ">Numéro de commande :
+			{{commandes.id}} </h5>
+				<h6 class="card-subtitle mb-2 text-muted ">Bénéficiaire : {{commandes.client}}</h6>
+				<p class="card-text ">Adresse de livraison : {{ client.adresse}}</p>
+				<p class="card-text ">Montant total de la commande : {{ commandes.montant}} €</p>
+			</div>
+		</div>
 
 		<table class="table">
 			<thead>
@@ -24,22 +27,23 @@
 					<th scope="col">Produit</th>
 					<th scope="col">Quantité</th>
 					<th scope="col">Prix</th>
-					<th scope="col">Adresse de livraison</th>
+
 				</tr>
 			</thead>
 			<tbody>
-				{% for commande in commandes %}
+				{% for contenu in contenus %}
 					<tr scope="row">
-						<td>Nom prod
-							{#contenu.produit#}
+						<td>
+							{{contenu.getProduits}}
 						</td>
-						<td>Quantite prod
-							{#contenu.quantite#}
+						<td>
+							{{contenu.quantite}}
 						</td>
-						<td>Prix prod
-							{#contenu.prix#}
+
+						<td>
+							{{contenu.prix}}
 						</td>
-						<td>{{commande.client.adresse}}</td>
+
 					</tr>
 				{% endfor %}
 			</tbody>

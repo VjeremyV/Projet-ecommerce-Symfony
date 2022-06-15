@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220614124434 extends AbstractMigration
+final class Version20220615135712 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,6 +20,7 @@ final class Version20220614124434 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE commandes ADD montant DOUBLE PRECISION NOT NULL');
         $this->addSql('ALTER TABLE contenu DROP FOREIGN KEY FK_89C2003FF347EFB');
         $this->addSql('DROP INDEX UNIQ_89C2003FF347EFB ON contenu');
         $this->addSql('ALTER TABLE contenu CHANGE produit_id produits_id INT NOT NULL');
@@ -30,10 +31,11 @@ final class Version20220614124434 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE commandes DROP montant');
         $this->addSql('ALTER TABLE contenu DROP FOREIGN KEY FK_89C2003FCD11A2CF');
         $this->addSql('DROP INDEX IDX_89C2003FCD11A2CF ON contenu');
         $this->addSql('ALTER TABLE contenu CHANGE produits_id produit_id INT NOT NULL');
-        $this->addSql('ALTER TABLE contenu ADD CONSTRAINT FK_89C2003FF347EFB FOREIGN KEY (produit_id) REFERENCES produit (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('ALTER TABLE contenu ADD CONSTRAINT FK_89C2003FF347EFB FOREIGN KEY (produit_id) REFERENCES produit (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_89C2003FF347EFB ON contenu (produit_id)');
     }
 }
