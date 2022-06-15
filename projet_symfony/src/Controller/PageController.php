@@ -80,6 +80,19 @@ class PageController extends AbstractController
 
         ]);
     }
+    #[Route('/produits/{idprod}', name: 'app_categories_produits')]
+    public function categoriesProduit(HttpFoundationRequest $request, $idprod, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
+    {   //pour l'affichage du menu
+        $getCategories = self::Menu($categoriesRepository);
+        //on récupère les produits
+        $produits = $produitRepository->findBy(['id' => $idprod]);
+        return $this->render('front/page/produit.html.twig', [
+            'categories'=> $getCategories,
+            'produits' => $produits,
+            'dir' => $ProduitDir,
+
+        ]);
+    }
 
     static public function Menu(CategoriesRepository $categoriesRepository){
         return $categoriesRepository->findAll();
