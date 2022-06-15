@@ -26,11 +26,9 @@
 {% block Fournisseur %}
 	<div id="carousel1">
 	{% for fournisseur in fournisseurs %}
-		<div class="item p-5 card mb-3">
+		<div class="item p-5 align-items-center d-flex justify-content-center bg-white" style="transform: none;border: none">
 			<div class="row g-0">
-				<div class="item__image col-md-7">
 					<img class="img-fluid rounded-start" src="{{fourdir ~ fournisseur.image}}" alt="{{fournisseur.nom}}">
-				</div>
 			</div>
 		</div>
 	{% endfor %}

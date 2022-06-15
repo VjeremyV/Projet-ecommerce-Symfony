@@ -68,7 +68,7 @@ footer {
     background: #f2a950 url(./arrow-right.svg) center center no-repeat;
     background-size: 50px 50px;
     border-radius: 50%;
-    margin-top: -150px;
+    margin-top: -130px;
     right: 5px;
     box-shadow: 0 15px 35px #3232321a,0 5px 15px #0000001a;
     cursor: pointer;
@@ -83,7 +83,7 @@ footer {
     background: #f2a950 url(./arrow-left.svg) center center no-repeat;
     background-size: 50px 50px;
     border-radius: 50%;
-    margin-top: -150px;
+    margin-top: -130px;
     right: 0;
     left: 15px;
     box-shadow: 0 15px 35px #3232321a,0 5px 15px #0000001a;
