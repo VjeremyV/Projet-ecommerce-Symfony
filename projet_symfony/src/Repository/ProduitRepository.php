@@ -74,6 +74,19 @@ class ProduitRepository extends ServiceEntityRepository
         return new Paginator($query);
     }
 
+    public const PAGINATOR_PER_PAGE_FRONT = 12;
+    public function getPaginatorFront(int $offset, $categorie): Paginator
+    {
+        $query = $this->createQueryBuilder('t');
+        $query = $query
+            ->Where('t.categorie = '.$categorie)
+            ->AndWhere('t.is_active = 1')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE_FRONT)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
+
     //    /**
     //     * @return Produit[] Returns an array of Produit objects
     //     */
