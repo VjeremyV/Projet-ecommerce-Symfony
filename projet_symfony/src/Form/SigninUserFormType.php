@@ -33,7 +33,7 @@ class SigninUserFormType extends AbstractType
             ->add('telephone', TelType::class, ['label' => 'Telephone'])
             ->add('MDP', PasswordType::class, ['mapped' => false, 'label' => 'Mot De Passe'])
             ->add('Confirmmdp', PasswordType::class, ['mapped' => false, 'label' => 'Confirmation de Mot de Passe'])
-            ->add('Soumettre', SubmitType::class);
+            ->add('Soumettre', SubmitType::class );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
