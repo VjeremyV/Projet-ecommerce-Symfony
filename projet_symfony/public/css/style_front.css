@@ -1,5 +1,7 @@
 /************************Global*************************************/
-
+body{
+    overflow-x: hidden;
+}
 .border-bottom {
     border-bottom: 6px solid #f2a950 !important;
 }
@@ -40,6 +42,123 @@ footer {
 .carousel-control-next-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
 }
+.carousel{
+    position: relative;
+}
+
+.carousel__container{
+    transition: .3s;
+    transform: translate3d(0, 0, 0);
+}
+
+.carousel__container::after{
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.carousel__item{
+    float: left;
+}
+
+.carousel__next{
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: #f2a950 url(./arrow-right.svg) center center no-repeat;
+    background-size: 50px 50px;
+    border-radius: 50%;
+    margin-top: -150px;
+    right: 5px;
+    box-shadow: 0 15px 35px #3232321a,0 5px 15px #0000001a;
+    cursor: pointer;
+    transition-duration: .3s;
+
+}
+
+.carousel__prev{
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: #f2a950 url(./arrow-left.svg) center center no-repeat;
+    background-size: 50px 50px;
+    border-radius: 50%;
+    margin-top: -150px;
+    right: 0;
+    left: 15px;
+    box-shadow: 0 15px 35px #3232321a,0 5px 15px #0000001a;
+    cursor: pointer;
+    transition-duration: .3s;
+}
+
+.carousel__prev:hover,.carousel__next:hover{
+    transform: scale(1.2);
+}
+
+.carousel__next--hidden,.carousel__prev--hidden{
+    opacity: 0;
+}
+
+#imgscale:hover
+{
+    transition-duration: .3s;
+    transform: scale(1.2);
+}
+
+@media (max-width: 1500px){
+    .carousel__prev{
+        margin-top: -300px;
+    }
+    .carousel__next{
+        margin-top: -300px;
+    }
+}
+
+@media (max-width: 1000px){
+    .carousel__prev{
+        margin-top: -400px;
+    }
+    .carousel__next{
+        margin-top: -400px;
+    }
+}
+@media (max-width: 780px){
+    .carousel__prev{
+        margin-top: -500px;
+    }
+    .carousel__next{
+        margin-top: -500px;
+    }
+}
+
+@media (max-width: 770px){
+    .carousel__prev{
+        margin-top: -500px;
+    }
+    .carousel__next{
+        margin-top: -500px;
+    }
+}
+
+@media (max-width: 375px){
+    .carousel__prev{
+        margin-top: -550px;
+    }
+    .carousel__next{
+        margin-top: -550px;
+    }
+}
+
+
+@media (max-width: 320px){
+    .carousel__prev{
+        margin-top: -600px;
+    }
+    .carousel__next{
+        margin-top: -600px;
+    }
+}
+
 /***********************************customText Accueil**********************************/
 #custom_text{
     background: url('../blockText/blockTextImg.png') center/cover no-repeat fixed;
@@ -64,3 +183,4 @@ footer {
         flex-direction: column !important;
     }
 }
+
