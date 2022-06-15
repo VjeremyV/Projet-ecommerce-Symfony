@@ -15,7 +15,7 @@ class PageController extends AbstractController
     public function index(ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository, string $ProduitDir, FournisseurRepository $fournisseurRepository, string $DirFour): Response
     {   
         $fournisseurs = $fournisseurRepository->findAll();
-        $produits = $produitRepository->findBy(['groupProduit'=>'PDM']);
+        $produits = self::Menu($categoriesRepository);
         $getCategories = $categoriesRepository->findAll();
         return $this->render('front/page/index.html.twig', [
             'categories'=> $getCategories,
@@ -35,4 +35,7 @@ class PageController extends AbstractController
         ]);
     }
 
+    static public function Menu(CategoriesRepository $categoriesRepository){
+        return $categoriesRepository->findAll();
+    }
 }
