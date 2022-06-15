@@ -1,7 +1,6 @@
 {% extends "front/template_page.html.twig" %}
 {% block titre %}{{categories.0.nom}}
 {% endblock %}
-
 {% block content %}
     <div class="container d-flex justify-content-center py-5">
         <div class="card bg-dark" style="border:none;transform: none">
@@ -22,14 +21,15 @@
             </div>
         </div>
     </div>
-    <div class='d-flex flex-wrap justify-content-center align-items-center'>
-        {% for produit in produits %}
-            <a href="{{path('app_categories_produits',{idprod:produit.id})}}" style="text-decoration: none">
+    <div class='d-flex flex-wrap justify-content-center align-items-center py-5'>
+    <div id="carousel2">
+        {% for groupProduit in groupProduits %}
+            <a href="{{path('app_categories_produits',{idprod:groupProduit.id})}}" style="text-decoration: none">
                 <div  class='card m-3 bg-dark  ' style="width: 18rem; border:none; box-shadow: none;">
-                    <img class='card-img-top ' style='border-radius: 0px;' src="{{ dir ~ produit.image }}" alt="{{ produit.description }}">
+                    <img class='card-img-top ' style='border-radius: 0px;' src="{{ dir ~ groupProduit.image }}" alt="{{ groupProduit.description }}">
                     <div class='card-body d-flex flex-column align-items-center justify-content-center text-center'>
-                        <span class='card-title text-white'>{{ produit.nom}}</span>
-                        <span class='card-text text-white'>{{ produit.prix}}
+                        <span class='card-title text-white'>{{ groupProduit.nom}}</span>
+                        <span class='card-text text-white'>{{ groupProduit.prix}}
 						€ TTC</span>
                         <button class="border-orange w-75 h-75 bg-dark mt-3 ">
                             <a href="#" class='text-white text-decoration-none align-middle'>
@@ -40,5 +40,6 @@
                 </div>
             </a>
         {% endfor %}
+    </div>
     </div>
 {% endblock %}

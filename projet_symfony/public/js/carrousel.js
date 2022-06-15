@@ -53,34 +53,62 @@
                     }
                 })
             }
-            setStyle() {
-                let ratio = this.items.length / this.slidesVisible //on divise le nombre d'éléments avec children.length pas nombre d'élement visible avec options.slidesVisible
-                this.container.style.width = (ratio * 100) + "%" // on demande si la largeur du containeur soit egal au ratio * 100 avec la valeur %
-                this.items.forEach(item => item.style.width = ((100 / this.slidesVisible) / ratio) + "%") //chaque élement prend 1/3 de la place par rapport au container
-            }
             createNavigation() {
+                if (document.getElementById("carousel1")){
                 let nextButton = this.createDivWithClass('carousel__next') //création du'une div avec l'atribut class :carousel__next
                 let prevButton = this.createDivWithClass('carousel__prev') //création du'une div avec l'atribut class :carousel__prev
                 this.root.appendChild(nextButton)
                 this.root.appendChild(prevButton)
-                /* La méthode bind() crée une nouvelle fonction qui, lorsqu'elle est appelée, a pour contexte this la valeur passée en paramètre et éventuellement une suite d'arguments qui précéderont ceux fournis à l'appel de la fonction créée. */
-                nextButton.addEventListener('click', this.next.bind(this)) //Ajoute un évenement au click de ce button l'évenement est dans la fonction next ci dessous
-                prevButton.addEventListener('click', this.prev.bind(this)) //Ajoute un évenement au click de ce button l'évenement est dans la fonction prev ci dessous
-                if (this.options.loop === true) { // Si l'option loop est strictement = a true alors
-                    return
+                    /* La méthode bind() crée une nouvelle fonction qui, lorsqu'elle est appelée, a pour contexte this la valeur passée en paramètre et éventuellement une suite d'arguments qui précéderont ceux fournis à l'appel de la fonction créée. */
+                    nextButton.addEventListener('click', this.next.bind(this)) //Ajoute un évenement au click de ce button l'évenement est dans la fonction next ci dessous
+                    prevButton.addEventListener('click', this.prev.bind(this)) //Ajoute un évenement au click de ce button l'évenement est dans la fonction prev ci dessous
+                    if (this.options.loop === true) { // Si l'option loop est strictement = a true alors
+                        return
+                    }
+                    this.onMove(index => { // fonction qui prend en parametre l'index
+                        if (index === 0) { // si l'index est strictement egale a 0
+                            prevButton.classList.add('carousel__prev--hidden')  // Alors je mes une class au button prev
+                        } else { //Sinon tu supprime cette class
+                            prevButton.classList.remove('carousel__prev--hidden')
+                        }
+                        if (this.items[this.currentItem + this.slidesVisible] === undefined) {// si index est superieur ou egal au nombre d'item alors ...  ou  si il y'a un item qui correspond a l'item ciblé + le nbr d'item visible
+                            nextButton.classList.add('carousel__next--hidden') // Alors je mes une class au button next
+                        } else {
+                            nextButton.classList.remove('carousel__next--hidden')//Sinon tu supprime cette class
+                        }
+                    })
+                }else {
+                    let nextButton = this.createDivWithClass('carousel__next2') //création du'une div avec l'atribut class :carousel__next
+                    let prevButton = this.createDivWithClass('carousel__prev2') //création du'une div avec l'atribut class :carousel__prev
+                    this.root.appendChild(nextButton)
+                    this.root.appendChild(prevButton)
+                    /* La méthode bind() crée une nouvelle fonction qui, lorsqu'elle est appelée, a pour contexte this la valeur passée en paramètre et éventuellement une suite d'arguments qui précéderont ceux fournis à l'appel de la fonction créée. */
+                    nextButton.addEventListener('click', this.next.bind(this)) //Ajoute un évenement au click de ce button l'évenement est dans la fonction next ci dessous
+                    prevButton.addEventListener('click', this.prev.bind(this)) //Ajoute un évenement au click de ce button l'évenement est dans la fonction prev ci dessous
+                    if (this.options.loop === true) { // Si l'option loop est strictement = a true alors
+                        return
+                    }
+                    this.onMove(index => { // fonction qui prend en parametre l'index
+                        if (index === 0) { // si l'index est strictement egale a 0
+                            prevButton.classList.add('carousel__prev--hidden2')  // Alors je mes une class au button prev
+                        } else { //Sinon tu supprime cette class
+                            prevButton.classList.remove('carousel__prev--hidden2')
+                        }
+                        if (this.items[this.currentItem + this.slidesVisible] === undefined) {// si index est superieur ou egal au nombre d'item alors ...  ou  si il y'a un item qui correspond a l'item ciblé + le nbr d'item visible
+                            nextButton.classList.add('carousel__next--hidden2') // Alors je mes une class au button next
+                        } else {
+                            nextButton.classList.remove('carousel__next--hidden2')//Sinon tu supprime cette class
+                        }
+                    })
                 }
-                this.onMove(index => { // fonction qui prend en parametre l'index
-                    if (index === 0) { // si l'index est strictement egale a 0
-                        prevButton.classList.add('carousel__prev--hidden')  // Alors je mes une class au button prev
-                    } else { //Sinon tu supprime cette class
-                        prevButton.classList.remove('carousel__prev--hidden')
-                    }
-                    if (this.items[this.currentItem + this.slidesVisible] === undefined) {// si index est superieur ou egal au nombre d'item alors ...  ou  si il y'a un item qui correspond a l'item ciblé + le nbr d'item visible
-                        nextButton.classList.add('carousel__next--hidden') // Alors je mes une class au button next
-                    } else {
-                        nextButton.classList.remove('carousel__next--hidden')//Sinon tu supprime cette class
-                    }
-                })
+
+
+
+                }
+            setStyle() {
+                let ratio = this.items.length / this.slidesVisible //on divise le nombre d'éléments avec children.length pas nombre d'élement visible avec options.slidesVisible
+                this.container.style.width = (ratio * 100) + "%" // on demande si la largeur du containeur soit egal au ratio * 100 avec la valeur %
+                this.items.forEach(item => item.style.width = ((100 / this.slidesVisible) / ratio) + "%") //chaque élement prend 1/3 de la place par rapport au container
             }
 
             next() {
@@ -161,6 +189,13 @@
             new Carousel(document.querySelector('#carousel1'), {
                 slidesToScroll: 1, // Combien de slide on scroll dans le carousel
                 slidesVisible: 3, // slide visible dans le carousel
+                loop: true  //boucle en fin de carousel
+            })
+        })
+        document.addEventListener('DOMContentLoaded', function () {
+            new Carousel(document.querySelector('#carousel2'), {
+                slidesToScroll: 2, // Combien de slide on scroll dans le carousel
+                slidesVisible: 2, // slide visible dans le carousel
                 loop: true  //boucle en fin de carousel
             })
         })
