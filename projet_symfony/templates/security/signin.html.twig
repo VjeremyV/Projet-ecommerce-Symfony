@@ -3,90 +3,24 @@
 {% endblock %}
 {% block content %}
 <div class="text-white">
-    {{form(form)}}
-</div>
-{#    <section class="text-center">#}
-{#        <div class="p-5 bg-image">#}
-{#            <img src="https://picsum.photos/900/200?random=1" class="w-100 rounded-4 shadow-4" alt="Image aléatoire" />#}
-{#        </div>#}
-{#        <div class="card mx-4 mx-md-5 shadow-5-strong " style="margin-top: -100px;background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);transform: none;">#}
-{#            <div class="card-body py-5 px-md-5">#}
 
-{#                {{ form_start(form) }}#}
-{#                <div class="row d-flex justify-content-center">#}
-{#                    <div class="col-lg-8">#}
-{#                            <!-- 2 column grid layout with text inputs for the first and last names -->#}
-{#                            <div class="row">#}
-{#                                <div class="col-md-6 mb-4">#}
-{#                                    <div class="form-outline">#}
-{#                                        {{ form_label(form.pseudo,'Pseudo', {'label_attr': {'class': 'col-form-label col-sm-4 '}}) }}#}
-{#                                        {{ form(form.pseudo) }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-md-6 mb-4">#}
-{#                                    <div class="form-outline">#}
-{#                                        {{ form_label(form.nom) }}#}
-{#                                        {{ form(form.nom) }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="row">#}
-{#                                <div class="col-md-6 mb-4">#}
-{#                                    <div class="form-outline">#}
-{#                                        {{ form_label(form.prenom,'Prénom', {'label_attr': {'class': 'col-form-label col-sm-4 '}}) }}#}
-{#                                        {{ form(form.prenom) }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-md-6 mb-4">#}
-{#                                    <div class="form-outline">#}
-{#                                        {{ form_label(form.adresse,'Adresse', {'label_attr': {'class': 'col-form-label col-sm-4 '}}) }}#}
-{#                                        {{ form(form.adresse) }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="row">#}
-{#                                <div class="col-md-6 mb-4">#}
-{#                                    <div class="form-outline">#}
-{#                                        {{ form_label(form.codePostale, 'Code postale', {'label_attr': {'class': 'col-form-label col-sm-4 '}}) }}#}
-{#                                        {{ form(form.codePostale) }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-md-6 mb-4">#}
-{#                                    <div class="form-outline">#}
-{#                                        {{ form_label(form.ville) }}#}
-{#                                        {{ form(form.ville) }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="row">#}
-{#                                <div class="col-md-6 mb-4">#}
-{#                                    <div class="form-outline">#}
-{#                                        {{ form_label(form.adresseMail) }}#}
-{#                                        {{ form(form.adresseMail) }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-md-6 mb-4">#}
-{#                                    <div class="form-outline">#}
-{#                                        {{ form_label(form.telephone, 'Telephone', {'label_attr': {'class': 'col-form-label col-sm-4 '}}) }}#}
-{#                                        {{ form(form.telephone) }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="form-outline mb-4">#}
-{#                                {{ form_label(form.MDP) }}#}
-{#                                {{ form(form.MDP) }}#}
-{#                            </div>#}
-{#                            <div class="form-outline mb-4">#}
-{#                                {{ form_label(form.Confirmmdp,'',{'label_attr': {'class': 'col-form-label col-sm-5 '}}) }}#}
-{#                                {{ form(form.Confirmmdp) }}#}
-{#                            </div>#}
-{#                        {{form_row(form.Soumettre)}}#}
-{#                    {{ form_end(form) }}#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </section>#}
+</div>
+    <section class="text-center">
+        <div class="p-5 bg-image">
+            <img src="https://picsum.photos/900/200?random=1" class="w-100 rounded-4 shadow-4" alt="Image aléatoire" />
+        </div>
+        <div class="card mx-4 mx-md-5 shadow-5-strong " style="margin-top: -100px;background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);transform: none;">
+            <div class="card-body py-5 px-md-5">
+
+                {{ form_start(form) }}
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        {{form(form)}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 {% endblock %}
