@@ -17,7 +17,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        {{ form_label(form.pseudo) }}
+                                        {{ form_label(form.pseudo,'Pseudo', {'label_attr': {'class': 'col-form-label col-sm-4 '}}) }}
                                         {{ form(form.pseudo) }}
                                     </div>
                                 </div>
@@ -31,13 +31,13 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        {{ form_label(form.prenom) }}
+                                        {{ form_label(form.prenom,'Prénom', {'label_attr': {'class': 'col-form-label col-sm-4 '}}) }}
                                         {{ form(form.prenom) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        {{ form_label(form.adresse) }}
+                                        {{ form_label(form.adresse,'Adresse', {'label_attr': {'class': 'col-form-label col-sm-4 '}}) }}
                                         {{ form(form.adresse) }}
                                     </div>
                                 </div>
