@@ -59,6 +59,7 @@ class PageController extends AbstractController
             if($form['pseudo']->getData() && $adm->getPseudo() !== $form['pseudo']->getData()){
                 if (!$adminRepository->findBy(['pseudo' => $form['pseudo']->getData()])) {
                     //si le pseudo est unique en bdd
+                    $this->addFlash('info', 'Votre pseudo a bien été modifié');
                     $adm->setPseudo($form['pseudo']->getData());
                     $adminRepository->add($adm, true);
                 } else {

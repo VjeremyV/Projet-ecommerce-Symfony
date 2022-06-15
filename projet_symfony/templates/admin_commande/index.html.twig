@@ -14,7 +14,7 @@
 	<div class="example-wrapper p-5">
 
 		<form action="">
-			<label for="search">Rechercher une commande
+			<label for="search">Rechercher une commande selon le nom du client
 				<input type="search" id="search" name="search">
 			</label>
 			<button type="submit">Envoyer</button>
@@ -62,8 +62,8 @@
 					<tr scope="row">
 						<td>{{commande.id}}</td>
 						<td>{{commande.client.nom}}</td>
-						<td>montant commande</td>
-						<td>{{commande.date|date("m/d/Y/ H:i")}}</td>
+						<td>{{commande.montant}} €</td>
+						<td>{{commande.createdAt|date("d-m-Y H:i")}}</td>
 						<td>
 							<a href="{{ path('app_admin_commande_view', {id: commande.id }) }}" class="btn btn-primary">Consulter</a>
 						</td>
@@ -72,5 +72,53 @@
 				{% endfor %}
 			</tbody>
 		</table>
+	</div>
+	
+	<div class="col-12">
+		{% if previous >= 0 %}
+			<a href="{{ path('app_admin_commande', {offset: previous ,id_search: app.request.query.get("id_search"), nom_search: app.request.query.get("nom_search"), montant_search: app.request.query.get("montant_search"), date_search: app.request.query.get("date_search") }) }}" class="btn btn-sm btn-primary">
+				previous
+			</a>
+		{% endif %}
+
+		{% if pageActuelle <= 3 %}
+			{%if pageActuelle > 1 %}
+				{% for i in 2..pageActuelle %}
+					<a href="{{ path('app_admin_commande', {offset: previous - (offset * (pageActuelle - i)) ,id_search: app.request.query.get("id_search"), nom_search: app.request.query.get("nom_search"), montant_search: app.request.query.get("montant_search"), date_search: app.request.query.get("date_search")}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in pageActuelle-2..pageActuelle %}
+				<a href="{{ path('app_admin_commande', {offset: previous - (offset * (pageActuelle - i)) ,id_search: app.request.query.get("id_search"), nom_search: app.request.query.get("nom_search"), montant_search: app.request.query.get("montant_search"), date_search: app.request.query.get("date_search")}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+			{% endfor %}
+		{% endif %}
+
+
+		<span class="btn btn-sm btn-primary m-3 bg-warning">
+			{{ pageActuelle }}</span>
+
+
+		{% if difPages < 3 %}
+			{% if  difPages > 0 %}
+				{% for i in 1..difPages %}
+					<a href="{{ path('app_admin_commande', {offset: next + (offset * (i - 1)) ,id_search: app.request.query.get("id_search"), nom_search: app.request.query.get("nom_search"), montant_search: app.request.query.get("montant_search"), date_search: app.request.query.get("date_search")}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in 1..3 %}
+				<a href="{{ path('app_admin_commande', {offset: next + (offset * (i - 1)) ,id_search: app.request.query.get("id_search"), nom_search: app.request.query.get("nom_search"), montant_search: app.request.query.get("montant_search"), date_search: app.request.query.get("date_search")}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+			{% endfor %}
+		{% endif %}
+
+		{% if next < commandes|length %}
+			<a href="{{ path('app_admin_commande', {offset: next ,id_search: app.request.query.get("id_search"), nom_search: app.request.query.get("nom_search"), montant_search: app.request.query.get("montant_search"), date_search: app.request.query.get("date_search")}) }}" class="btn btn-sm btn-primary">next
+			</a>
+		{% endif %}
+	</div>
+	<div>
+		Il y a
+		{{ commandes|length~' commande'~( commandes|length > 1 ? 's' : '') }}
+		et vous êtes sur la page
+		{{ pageActuelle }}/{{nbrePages}}
 	</div>
 {% endblock %}

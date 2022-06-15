@@ -29,6 +29,9 @@ class Commandes
     #[ORM\JoinColumn(nullable: false)]
     private $Client;
 
+    #[ORM\Column(type: 'float')]
+    private $Montant;
+
     public function __construct()
     {
         $this->contenu = new ArrayCollection();
@@ -101,6 +104,18 @@ class Commandes
     public function setClient(?Clients $Client): self
     {
         $this->Client = $Client;
+
+        return $this;
+    }
+
+    public function getMontant(): ?float
+    {
+        return $this->Montant;
+    }
+
+    public function setMontant(float $Montant): self
+    {
+        $this->Montant = $Montant;
 
         return $this;
     }

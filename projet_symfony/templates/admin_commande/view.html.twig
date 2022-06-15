@@ -9,63 +9,41 @@
 {% endblock %}
 
 {% block body %}
-	{{ dump(commandes) }}
+	<a class='float-right'href="{{path('app_admin_commande')}}">Retourner à la liste des commandes</a>
 	<div class="example-wrapper p-5">
-		{% for commande in commandes %}
-			<h2>Vous consultez la commande :
-				{{commande.id}}
-			</h2>
-			{{ dump(commande) }}
-		{% endfor %}
+		<div class="card m-5" style="width: 24rem;">
+			<div class="card-body ">
+				<h5 class="card-title ">Numéro de commande :
+			{{commandes.id}} </h5>
+				<h6 class="card-subtitle mb-2 text-muted ">Bénéficiaire : {{commandes.client}}</h6>
+				<p class="card-text ">Adresse de livraison : {{ client.adresse}}</p>
+				<p class="card-text ">Montant total de la commande : {{ commandes.montant}} €</p>
+			</div>
+		</div>
 
-		{# <form action="">
-															<div class="row form-group">
-																<div class="row w-100">
-																	<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
-																		<label for="nom_search" class="col-sm-6 col-form-label text-center">Nom</label>
-																		<input type="checkbox" name="nom_search" id="nom_search" {% if app.request.query.get("nom_search") %} checked {% endif %}>
-																	</div>
-																	<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
-																		<label for="categorie_search" class="col-sm-6 col-form-label text-center">Catégorie</label>
-																		<input type="checkbox" name="categorie_search" id="categorie_search " {% if app.request.query.get("categorie_search") %} checked {% endif %}>
-																	</div>
-																	<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
-																		<label for="four_search" class="col-sm-6 col-form-label align-items-center text-center">Fournisseur</label>
-																		<input type="checkbox" name="four_search" id="four_search" {% if app.request.query.get("four_search") %} checked {% endif %}>
-												
-																	</div>
-																	<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
-																		<label for="actif_search" class="col-sm-6 col-form-label text-center">Actif</label>
-																		<input type="checkbox" name="actif_search" id="actif_search" {% if app.request.query.get("actif_search") %} checked {% endif %}>
-																	</div>
-																	<div class='col-md-2 d-flex flex-column justify-content-center align-items-center flex-wrap'>
-																		<input type="submit" value="Trier" class="btn btn-primary">
-																	</div>
-																</div>
-															</div>
-														</form> #}
 		<table class="table">
 			<thead>
 				<tr>
 					<th scope="col">Produit</th>
 					<th scope="col">Quantité</th>
 					<th scope="col">Prix</th>
-					<th scope="col">Adresse de livraison</th>
+
 				</tr>
 			</thead>
 			<tbody>
-				{% for commande in commandes %}
+				{% for contenu in contenus %}
 					<tr scope="row">
-						<td>Nom prod
-							{#contenu.produit#}
+						<td>
+							{{contenu.getProduits}}
 						</td>
-						<td>Quantite prod
-							{#contenu.quantite#}
+						<td>
+							{{contenu.quantite}}
 						</td>
-						<td>Prix prod
-							{#contenu.prix#}
+
+						<td>
+							{{contenu.prix}}
 						</td>
-						<td>{{commande.client.adresse}}</td>
+
 					</tr>
 				{% endfor %}
 			</tbody>
