@@ -27,6 +27,40 @@ class AdminCommandeController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/produit/update{nom_search}', name: 'admin_produit_updateListe')]
+    public function indexup(CommandesRepository $produitRepository, Request $request, $nom_search = ''): Response
+    {
+        $search = $request->query->get('search');
+        $options = [];
+        if ($id_search = $request->query->get('id_search')) {
+            $options['id_search'] = $id_search;
+        }
+        if ($nom_search = $request->query->get('nom_search')) {
+            $options['nom_search'] = $nom_search;
+        }
+        if ($montant_search = $request->query->get('montant_search')) {
+            $options['montant_search'] = $montant_search;
+        }
+
+        //pagination
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $produitRepository->getPaginator($offset, $search, $options);
+        $nbrePages = ceil(count($paginator) / CommandesRepository::PAGINATOR_PER_PAGE);
+        $next = min(count($paginator), $offset + CommandesRepository::PAGINATOR_PER_PAGE);
+        $pageActuelle = ceil($next / CommandesRepository::PAGINATOR_PER_PAGE);
+        $difPages = $nbrePages - $pageActuelle;
+        return $this->render('admin_commande/index.html.twig', [
+            'listcommande' => $paginator,
+            'search' => $search,
+            'previous' => $offset - CommandesRepository::PAGINATOR_PER_PAGE,
+            'offset' => CommandesRepository::PAGINATOR_PER_PAGE,
+            'next' => $next,
+            'nbrePages' => $nbrePages,
+            'pageActuelle' => $pageActuelle,
+            'difPages' => $difPages,
+        ]);
+    }
+
     #[Route('/admin/commande/{id}', name: 'app_admin_commande_view')]
     public function view(CommandesRepository $commandesRepository, ClientsRepository $clientsRepository, ContenuRepository $contenuRepository)
     {
