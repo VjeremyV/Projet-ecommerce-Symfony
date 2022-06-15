@@ -1,0 +1,26 @@
+{% extends "front/template_page.html.twig" %}
+{% block titre %}{{categories.0.nom}}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container d-flex justify-content-center py-5">
+        <div class="card bg-dark" style="border:none;transform: none">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-4">
+                    <img src="{{ dir ~ produits.0.image }}" class="img-fluid rounded-0" alt="{{ produits.0.description }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body text-white">
+                        <h5 class="card-title pb-3">{{produits.0.nom}}</h5>
+                        <p class="card-text pb-2">{{produits.0.description}}</p>
+                        <p class="card-text text-center fs-4"><strong class="text-bold f">{{ produits.0.prix }} €</strong></p>
+                        <div class="d-flex justify-content-center">
+                            <a href="#" class="btn btn-warning rounded-0">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
