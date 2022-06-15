@@ -10,9 +10,9 @@
         <div class="card mx-4 mx-md-5 shadow-5-strong " style="margin-top: -100px;background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);transform: none;">
             <div class="card-body py-5 px-md-5">
 
+                {{ form_start(form) }}
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
-                        {{ form_start(form) }}
                             <!-- 2 column grid layout with text inputs for the first and last names -->
                             <div class="row">
                                 <div class="col-md-6 mb-4">
@@ -78,12 +78,8 @@
                                 {{ form_label(form.Confirmmdp,'',{'label_attr': {'class': 'col-form-label col-sm-5 '}}) }}
                                 {{ form(form.Confirmmdp) }}
                             </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                {{ form_end(form) }}
-
-                            </div>
-                        </div>
+                        {{form_row(form.Soumettre)}}
+                    {{ form_end(form) }}
                     </div>
                 </div>
             </div>
