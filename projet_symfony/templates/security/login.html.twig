@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'front/template_page.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
 
-{% block body %}
+{% block title %}Cerfunos | Connexion{% endblock %}
+{% block titre %}Connexion{% endblock %}
+
+{% block content %}
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -71,7 +73,7 @@
                                 <!-- Submit button -->
                                 <input type="hidden" name="_csrf_token"
                                        value="{{ csrf_token('authenticate') }}">
-                                <button type="submit" class="btn btn-primary btn-block mb-4">Soumettre</button>
+                                <button type="submit" class="border-orange bg-dark m-3 text-decoration-none text-white p-2">Soumettre</button>
 
 {#                                <!-- Register buttons -->#}
 {#                                <div class="text-center">#}

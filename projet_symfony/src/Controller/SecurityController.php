@@ -18,8 +18,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, CategoriesRepository $categoriesRepository): Response
     {
+        //variables menu
+        $getCategories = PageController::Menu($categoriesRepository);
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
@@ -29,7 +31,11 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+            'categories' => $getCategories
+        ]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
@@ -61,15 +67,15 @@ class SecurityController extends AbstractController
                             $exp = '/^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'; // on prépare une regex
                             if (preg_match($exp, $form['MDP']->getData())) {
                                 //si le mdp correspond à la regex
-                                $this->addFlash('info', 'Votre inscription s\'est bien passée');// on ajoute un message de reussite
+                                $this->addFlash('info', 'Votre inscription s\'est bien passée'); // on ajoute un message de reussite
 
-                                $adm = new admin;//on instancie un nouvel admin
-                                $pwd = $hashedPwd->hashPassword($adm, $form['MDP']->getData());//on hash le mdp
-                                $adm->setPseudo($form['pseudo']->getData())->setPassword($pwd)->setRoles(['ROLE_USER']);//on définit les valeurs de Admin avec les champs du formulaire
+                                $adm = new admin; //on instancie un nouvel admin
+                                $pwd = $hashedPwd->hashPassword($adm, $form['MDP']->getData()); //on hash le mdp
+                                $adm->setPseudo($form['pseudo']->getData())->setPassword($pwd)->setRoles(['ROLE_USER']); //on définit les valeurs de Admin avec les champs du formulaire
                                 $user->setAdmin($adm); // on définit le champs Admin de user avec notre objet admin
 
-                                $clientsRepository->add($user, true);//on envoie sur la bdd
-                                return $this->redirectToRoute('app_signin');// on redirige sur la même page
+                                $clientsRepository->add($user, true); //on envoie sur la bdd
+                                return $this->redirectToRoute('app_signin'); // on redirige sur la même page
                             } else {
                                 $this->addFlash('error', 'Le mot de passe doit contenir au moins 10 caractères, 1minuscule, 1 majuscule, 1caractère spécial et 1 chiffre');
                             }
