@@ -24,9 +24,9 @@
 {% endblock %}
 
 {% block Fournisseur %}
-	<div id="carousel1">
+	<div class="bg-white" id="carousel1">
 	{% for fournisseur in fournisseurs %}
-		<div class="item p-5 align-items-center d-flex justify-content-center bg-white" style="transform: none;border: none">
+		<div class="item p-5 align-items-center d-flex justify-content-center bg-white" style="transform: none;border: none; box-shadow: none">
 			<div class="row g-0">
 					<img class="img-fluid rounded-start" src="{{fourdir ~ fournisseur.image}}" alt="{{fournisseur.nom}}">
 			</div>
