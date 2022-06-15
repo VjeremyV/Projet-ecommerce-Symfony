@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Clients;
+use App\Form\SigninUserFormType;
 use App\Repository\CategoriesRepository;
+use App\Repository\ClientsRepository;
 use App\Repository\FournisseurRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +30,26 @@ class PageController extends AbstractController
             'fourdir'=> $DirFour
         ]);
     }
+
+    #[Route('/commande/{idClient}', name: 'app_client_commande')]
+    public function clientCommande(){
+        
+    }
+    #[Route('/profil/{id}', name: 'app_client_profil')]
+    public function clientDonnees(Clients $clients,CategoriesRepository $categoriesRepository){
+        
+        $form=$this->createForm(SigninUserFormType::class, $clients);
+        
+        $getCategories = self::Menu($categoriesRepository);
+        return $this->render('front/page/profil.html.twig', [
+            'categories'=> $getCategories,
+            'form' => $form->createView()
+        ]);
+    }
+
+
+
+
 
     #[Route('/categories/{idCat}', name: 'app_categories_catalogue')]
     public function categoriesCatalogue(HttpFoundationRequest $request, $idCat, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response

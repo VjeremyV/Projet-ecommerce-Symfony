@@ -52,10 +52,8 @@ class SecurityController extends AbstractController
         $user = new Clients;
         $form = $this->createForm(SigninUserFormType::class, $user);
 
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //si le formulaire est soumis et valide
             if (!$adminRepository->findBy(['pseudo' => $form['pseudo']->getData()])) {
                 //si le pseudo est unique en bdd
                 if (!$clientsRepository->findBy(['telephone' => $form['telephone']->getData()])) {
@@ -68,12 +66,12 @@ class SecurityController extends AbstractController
                             if (preg_match($exp, $form['MDP']->getData())) {
                                 //si le mdp correspond à la regex
                                 $this->addFlash('info', 'Votre inscription s\'est bien passée'); // on ajoute un message de reussite
-
+    
                                 $adm = new admin; //on instancie un nouvel admin
                                 $pwd = $hashedPwd->hashPassword($adm, $form['MDP']->getData()); //on hash le mdp
                                 $adm->setPseudo($form['pseudo']->getData())->setPassword($pwd)->setRoles(['ROLE_USER']); //on définit les valeurs de Admin avec les champs du formulaire
                                 $user->setAdmin($adm); // on définit le champs Admin de user avec notre objet admin
-
+    
                                 $clientsRepository->add($user, true); //on envoie sur la bdd
                                 return $this->redirectToRoute('app_signin'); // on redirige sur la même page
                             } else {
@@ -96,5 +94,44 @@ class SecurityController extends AbstractController
             'form' => $form->createView(),
             'categories' => $getCategories,
         ]);
+    }
+
+    static public function infoUtilisateurForm(UserPasswordHasherInterface $hashedPwd, ClientsRepository $clientsRepository, $form, AdminRepository $adminRepository, $user, SecurityController $secu){
+
+        if (!$adminRepository->findBy(['pseudo' => $form['pseudo']->getData()])) {
+            //si le pseudo est unique en bdd
+            if (!$clientsRepository->findBy(['telephone' => $form['telephone']->getData()])) {
+                //si le telephone est unique en bdd
+                if (!$clientsRepository->findBy(['adresseMail' => $form['adresseMail']->getData()])) {
+                    // si le mail est unique en bdd
+                    if ($form['MDP']->getData() === $form['Confirmmdp']->getData()) {
+                        //si les 2 mot de passe rentrés sont égaux
+                        $exp = '/^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'; // on prépare une regex
+                        if (preg_match($exp, $form['MDP']->getData())) {
+                            //si le mdp correspond à la regex
+                            $secu->addFlash('info', 'Votre inscription s\'est bien passée'); // on ajoute un message de reussite
+
+                            $adm = new admin; //on instancie un nouvel admin
+                            $pwd = $hashedPwd->hashPassword($adm, $form['MDP']->getData()); //on hash le mdp
+                            $adm->setPseudo($form['pseudo']->getData())->setPassword($pwd)->setRoles(['ROLE_USER']); //on définit les valeurs de Admin avec les champs du formulaire
+                            $user->setAdmin($adm); // on définit le champs Admin de user avec notre objet admin
+
+                            $clientsRepository->add($user, true); //on envoie sur la bdd
+                            return SecurityController::redirectToRoute('app_signin'); // on redirige sur la même page
+                        } else {
+                            $secu->addFlash('error', 'Le mot de passe doit contenir au moins 10 caractères, 1minuscule, 1 majuscule, 1caractère spécial et 1 chiffre');
+                        }
+                    } else {
+                        $secu->addFlash('error', 'Vos 2 mots de passe ne correspondent pas');
+                    }
+                } else {
+                    $secu->addFlash('error', 'L\'adresse Mail est déjà utilisée');
+                }
+            } else {
+                $secu->addFlash('error', 'Le numéro de téléphone est déjà utilisé');
+            }
+        } else {
+            $secu->addFlash('error', 'Le pseudo est déjà utilisé');
+        }
     }
 }
