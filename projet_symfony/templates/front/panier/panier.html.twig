@@ -7,9 +7,10 @@
 
 
 {% block content %}
-
-	<form action="" method='get' class="p-5 mt-5">
+	{{dump(app.session.get('panier'))}}
+	<div class="mt-5">
 		{% for ligne in panier %}
+	<form action="" method='get' class="p-1 ">
 			<div class="card mb-3 text-white bg-dark">
 				<div class="card-body ">
 					<div class="d-flex justify-content-between">
@@ -24,14 +25,16 @@
 								<p>
 									{{ligne.produit.getPrix}}
 									€ l'unité</p>
+								<input type='submit' style='height:54px !important;' value='Modifier la ligne' class=' me-2 border-orange bg-dark text-white text-decoration-none align-middle'>
+
 							</div>
 						</a>
 						<div class="d-flex flex-row align-items-center">
 							<div style="width: 150px;">
-							<div style="width: 50px;">
-								<input type="hidden" name="id" value="{{ligne.produit.getId}}">
-								<input type="number" name='quantite' value='{{ligne.quantite}}' style='width:50px;'>
-							</div>
+								<div style="width: 50px;">
+									<input type="hidden" name="id" value="{{ligne.produit.getId}}">
+									<input type="number" name='quantite' value='{{ligne.quantite}}' style='width:50px;'>
+								</div>
 								<h5 class="mb-0">
 									{{ligne.produit.getPrix *  ligne.quantite}}
 									€</h5>
@@ -43,18 +46,14 @@
 					</div>
 				</div>
 			</div>
+	</form>
 
 
 		{% endfor %}
-		<div class="d-flex flex-row-reverse py-4">
-
-			<div class='w-50'>
-				<input type='submit' style='height:54px !important;' value='Enregistrer les modifications' class=' me-2 border-orange bg-dark text-white text-decoration-none align-middle'>
-
-				<a href='#' style='padding:12px !important;' class=' border-orange w-75 h-75 bg-dark text-white text-decoration-none align-middle'>
-					Commander</a>
 			</div>
 
+		<div class="text-center py-5">
+				<a href='#' style='padding:12px !important;' class=' border-orange w-75 h-75 bg-dark text-white text-decoration-none align-middle'>
+					Commander</a>
 		</div>
-	</form>
 {% endblock %}
