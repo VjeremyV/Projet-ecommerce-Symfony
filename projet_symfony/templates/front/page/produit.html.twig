@@ -1,6 +1,8 @@
 {% extends "front/template_page.html.twig" %}
 {% block titre %}{{categories.0.nom}}
 {% endblock %}
+{% block title %}{{produits.nom}}
+{% endblock %}
 {% block content %}
     <div class="container d-flex justify-content-center py-5">
         <div class="card bg-dark" style="border:none;transform: none">
