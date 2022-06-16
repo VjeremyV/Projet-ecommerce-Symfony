@@ -23,8 +23,10 @@ class Panier{
      */
     public function add(int $id, int $quantite = null){
         $panier = $this->session->getSession()->get('panier', []);//si un panier existe on le récupère ou alors on initialise un panier avec un tableau vide
+
         if(!empty($panier[$id]) && $quantite){//si l'entrée id n'est pas vide dans le panier
-                $panier[$id]+=$quantite;
+                
+            $panier[$id] += $quantite;
         } elseif(!empty($panier[$id])) {
             $panier[$id]++;//on l'incrémente
         } else {
@@ -69,7 +71,7 @@ class Panier{
 
         $this->session->getSession()->set('panier', $panier);
     }
-    
+
     /**
      * obtenir le total d'un panier
      * @return float

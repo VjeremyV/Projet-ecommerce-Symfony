@@ -12,6 +12,7 @@ use App\Repository\CategoriesRepository;
 use App\Repository\ClientsRepository;
 use App\Repository\FournisseurRepository;
 use App\Repository\ProduitRepository;
+use App\Services\Panier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -179,11 +180,14 @@ class PageController extends AbstractController
         ]);
     }
     #[Route('/produits/{id}', name: 'app_categories_produits')]
-    public function categoriesProduit(Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
+    public function categoriesProduit(Panier $panier,HttpFoundationRequest $request,Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
         //on récupère les produits
         $groupProduit = null;
+        if($request->query->get('id') && $request->query->get('quantite')){
+            $panier->modifPanier($request->query->get('id'), $request->query->get('quantite'));
+        }
         if ($produit->getGroupProduit()) {
             $groupProduit = $produitRepository->findBy(['groupProduit' => $produit->getGroupProduit(), 'is_active' => true]);
         }
