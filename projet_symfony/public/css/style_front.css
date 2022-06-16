@@ -7,6 +7,8 @@ body{
 }
 .border-orange{
     border :  3px solid #f2a950 !important;
+    transition: 0.3s ease;
+
 }
 .orange{
     background: #f2a950;
@@ -72,6 +74,18 @@ footer {
     right: 5px;
     cursor: pointer;
     transition-duration: .3s;
+}
+.carousel__next2{
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background:url(./arrow-right2.svg) center center no-repeat;
+    background-size: 50px 50px;
+    border-radius: 50%;
+    margin-top: -340px;
+    right: -500px;
+    cursor: pointer;
+    transition-duration: .3s;
 
 }
 
@@ -88,11 +102,30 @@ footer {
     cursor: pointer;
     transition-duration: .3s;
 }
+.carousel__prev2{
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background:url(./arrow-left2.svg) center center no-repeat;
+    background-size: 50px 50px;
+    border-radius: 50%;
+    margin-top: -340px;
+    right: 0;
+    left: -115px;
+    cursor: pointer;
+    transition-duration: .3s;
+}
 
 .carousel__prev:hover,.carousel__next:hover{
     transform: scale(1.2);
 }
+.carousel__prev:hover,.carousel__next2:hover{
+    transform: scale(1.2);
+}
 
+.carousel__next--hidden,.carousel__prev2--hidden{
+    opacity: 0;
+}
 .carousel__next--hidden,.carousel__prev--hidden{
     opacity: 0;
 }
@@ -170,8 +203,20 @@ footer {
 .card{
     transition: 0.3s ease;
 }
-.card:hover{
+
+.card-img-top:hover{
     transform: scale(1.1);
+
+}
+.card-img-top{
+    transition: 0.3s ease;
+
+}
+
+.border-orange:hover{
+    color: black !important;
+    background: #f2a950 !important;
+
 }
 
 
