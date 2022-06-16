@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Admin;
 use App\Entity\Clients;
+use App\Entity\Produit;
 use App\Form\ModifyUserFormType;
 use App\Form\SigninUserFormType;
 use App\Repository\AdminRepository;
@@ -177,16 +178,18 @@ class PageController extends AbstractController
 
         ]);
     }
-    #[Route('/produits/{idprod}', name: 'app_categories_produits')]
-    public function categoriesProduit( $idprod, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
+    #[Route('/produits/{id}', name: 'app_categories_produits')]
+    public function categoriesProduit( Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
         //on récupère les produits
-        $produits = $produitRepository->findBy(['id' => $idprod]);
-        $groupProduit = $produitRepository->findBy(['groupProduit'=>'PDM', 'is_active'=>true]);
+        $groupProduit = null;
+        if($produit->getGroupProduit()){
+            $groupProduit = $produitRepository->findBy(['groupProduit'=> $produit->getGroupProduit(), 'is_active'=>true]);
+        }
         return $this->render('front/page/produit.html.twig', [
             'categories'=> $getCategories,
-            'produits' => $produits,
+            'produits' => $produit,
             'dir' => $ProduitDir,
             'groupProduits'=>$groupProduit
 
