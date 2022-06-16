@@ -5,20 +5,27 @@ namespace App\Controller;
 use App\Entity\Admin;
 use App\Entity\Clients;
 use App\Entity\Produit;
+use App\Services\Panier;
+use App\Entity\Commentaires;
 use App\Form\ModifyUserFormType;
 use App\Form\SigninUserFormType;
 use App\Repository\AdminRepository;
-use App\Repository\CategoriesRepository;
+use App\Form\AddCommentaireFormType;
 use App\Repository\ClientsRepository;
-use App\Repository\FournisseurRepository;
 use App\Repository\ProduitRepository;
+<<<<<<< HEAD
+use App\Repository\CategoriesRepository;
+use App\Repository\FournisseurRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+=======
 use App\Services\InfosUtilisateur;
 use App\Services\Panier;
+>>>>>>> 30cc0eca7be0e44581f6c04afe4a67560f4ca476
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
@@ -149,22 +156,41 @@ class PageController extends AbstractController
     }
     #[Route('/produits/{id}', name: 'app_categories_produits')]
     public function categoriesProduit(Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
+<<<<<<< HEAD
+    {
+        //pour l'affichage du menu
+=======
     {   //pour l'affichage du menu
+>>>>>>> 30cc0eca7be0e44581f6c04afe4a67560f4ca476
         $getCategories = self::Menu($categoriesRepository);
+
         //on récupère les produits
         $groupProduit = null;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 30cc0eca7be0e44581f6c04afe4a67560f4ca476
         if ($request->query->get('id') && $request->query->get('quantite')) {
             $panier->modifPanier($request->query->get('id'), $request->query->get('quantite'));
         }
         if ($produit->getGroupProduit()) {
             $groupProduit = $produitRepository->findBy(['groupProduit' => $produit->getGroupProduit(), 'is_active' => true]);
         }
+
+        $comment = new Commentaires();
+        $form = $this->createForm(AddCommentaireFormType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('app_categories_produits', ['id' => $produit->getId()]);
+        }
+
         return $this->render('front/page/produit.html.twig', [
             'categories' => $getCategories,
             'produits' => $produit,
             'dir' => $ProduitDir,
-            'groupProduits' => $groupProduit
-
+            'groupProduits' => $groupProduit,
+            'form_comment' => $form->createView(),
         ]);
     }
 
@@ -191,4 +217,5 @@ class PageController extends AbstractController
 
         return [$nbrePages, $next, $pageActuelle, $difPages];
     }
+
 }
