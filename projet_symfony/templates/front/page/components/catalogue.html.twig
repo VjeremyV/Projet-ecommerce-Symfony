@@ -8,10 +8,9 @@
 					<span class='card-text text-white'>{{ produit.prix}}
 						€ TTC</span>
 
-					<a href="#" class='border-orange w-75 h-75 bg-dark mt-3 text-white text-decoration-none align-middle'>
+					<a href="{{path('app_panier_add', {id: produit.id, route: app.request.uri}) }}" class='border-orange w-75 h-75 bg-dark mt-3 text-white text-decoration-none align-middle'>
 						<i class="fa-solid fa-plus"></i>
 					</a>
-
 				</div>
 			</div>
 		</a>

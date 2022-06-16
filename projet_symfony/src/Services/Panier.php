@@ -3,14 +3,14 @@
 namespace App\Services;
 
 use App\Repository\ProduitRepository;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Panier{
 
     protected $session;
     protected $ProduitRepository;
 
-    public function __construct(SessionInterface $session, ProduitRepository $produitRepository){
+    public function __construct(RequestStack $session, ProduitRepository $produitRepository){
         $this->session = $session;
         $this->ProduitRepository = $produitRepository;
     }
@@ -18,16 +18,19 @@ class Panier{
      * ajout d'un élément au panier
      *
      * @param integer $id du produit
+     * @param integer $quantite du produit
      * @return void
      */
-    public function add(int $id){
-        $panier = $this->session->get('panier', []);//si un panier existe on le récupère ou alors on initialise un panier avec un tableau vide
-        if(!empty($panier[$id])){//si l'entrée id n'est pas vide dans le panier
+    public function add(int $id, int $quantite = null){
+        $panier = $this->session->getSession()->get('panier', []);//si un panier existe on le récupère ou alors on initialise un panier avec un tableau vide
+        if(!empty($panier[$id]) && $quantite){//si l'entrée id n'est pas vide dans le panier
+                $panier[$id]+=$quantite;
+        } elseif(!empty($panier[$id])) {
             $panier[$id]++;//on l'incrémente
         } else {
             $panier[$id]=1;//sinon on l'établie à 1
         }
-        $this->session->set('panier', $panier);//on passe la nouvelle valeur de notre panier à la session
+        $this->session->getSession()->set('panier', $panier);//on passe la nouvelle valeur de notre panier à la session
     }
     /**
      * supprimer un élément du panier
@@ -35,19 +38,19 @@ class Panier{
      * @param integer $id du produit
      * @return void
      */
-    public function remove(int $id){
-        $panier = $this->session->get('panier', []);//si un panier existe on le récupère ou alors on initialise un panier avec un tableau vide
+    public function remove( $id){
+        $panier = $this->session->getSession()->get('panier', []);//si un panier existe on le récupère ou alors on initialise un panier avec un tableau vide
         if(!empty($panier[$id])){//si l'entrée id n'est pas vide dans le panier
             unset($panier[$id]);//on supprime cette entrée
         }
-        $this->session->set('panier', $panier);//on passe la nouvelle valeur de notre panier à la session
+        $this->session->getSession()->set('panier', $panier);//on passe la nouvelle valeur de notre panier à la session
     }
     /**
      * récuperer le panier documenté
      * @return array
      */
     public function getFullPanier():array{
-        $panier = $this->session->get('panier', []);//si un panier existe on le récupère ou alors on initialise un panier avec un tableau vide
+        $panier = $this->session->getSession()->get('panier', []);//si un panier existe on le récupère ou alors on initialise un panier avec un tableau vide
         $fullPanier = [];//on créée un tableau vide qui représentera notre panier documenté
 
         foreach($panier as $id => $quantite){//on boucle sur notre panier et on incrémente notre panier documenté avec les variables correspondantes
@@ -59,6 +62,14 @@ class Panier{
         return $fullPanier;//on retourne le panier documenté
     }
 
+
+    public function modifPanier($id, $quantite){
+        $panier = $this->session->getSession()->get('panier', []);
+        $panier[$id]= $quantite;
+
+        $this->session->getSession()->set('panier', $panier);
+    }
+    
     /**
      * obtenir le total d'un panier
      * @return float
