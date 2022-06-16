@@ -80,7 +80,7 @@ class Panier{
         $fullPanier = $this->getFullPanier();//on récupère notre panier documenté
 
         foreach($fullPanier as $ligne){//pour chaque ligne de produit
-            $totalLigne = $ligne['produit']->getPrix() * $ligne['quantité'];//on multiplie le prix du produit par sa quantité
+            $totalLigne = $ligne['produit']->getPrix() * $ligne['quantite'];//on multiplie le prix du produit par sa quantité
             $total += $totalLigne;//et on incrémente le total
         }
 
