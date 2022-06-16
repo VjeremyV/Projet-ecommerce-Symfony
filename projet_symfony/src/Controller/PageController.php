@@ -12,6 +12,8 @@ use App\Repository\CategoriesRepository;
 use App\Repository\ClientsRepository;
 use App\Repository\FournisseurRepository;
 use App\Repository\ProduitRepository;
+use App\Services\InfosUtilisateur;
+use App\Services\Panier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +42,7 @@ class PageController extends AbstractController
     {
     }
     #[Route('/profil/{id}', name: 'app_client_profil')]
-    public function clientDonnees(HttpFoundationRequest $request, Clients $clients, CategoriesRepository $categoriesRepository, AdminRepository $adminRepository, ClientsRepository $clientsRepository, UserPasswordHasherInterface $hashedPwd)
+    public function clientDonnees(HttpFoundationRequest $request, Clients $clients, CategoriesRepository $categoriesRepository, AdminRepository $adminRepository, ClientsRepository $clientsRepository, UserPasswordHasherInterface $hashedPwd, InfosUtilisateur $infosUtilisateur)
     {
 
         $form = $this->createForm(ModifyUserFormType::class, $clients);
@@ -69,53 +71,20 @@ class PageController extends AbstractController
                 }
             }
             //si le telephone est renseigné
-            if ($form['telephone']->getData() && $form['telephone']->getData() !== $tel) {
-                if (count($clientsRepository->findBy(['telephone' => $form['telephone']->getData()])) > 0) {
-                    $this->addFlash('error', 'Le numéro de téléphone est déjà utilisé');
-                } else {
-                    //si le telephone est unique en bdd
-                    $this->addFlash('info', 'Le numéro de téléphone a bien été mis à jour');
-                    $clientsRepository->add($clients, true); //on envoie sur la bdd
-                }
-            }
-
+            $infosUtilisateur->checkTelephone($form, $clients, $tel);
             //si l'adresse mail est renseignée
-            if ($form['adresseMail']->getData() && $form['adresseMail']->getData() !== $mail) {
-                if (count($clientsRepository->findBy(['adresseMail' => $form['adresseMail']->getData()])) > 0) {
-
-                    $this->addFlash('error', 'L\'adresse Mail est déjà utilisée');
-                } else {
-                    // si le mail est unique en bdd
-                    $this->addFlash('info', 'L\'adresse mail a bien été mise à jour');
-                    $clientsRepository->add($clients, true); //on envoie sur la bdd
-                }
-            }
+            $infosUtilisateur->checkMail($form, $clients, $mail);
             //si le nom est renseigné
-            if ($form['nom']->getData() && $form['nom']->getData() !== $nom) {
-                $this->addFlash('info', 'Votre nom a bien modifié');
-                $clientsRepository->add($clients, true); //on envoie sur la bdd
-            }
+            $infosUtilisateur->checkNom($form, $clients, $nom);
             //si le prénom est renseigné
-            if ($form['prenom']->getData() && $form['prenom']->getData() !== $prenom) {
-                $this->addFlash('info', 'Le prénom a bien été modifié');
-                $clientsRepository->add($clients, true); //on envoie sur la bdd
-            }
             //si l'adresse est renseignée
-            if ($form['adresse']->getData() && $form['adresse']->getData() !== $adresse) {
-                $this->addFlash('info', 'L\'adresse mail a bien été mise à jour');
-                $clientsRepository->add($clients, true); //on envoie sur la bdd
-            }
+            $infosUtilisateur->checkAdresse($form, $clients, $adresse);
+            $infosUtilisateur->checkPrenom($form, $clients, $prenom);
             //si le code postal est renseigné
-            if ($form['codePostale']->getData() && $form['codePostale']->getData() !== $cp) {
-                $this->addFlash('info', 'Le code postal a bien été mis à jour');
-                $clientsRepository->add($clients, true); //on envoie sur la bdd
-            }
+            $infosUtilisateur->checkCp($form, $clients, $cp);
             //si la ville est renseignée
-            if ($form['ville']->getData() && $form['ville']->getData() !== $ville) {
-                $this->addFlash('info', 'La ville a bien été mise à jour');
-                $clientsRepository->add($clients, true); //on envoie sur la bdd
-            }
-
+            $infosUtilisateur->checkVille($form, $clients, $ville);
+            
             //si il y a un mot de pass
             if ($form['MDP']->getData()) {
                 if ($form['MDP']->getData() === $form['Confirmmdp']->getData()) {
@@ -179,11 +148,14 @@ class PageController extends AbstractController
         ]);
     }
     #[Route('/produits/{id}', name: 'app_categories_produits')]
-    public function categoriesProduit(Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
+    public function categoriesProduit(Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
         //on récupère les produits
         $groupProduit = null;
+        if ($request->query->get('id') && $request->query->get('quantite')) {
+            $panier->modifPanier($request->query->get('id'), $request->query->get('quantite'));
+        }
         if ($produit->getGroupProduit()) {
             $groupProduit = $produitRepository->findBy(['groupProduit' => $produit->getGroupProduit(), 'is_active' => true]);
         }

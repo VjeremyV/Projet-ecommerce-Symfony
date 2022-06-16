@@ -7,55 +7,60 @@
 
 
 {% block content %}
-	{{dump(app.session)}}
-	{{dump(panier)}}
-	<form action="" method='get'>
+	<div class="mt-5">
 		{% for ligne in panier %}
-			<div class="card mb-3 text-white bg-dark">
-				<div class="card-body ">
-					<div class="d-flex justify-content-between">
-						<div class="d-flex flex-row align-items-center">
-							<div>
-								<img src="{{ dir ~ ligne.produit.getImage}}" class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-							</div>
-							<div class="ms-3">
-								<h5>
-									{{ligne.produit.getNom }}
-								</h5>
-								<p>
-									{{ligne.produit.getPrix}}
-									€ l'unité</p>
-							</div>
-						</div>
-						<div class="d-flex flex-row align-items-center">
-							<div style="width: 50px;">
-								<input type="hidden" name="id" value="{{ligne.produit.getId}}">
-								<input type="text" name='quantite' value='{{ligne.quantite}}' style='width:20px;'>
-							</div>
-							<div style="width: 80px;">
-								<h5 class="mb-0">
-									{{ligne.produit.getPrix *  ligne.quantite}}
-									€</h5>
-							</div>
-							<a href="{{path('app_panier_remove', {id: ligne.produit.getId})}}" style="color: #cecece;">
-								<i class="fas fa-trash-alt" style="color: #f2a950"></i>
+			<form action="" method='get' class="p-1 ">
+				<div class="card mb-3 text-white bg-dark">
+					<div class="card-body ">
+						<div class="d-flex justify-content-between">
+							<a href='{{path('app_categories_produits', {id: ligne.produit.getId})}}' class="d-flex flex-row align-items-center text-decoration-none text-white">
+								<div>
+									<img src="{{ dir ~ ligne.produit.getImage}}" class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+								</div>
+								<div class="ms-3">
+									<h5>
+										{{ligne.produit.getNom }}
+									</h5>
+									<p>
+										{{ligne.produit.getPrix}}
+										€ l'unité</p>
+									<input type='submit' style='height:54px !important;' value='Modifier la ligne' class=' me-2 border-orange bg-dark text-white text-decoration-none align-middle'>
+
+								</div>
 							</a>
+							<div class="d-flex flex-row align-items-center">
+								<div style="width: 150px;">
+									<div style="width: 50px;">
+										<input type="hidden" name="id" value="{{ligne.produit.getId}}">
+										<input type="number" name='quantite' value='{{ligne.quantite}}' style='width:50px;'>
+									</div>
+									<h5 class="mb-0">
+										{{ligne.produit.getPrix *  ligne.quantite}}
+										€</h5>
+								</div>
+								<a href="{{path('app_panier_remove', {id: ligne.produit.getId})}}" style="color: #cecece;">
+									<i class="fas fa-trash-alt" style="color: #f2a950"></i>
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</form>
 
 
 		{% endfor %}
-		<div class="d-flex flex-row-reverse py-4">
-
-			<div class='w-50'>
-				<input type='submit' style='height:54px !important;' value='Enregistrer les modifications' class=' me-2 border-orange bg-dark text-white text-decoration-none align-middle'>
-
-				<a href='#' style='padding:12px !important;' class=' border-orange w-75 h-75 bg-dark text-white text-decoration-none align-middle'>
-					Commander</a>
+	</div>
+	<div class="d-flex justify-content-end align-items-center py-5">
+		{% if app.session.get('panier') %}
+			<div>
+				<h5 class="mb-0 text-white me-2">
+					Total TTC : {{total}}
+					€</h5>
 			</div>
-
-		</div>
-	</form>
+			<a href='{{path('app_passer_commande', {id: app.user.id})}}' style='padding:12px !important;' class=' border-orange  h-75 bg-dark text-white text-decoration-none align-middle'>
+				Commander</a>
+		{% else %}
+			<p class='text-white'>Votre panier est vide.</p>
+		{% endif %}
+	</div>
 {% endblock %}
