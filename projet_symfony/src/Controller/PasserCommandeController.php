@@ -54,4 +54,13 @@ class PasserCommandeController extends AbstractController
             'form'=>$form->createView()
         ]);
     }
+
+    #[Route('/commande/validation/{id}', name: 'app_validation_commande')]
+    public function commandeValidee(CategoriesRepository $categoriesRepository){
+        $categories = PageController::Menu($categoriesRepository);
+
+        return $this->render('front/passer_commande/index.html.twig', [
+            'categories'=> $categories,
+        ]);
+    }
 }
