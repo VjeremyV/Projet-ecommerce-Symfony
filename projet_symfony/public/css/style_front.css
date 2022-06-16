@@ -7,6 +7,8 @@ body{
 }
 .border-orange{
     border :  3px solid #f2a950 !important;
+    transition: 0.3s ease;
+
 }
 .orange{
     background: #f2a950;
@@ -201,8 +203,20 @@ footer {
 .card{
     transition: 0.3s ease;
 }
-.card:hover{
+
+.card-img-top:hover{
     transform: scale(1.1);
+
+}
+.card-img-top{
+    transition: 0.3s ease;
+
+}
+
+.border-orange:hover{
+    color: black !important;
+    background: #f2a950 !important;
+
 }
 
 
