@@ -7,14 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CgvController extends AbstractController
+class ConditionsController extends AbstractController
 {
-    #[Route('/cgv', name: 'app_cgv')]
+    #[Route('/conditions', name: 'app_conditions')]
     public function index(CategoriesRepository $categoriesRepository): Response
     {
         $getCategories = PageController::Menu($categoriesRepository);
 
-        return $this->render('front/page/cgv/index.html.twig', [
+        return $this->render('front/page/conditions/index.html.twig', [
             'categories' => $getCategories,
         ]);
     }
