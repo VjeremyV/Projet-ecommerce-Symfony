@@ -52,13 +52,19 @@
 	</div>
 	<div class="d-flex justify-content-end align-items-center py-5">
 		{% if app.session.get('panier') %}
-			<div>
+	
 				<h5 class="mb-0 text-white me-2">
-					Total TTC : {{total}}
+					Total TTC :
+					{{total}}
 					€</h5>
-			</div>
-			<a href='{{path('app_passer_commande', {id: app.user.id})}}' style='padding:12px !important;' class=' border-orange  h-75 bg-dark text-white text-decoration-none align-middle'>
-				Commander</a>
+	
+			{% if app.user %}
+				<a href='{{path('app_passer_commande', {id: app.user.id})}}' style='padding:12px !important;' class=' border-orange  h-75 bg-dark text-white text-decoration-none align-middle'>
+					Commander</a>
+			{% else %}
+				
+				<p class=' mt-3 p-5 text-white'>Veuillez vous connecter pour finaliser votre commande</p>
+			{% endif %}
 		{% else %}
 			<p class='text-white'>Votre panier est vide.</p>
 		{% endif %}
