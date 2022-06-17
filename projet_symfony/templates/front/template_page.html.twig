@@ -18,7 +18,7 @@
 
 	</head>
 
-	<body>
+	<body class='bg-dark'>
 		<div class="container-fluid bg-dark">
 			<header class="d-flex flex-wrap justify-content-center py-3 border-bottom border-warning container">
 				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
@@ -70,14 +70,16 @@
 									</button>
 								{% endif %}
 							</div>
-							<a href="#" class="nav-link px-3">
+							<a href="{{path('app_panier')}}" class="nav-link px-3 d-flex">
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" color="#f2a950" class="bi bi-cart-fill" viewbox="0 0 16 16">
 									<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
 								</svg>
+								<span class="badge badge-danger badge-counter bg-danger" style='margin-left:-10px; align-self:start'>{{app.session.get('panier')|length}}</span>
 							</a>
 						</div>
 			</header>
 					{{dump(app.user)}}
+
 					<nav class="d-flex flex-wrap justify-content-center py-3">
 						<ul class="nav nav-pills">
 							{% for categorie in categories %}
@@ -226,19 +228,19 @@
 									<h5>Liens</h5>
 									<ul class="nav flex-column">
 										<li class="nav-item mb-2">
-											<a href="#" class="nav-link p-0 text-dark">CGV</a>
+											<a href="{{path("app_cgv")}}" class="nav-link p-0 text-dark">CGV</a>
 										</li>
 										<li class="nav-item mb-2">
-											<a href="#" class="nav-link p-0 text-dark">Mentions légales</a>
+											<a href="{{path("app_mentions")}}" class="nav-link p-0 text-dark">Mentions légales</a>
 										</li>
 										<li class="nav-item mb-2">
-											<a href="#" class="nav-link p-0 text-dark">Politique de confidentialité</a>
+											<a href="{{path("app_confident")}}" class="nav-link p-0 text-dark">Politique de confidentialité</a>
 										</li>
 										<li class="nav-item mb-2">
-											<a href="#" class="nav-link p-0 text-dark">Conditions d'utilisation</a>
+											<a href="{{path("app_conditions")}}" class="nav-link p-0 text-dark">Conditions d'utilisation</a>
 										</li>
 										<li class="nav-item mb-2">
-											<a href="#" class="nav-link p-0 text-dark">Cookies</a>
+											<a href="{{path("app_cookies")}}" class="nav-link p-0 text-dark">Cookies</a>
 										</li>
 									</ul>
 								</div>

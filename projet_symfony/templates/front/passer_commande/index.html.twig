@@ -1,0 +1,16 @@
+{% extends "front/template_page.html.twig" %}
+{% block titre %}Validation de vos informations{% endblock %}
+{% block title %}Validation de vos informations{% endblock %}
+
+{% block content %}
+<div class='p-5 text-white'>
+{{form(form)}}
+</div>
+
+<div class='d-flex flex-row-reverse'>
+<a href='{{path('app_passer_commande', {id: app.user.id})}}' style='padding:12px !important;' class=' border-orange  h-75 bg-dark text-white text-decoration-none align-middle'>
+				Finaliser votre commande
+</a>
+
+</div>
+{% endblock %}
