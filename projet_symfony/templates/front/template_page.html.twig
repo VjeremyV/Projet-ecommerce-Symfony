@@ -25,8 +25,8 @@
 					<img class="img-fluid" src="{{asset('assets/logo_horizontal.png')}}" alt="Logo de cerfunos avec texte">
 				</a>
 				<div id="nav_log" class="d-flex align-items-center">
-					<form class="col-lg-auto mb-3 mb-lg-0" role="search">
-						<input id="search" type="search" class="form-control form-control-dark text-white bg-dark border-warning rounded-0" placeholder="Rechercher..." aria-label="Search">
+					<form class="col-lg-auto mb-3 mb-lg-0" role="search" method='get' action="{{path('app_search')}}">
+						<input id="search" type="search" name='search' class="form-control form-control-dark text-white bg-dark border-warning rounded-0" placeholder="Rechercher..." aria-label="Search">
 					</form>
 					<div class="d-flex text-end col-lg-auto m-3 mb-lg-12 align-items-center">
 						{% if app.user %}
@@ -79,6 +79,7 @@
 						</div>
 			</header>
 					{{dump(app.user)}}
+				
 
 					<nav class="d-flex flex-wrap justify-content-center py-3">
 						<ul class="nav nav-pills">

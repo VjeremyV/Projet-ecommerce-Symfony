@@ -75,12 +75,57 @@ class ProduitRepository extends ServiceEntityRepository
     }
 
     public const PAGINATOR_PER_PAGE_FRONT = 12;
-    public function getPaginatorFront(int $offset, $categorie): Paginator
+    public function getPaginatorFront(int $offset, $categorie, $options = null): Paginator
     {
         $query = $this->createQueryBuilder('t');
         $query = $query
-            ->Where('t.categorie = '.$categorie)
+            ->Where('t.categorie = :cat')
+            ->setParameter('cat', $categorie)
             ->AndWhere('t.is_active = 1')
+            ->orderBy('t.prix');
+        if($options){
+            if($options['prix'] === 'prixD'){
+                $query = $query->orderBy('t.prix', 'DESC');
+            }
+            if(isset($options['caracs'])){
+                $query = $query->join('t.caracteristiques', 'c')
+                ->AndWhere('c.id IN (:id)')
+                ->setParameter('id', $options['caracs']);
+            }
+        }
+
+        $query = $query->setMaxResults(self::PAGINATOR_PER_PAGE_FRONT)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getPaginatorSearch(int $offset, $search): Paginator
+    {
+        $query = $this->createQueryBuilder('t');
+        $query = $query
+            ->Where('t.nom LIKE :nom')
+            ->setParameter('nom', '%'.$search. '%')
+            ->AndWhere('t.is_active = 1')
+            ->orderBy('t.prix')
             ->setMaxResults(self::PAGINATOR_PER_PAGE_FRONT)
             ->setFirstResult($offset)
             ->getQuery();
