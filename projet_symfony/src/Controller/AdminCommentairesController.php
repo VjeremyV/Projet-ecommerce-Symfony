@@ -32,9 +32,12 @@ class AdminCommentairesController extends AbstractController
             'difPages' => $difPages,
         ]);
     }
-    #[Route('/admin/commentaires/remove', name: 'app_admin_commentaires_remove')]
-    public function remove(CommentairesRepository $commentairesRepository, Request $request): Response
+    #[Route('/admin/commentaires/remove/{id}', name: 'app_admin_commentaires_remove')]
+    public function remove(Commentaires $commentaires,CommentairesRepository $commentairesRepository, Request $request): Response
     {
+        $commentairesRepository->remove($commentaires, true);
+        $this->addFlash('info', 'Le commentaire a bien été supprimé');
+
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $commentairesRepository->getPaginator($offset);
         $nbrePages = ceil(count($paginator) / CommentairesRepository::PAGINATOR_PER_PAGE);
@@ -57,6 +60,7 @@ class AdminCommentairesController extends AbstractController
     {
         $commentaires->setIsApprouved(true);
         $commentairesRepository->add($commentaires, true);
+        $this->addFlash('info', 'Le commentaire a bien été publié');
 
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $commentairesRepository->getPaginator($offset);
