@@ -225,22 +225,4 @@ class PageController extends AbstractController
         return $categoriesRepository->findAll();
     }
 
-    /**
-     * fonction pagination à revoir
-     *
-     * @param [type] $paginator_per_page
-     * @param [type] $repositoryString
-     * @param [type] $paginator
-     * @param [type] $offset
-     * @return void
-     */
-    static public function Pagination($paginator_per_page, $repositoryString, $paginator, $offset)
-    {
-        $nbrePages = ceil(count($paginator) / $repositoryString::$paginator_per_page);
-        $next = min(count($paginator), $offset + $repositoryString::$paginator_per_page);
-        $pageActuelle = ceil($next / $repositoryString::$paginator_per_page);
-        $difPages = $nbrePages - $pageActuelle;
-
-        return [$nbrePages, $next, $pageActuelle, $difPages];
-    }
 }

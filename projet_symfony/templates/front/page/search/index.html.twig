@@ -1,0 +1,63 @@
+{% extends "front/template_page.html.twig" %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block titre %}Vous avez recherché : "{{app.request.query.get("search")}}"{% endblock %}
+
+{% block content %}
+    {% include "front/page/components/catalogue.html.twig" %}
+{% endblock %}
+
+
+
+{% block text %}
+	<div class="d-flex justify-content-center align-items-center">
+		{% if previous >= 0 %}
+			<a href="{{ path('app_search', {search: app.request.query.get("search"),offset: previous }) }}" class="border-orange bg-dark m-3 text-decoration-none text-white p-2">
+				Précédent
+			</a>
+		{% endif %}
+
+		{% if pageActuelle <= 3 %}
+			{%if pageActuelle > 1 %}
+				{% for i in 2..pageActuelle %}
+					<a href="{{ path('app_search', {search: app.request.query.get("search"), offset: previous - (offset * (pageActuelle - i))}) }}" class="border-orange bg-dark m-3 text-decoration-none text-white p-2">{{ i - 1 }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in pageActuelle-2..pageActuelle %}
+				<a href="{{ path('app_search', {search: app.request.query.get("search"),offset: previous - (offset * (pageActuelle - i))}) }}" class="border-orange bg-dark m-3 text-decoration-none text-white p-2">{{ i - 1 }}</a>
+			{% endfor %}
+		{% endif %}
+
+
+		<span class="orange m-3 text-decoration-none p-2">
+			{{ pageActuelle }}</span>
+
+
+		{% if difPages < 3 %}
+			{% if  difPages > 0 %}
+				{% for i in 1..difPages %}
+					<a href="{{ path('app_search', {search: app.request.query.get("search"),offset: next + (offset * (i - 1))}) }}" class="border-orange bg-dark m-3 text-decoration-none text-white p-2">{{ pageActuelle + i }}</a>
+				{% endfor %}
+			{% endif %}
+		{% else %}
+			{% for i in 1..3 %}
+				<a href="{{ path('app_search', {search: app.request.query.get("search"),offset: next + (offset * (i - 1))}) }}" class="border-orange bg-dark m-3 text-decoration-none text-white p-2">{{ pageActuelle + i }}</a>
+			{% endfor %}
+		{% endif %}
+
+		{% if next < produits|length %}
+			<a href="{{ path('app_search', {search: app.request.query.get("search"),offset: next }) }}" class="border-orange bg-dark m-3 text-decoration-none text-white p-2">Suivant
+			</a>
+		{% endif %}
+	</div>
+	<div>
+		Il y a
+		{{ produits|length~' produit'~( produits|length > 1 ? 's' : '') }}
+		et vous êtes sur la page
+		{{ pageActuelle }}/{{nbrePages}}
+	</div>
+</div>
+	
+{% endblock %}

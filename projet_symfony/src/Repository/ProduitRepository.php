@@ -79,7 +79,8 @@ class ProduitRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('t');
         $query = $query
-            ->Where('t.categorie = ' . $categorie)
+            ->Where('t.categorie = :cat')
+            ->setParameter('cat', $categorie)
             ->AndWhere('t.is_active = 1')
             ->orderBy('t.prix');
         if($options){
@@ -94,6 +95,38 @@ class ProduitRepository extends ServiceEntityRepository
         }
 
         $query = $query->setMaxResults(self::PAGINATOR_PER_PAGE_FRONT)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getPaginatorSearch(int $offset, $search): Paginator
+    {
+        $query = $this->createQueryBuilder('t');
+        $query = $query
+            ->Where('t.nom LIKE :nom')
+            ->setParameter('nom', '%'.$search. '%')
+            ->AndWhere('t.is_active = 1')
+            ->orderBy('t.prix')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE_FRONT)
             ->setFirstResult($offset)
             ->getQuery();
         return new Paginator($query);
