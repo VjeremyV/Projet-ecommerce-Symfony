@@ -1,0 +1,108 @@
+{% extends 'admin/template.html.twig' %}
+{% block title %}
+	Modération des commentaires
+{% endblock %}
+
+{% block titre %}
+	Modération des commentaires
+{% endblock %}
+
+{% block body %}
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Date</th>
+				<th scope="col">Contenu</th>
+				<th scope="col">Auteur</th>
+				<th scope="col">Note</th>
+				<th scope="col">Produit concerné</th>
+				<th scope="col">Statut</th>
+				<th scope="col">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for commentaire in commentaires %}
+				<tr scope="row">
+					<td>
+						{{commentaire.createdAt|date('d-m-Y')}}
+					</td>
+					<td>
+						{{commentaire.contenu}}
+					</td>
+					<td>
+						{{commentaire.auteur}}
+					</td>
+
+					<td>
+						{{commentaire.note}}
+					</td>
+					<td>
+						{{commentaire.produit}}
+					</td>
+					<td>
+						{% if commentaire.isApprouved %}
+							<span class='badge badge-pill badge-success'>Publié</span>
+						{% else %}
+							<span class="badge badge-pill badge-warning">En Attente</span>
+						{% endif %}
+					</td>
+					<td>
+						{% if commentaire.isApprouved != 1 %}
+							<a href="{{path('app_admin_commentaires_validate', {id: commentaire.id})}}" class="btn btn-primary">Publié</a>
+						{% endif %}
+						<a href="{{path('app_admin_commentaires_remove', {id: commentaire.id})}}" class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ?');">Supprimer</a>
+					</td>
+
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	    	<div class="col-12">
+			{% if previous >= 0 %}
+				<a href="{{ path('app_admin_commentaires', {offset: previous }) }}" class="btn btn-sm btn-primary">
+					previous
+				</a>
+			{% endif %}
+	
+			{% if pageActuelle <= 3 %}
+				{%if pageActuelle > 1 %}
+					{% for i in 2..pageActuelle %}
+						<a href="{{ path('app_admin_commentaires', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+					{% endfor %}
+				{% endif %}
+			{% else %}
+				{% for i in pageActuelle-2..pageActuelle %}
+					<a href="{{ path('app_admin_commentaires', {offset: previous - (offset * (pageActuelle - i))}) }}" class="btn btn-sm btn-primary m-3">{{ i - 1 }}</a>
+				{% endfor %}
+			{% endif %}
+	
+	
+			<span class="btn btn-sm btn-primary m-3 bg-warning">
+				{{ pageActuelle }}</span>
+	
+	
+			{% if difPages < 3 %}
+				{% if  difPages > 0 %}
+					{% for i in 1..difPages %}
+						<a href="{{ path('app_admin_commentaires', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+					{% endfor %}
+				{% endif %}
+			{% else %}
+				{% for i in 1..3 %}
+					<a href="{{ path('app_admin_commentaires', {offset: next + (offset * (i - 1))}) }}" class="btn btn-sm btn-primary m-3">{{ pageActuelle + i }}</a>
+				{% endfor %}
+			{% endif %}
+	
+			{% if next < commentaires|length %}
+				<a href="{{ path('app_admin_commentaires', {offset: next }) }}" class="btn btn-sm btn-primary">next
+				</a>
+			{% endif %}
+		</div>
+		<div>
+			Il y a
+			{{ commentaires|length~' catégories'~( commentaires|length > 1 ? 's' : '') }}
+			et vous êtes sur la page
+			{{ pageActuelle }}/{{nbrePages}}
+		</div>
+{% endblock %}

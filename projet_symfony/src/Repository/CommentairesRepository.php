@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Commentaires;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,7 +39,17 @@ class CommentairesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    public const PAGINATOR_PER_PAGE = 10;
+    public function getPaginator( int $offset, $options = null): Paginator
+    {
+        $query = $this->createQueryBuilder('c');
+        $query = $query
+            ->OrderBy('c.createdAt')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
 //    /**
 //     * @return Commentaires[] Returns an array of Commentaires objects
 //     */
