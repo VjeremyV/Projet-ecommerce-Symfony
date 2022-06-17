@@ -3,9 +3,9 @@
 {% block titre %}Commande{% endblock %}
 {% block content %}
     {{dump(commandes)}}
+    <div class="py-5">
     {% for  commande in commandes %}
-        {{dump(client)}}
-        <div class="card text-center bg-secondary my-5" style="transform: none">
+        <div class="card text-center bg-secondary mt-5" style="transform: none">
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="text-white px-5">
@@ -34,10 +34,9 @@
             </ul>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="{{path('app_commande_view',{id:commande.id})}}" class="btn btn-primary">Go somewhere</a>
+            <a href="{{path('app_commande_view',{id:commande.id})}}" class="btn btn-primary">Voir le détail</a>
         </div>
     </div>
     {% endfor %}
+    </div>
 {% endblock %}

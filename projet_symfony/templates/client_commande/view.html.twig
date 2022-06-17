@@ -8,12 +8,11 @@
               <tr>
                   <th scope="col">Produit</th>
                   <th scope="col">Quantité</th>
-                  <th scope="col">Prix</th>
-                  <th scope="col">Total</th>
+                  <th scope="col">Prix unitaire</th>
+                  <th scope="col">Montant total</th>
               </tr>
               </thead>
               <tbody>
-              {{dump(contenu)}}
               {% for contenus in contenu %}
                   <tr scope="row">
                       <td>
@@ -23,14 +22,30 @@
                           {{contenus.quantite}}
                       </td>
                       <td>
-                          {{contenus.produits.prix}}
+                          {{contenus.produits.prix}} €
                       </td>
                       <td>
-                          {{contenus.commandes.Montant}}
+                          {{contenus.produits.prix * contenus.quantite}} €
                       </td>
                   </tr>
               {% endfor %}
               </tbody>
+              <tfoot>
+              <tr>
+                  <th>
+
+                  </th>
+                  <th>
+
+                  </th>
+                  <th>
+
+                  </th>
+                  <th>
+                      {{(contenu.0.commandes.Montant)}}
+                  </th>
+              </tr>
+              </tfoot>
           </table>
       </div>
 
