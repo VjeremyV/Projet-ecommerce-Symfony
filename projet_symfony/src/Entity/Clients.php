@@ -43,9 +43,13 @@ class Clients
     #[ORM\OneToMany(mappedBy: 'Client', targetEntity: Commandes::class)]
     private $commandes;
 
+    #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Commentaires::class)]
+    private $commentaires;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,5 +198,35 @@ class Clients
     public function __toString()
     {
         return $this->nom.' '.$this->prenom;
+    }
+
+    /**
+     * @return Collection<int, Commentaires>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaires $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaires $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getAuteur() === $this) {
+                $commentaire->setAuteur(null);
+            }
+        }
+
+        return $this;
     }
 }

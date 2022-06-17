@@ -26,6 +26,13 @@ class Commentaires
     #[ORM\JoinColumn(nullable: false)]
     private $produit;
 
+    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $auteur;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isApprouved;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +82,30 @@ class Commentaires
     public function setProduit(?Produit $produit): self
     {
         $this->produit = $produit;
+
+        return $this;
+    }
+
+    public function getAuteur(): ?Clients
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?Clients $auteur): self
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    public function isIsApprouved(): ?bool
+    {
+        return $this->isApprouved;
+    }
+
+    public function setIsApprouved(bool $isApprouved): self
+    {
+        $this->isApprouved = $isApprouved;
 
         return $this;
     }

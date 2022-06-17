@@ -18,14 +18,17 @@ use App\Repository\CommandesRepository;
 use App\Repository\ContenuRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\CategoriesRepository;
+use App\Repository\CommentairesRepository;
 use App\Repository\FournisseurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\InfosUtilisateur;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Constraints\IsFalse;
 
 class PageController extends AbstractController
 {
@@ -186,37 +189,52 @@ class PageController extends AbstractController
         ]);
     }
     #[Route('/produits/{id}', name: 'app_categories_produits')]
-    public function categoriesProduit(Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
+    public function categoriesProduit(Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir, CommentairesRepository $commentairesRepository, ClientsRepository $clientsRepository): Response
     //pour l'affichage du menu
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
-
-        //on récupère les produits
-        $produit->getCaracteristiques();
-        $groupProduit = null;
-
-
+    
+        //Si on a une query string 'id' et une autre 'quantite
         if ($request->query->get('id') && $request->query->get('quantite')) {
+            //on modifie le panier
             $panier->modifPanier($request->query->get('id'), $request->query->get('quantite'));
         }
+
+        //on définit une variable null
+        $groupProduit = null;
+        //Si le produit est affilié à un groupe de produit
         if ($produit->getGroupProduit()) {
+            //on récupère les produits associés dans la variable précédement créée
             $groupProduit = $produitRepository->findBy(['groupProduit' => $produit->getGroupProduit(), 'is_active' => true]);
         }
-
+        //on initialise un nouveau commentaire
         $comment = new Commentaires();
+        //on se créée un formulaire pour saisir nos commentaires
         $form = $this->createForm(AddCommentaireFormType::class, $comment);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $client = $clientsRepository->find($form['auteur']->getData());
+            $comment->setAuteur($client);
+            $date = new DateTimeImmutable();
+            $comment->setCreatedAt($date);
+            $comment->setProduit($produit);
+            $comment->setAuteur($client);
+            $comment->setIsApprouved(false);
+            $commentairesRepository->add($comment, true);
+            $this->addFlash('info', 'Votre commentaire a bien été soumis, il est actuellement en cours de modération');
             return $this->redirectToRoute('app_categories_produits', ['id' => $produit->getId()]);
         }
-
+        //On récupère les commentaire du produit courant 
+        $comments = $commentairesRepository->findBy(['produit' => $produit, 'isApprouved' => 1]);
         return $this->render('front/page/produit.html.twig', [
             'categories' => $getCategories,
             'produits' => $produit,
             'dir' => $ProduitDir,
             'groupProduits' => $groupProduit,
-            'form_comment' => $form->createView(),
+            'form' => $form->createView(),
+            'comments' => $comments
         ]);
     }
 
