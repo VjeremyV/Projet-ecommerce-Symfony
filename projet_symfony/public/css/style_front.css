@@ -86,7 +86,7 @@ footer {
     background-size: 50px 50px;
     border-radius: 50%;
     margin-top: -340px;
-    right: -500px;
+    right: 5vh;
     cursor: pointer;
     transition-duration: .3s;
 
@@ -114,7 +114,7 @@ footer {
     border-radius: 50%;
     margin-top: -340px;
     right: 0;
-    left: -115px;
+    left: -5vh;
     cursor: pointer;
     transition-duration: .3s;
 }
@@ -139,59 +139,12 @@ footer {
     transform: scale(1.2);
 }
 
-@media (max-width: 1500px){
-    .carousel__prev{
-        margin-top: -300px;
-    }
-    .carousel__next{
-        margin-top: -300px;
+@media (max-width: 800px){
+    .carousel__item{
+        float: none;
     }
 }
 
-@media (max-width: 1000px){
-    .carousel__prev{
-        margin-top: -400px;
-    }
-    .carousel__next{
-        margin-top: -400px;
-    }
-}
-@media (max-width: 780px){
-    .carousel__prev{
-        margin-top: -500px;
-    }
-    .carousel__next{
-        margin-top: -500px;
-    }
-}
-
-@media (max-width: 770px){
-    .carousel__prev{
-        margin-top: -500px;
-    }
-    .carousel__next{
-        margin-top: -500px;
-    }
-}
-
-@media (max-width: 375px){
-    .carousel__prev{
-        margin-top: -550px;
-    }
-    .carousel__next{
-        margin-top: -550px;
-    }
-}
-
-
-@media (max-width: 320px){
-    .carousel__prev{
-        margin-top: -600px;
-    }
-    .carousel__next{
-        margin-top: -600px;
-    }
-}
 
 /***********************************customText Accueil**********************************/
 #custom_text{

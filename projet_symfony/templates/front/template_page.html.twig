@@ -43,7 +43,7 @@
 										<div class='dropdown'>
 											<button class='btn btn-outline-light me-3 rounded-0 text-decoration-none text-white boutonCompte dropdown-toggle' id="dropdownMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mon compte</button>
 											<div class="dropdown-menu " aria-labelledby="dropdownMenuButton" style='z-index: 1000000;'>
-												<a class="dropdown-item" href="#">
+												<a class="dropdown-item" href="{{path('app_client_commande')}}">
 													Mes commandes
 												</a>
 												<a class="dropdown-item" href="{{path('app_client_profil', {id: app.user.client.id})}}">
