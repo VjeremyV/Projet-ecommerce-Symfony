@@ -30,7 +30,7 @@ class PanierController extends AbstractController
     }
 
     
-    #[Route('/panier_add/{id}', name: 'app_panier_add')]
+    #[Route('/panier_add/{id}/{add}', name: 'app_panier_add')]
     public function panier_add(Request $request, Panier $panier, $id): Response
     {
         $panier->add($id);

@@ -15,16 +15,17 @@
 				<div class="col-md-8">
 					<div class="card-body text-white">
 						<h5 class="card-title pb-3">{{produits.nom}}</h5>
+						<p class="card-text fs-4">
+							<strong class="text-bold f">{{ produits.prix }}
+								€</strong>
+						</p>
 						<p class="card-text pb-2">{{produits.description}}</p>
 						<p>
 							{{dump(produits.caracteristiques) }}
 						</p>
-						<p class="card-text text-center fs-4">
-							<strong class="text-bold f">{{ produits.prix }}
-								€</strong>
-						</p>
 						<div class="d-flex justify-content-center">
-							<a href="#" class="btn btn-warning rounded-0">Ajouter au panier</a>
+                            <input type="number" name='quantite' value='1' style='width:50px;'>
+							<a href="{{path('panier_add', {})}}" class="btn btn-warning rounded-0">Ajouter au panier</a>
 						</div>
 					</div>
 				</div>
