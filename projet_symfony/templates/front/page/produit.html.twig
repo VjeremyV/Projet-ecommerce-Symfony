@@ -6,7 +6,7 @@
 	{{categories.0.nom}}
 {% endblock %}
 {% block content %}
-	<div class="container d-flex justify-content-center py-5">
+		<div class="container d-flex justify-content-center py-5">
 		<div class="card bg-dark" style="border:none;transform: none">
 			<div class="row g-0 align-items-center">
 				<div class="col-md-4">
@@ -15,24 +15,24 @@
 				<div class="col-md-8">
 					<div class="card-body text-white">
 						<h5 class="card-title pb-3">{{produits.nom}}</h5>
-						<p class="card-text fs-4">
-							<strong class="text-bold f">{{ produits.prix }}
+						<p class="card-text pb-2">{{produits.description}}</p>
+						<p class="card-text text-center fs-4">
+							<strong class="text-bold f">Prix à l'unité :
+								{{ produits.prix }}
 								€</strong>
 						</p>
-						<p class="card-text pb-2">{{produits.description}}</p>
-						<p>
-							{{dump(produits.caracteristiques) }}
-						</p>
-						<div class="d-flex justify-content-center">
-                            <input type="number" name='quantite' value='1' style='width:50px;'>
-							<a href="{{path('panier_add', {})}}" class="btn btn-warning rounded-0">Ajouter au panier</a>
-						</div>
+						<form method="get" class="d-flex justify-content-center">
+							<label for="quantite"></label>
+							<input type="number" class='me-2' name="quantite" id="quantite" value='1' style='width:50px;'>
+							<input type="hidden" value={{produits.id}} name='id'>
+							<input type="submit" class="btn btn-warning rounded-0" value="Ajouter au panier">
+						</form>
 					</div>
 				</div>
+	
 			</div>
 		</div>
-	</div>
-
+</div>
 	{% if app.user %}
 		<div class='text-white p-5 '>
 			<div class='d-flex justify-content-center align-items-center bg-dark p-3 m-3'>
