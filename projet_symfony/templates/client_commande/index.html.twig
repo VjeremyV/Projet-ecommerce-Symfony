@@ -27,7 +27,7 @@
             </ul>
         </div>
         <div class="card-body">
-            <a href="{{path('app_commande_view',{id:commande.id})}}" class="border-orange w-75 h-75 bg-secondary mt-3 text-white text-decoration-none align-middle p-2">Voir le détail</a>
+            <a id="btn-commande" href="{{path('app_commande_view',{id:commande.id})}}" class="btn-primary btn">Voir le détail</a>
         </div>
     </div>
     {% endfor %}
