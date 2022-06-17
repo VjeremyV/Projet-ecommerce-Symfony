@@ -1,4 +1,5 @@
 {% extends "front/template_page.html.twig" %}
+{% block title %}Cerfunos | {{produits.nom}}{% endblock %}
 {% block titre %}{{categories.0.nom}}
 {% endblock %}
 {% block content %}
@@ -12,6 +13,7 @@
                     <div class="card-body text-white">
                         <h5 class="card-title pb-3">{{produits.nom}}</h5>
                         <p class="card-text pb-2">{{produits.description}}</p>
+                        <p> {{dump(produits.caracteristiques) }}} </p>
                         <p class="card-text text-center fs-4"><strong class="text-bold f">{{ produits.prix }} €</strong></p>
                         <div class="d-flex justify-content-center">
                             <a href="#" class="btn btn-warning rounded-0">Ajouter au panier</a>
@@ -20,6 +22,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center bg-dark py-5">
+    <h2 class="text-white text-center border-bottom p-3">Produits similaires</h2>
     </div>
     {% if groupProduits %}
     <div class='d-flex flex-wrap justify-content-center align-items-center py-5'>

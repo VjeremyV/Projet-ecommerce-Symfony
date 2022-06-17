@@ -1,0 +1,37 @@
+{% extends "front/template_page.html.twig" %}
+{% block title %}Cerfunos | Mes commandes{% endblock %}
+{% block titre %}Description de la commandes{% endblock %}
+{% block content %}
+      <div class="p-5">
+          <table class="table text-white m-0">
+              <thead>
+              <tr>
+                  <th scope="col">Produit</th>
+                  <th scope="col">Quantité</th>
+                  <th scope="col">Prix</th>
+                  <th scope="col">Total</th>
+              </tr>
+              </thead>
+              <tbody>
+              {{dump(contenu)}}
+              {% for contenus in contenu %}
+                  <tr scope="row">
+                      <td>
+                          <a class="text-white text-decoration-none" href="{{path('app_categories_produits',{id:contenus.produits.id})}}">{{contenus.produits.nom}}</a>
+                      </td>
+                      <td>
+                          {{contenus.quantite}}
+                      </td>
+                      <td>
+                          {{contenus.produits.prix}}
+                      </td>
+                      <td>
+                          {{contenus.commandes.Montant}}
+                      </td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+
+{% endblock %}

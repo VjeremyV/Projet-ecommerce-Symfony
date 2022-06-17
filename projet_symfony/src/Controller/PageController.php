@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Admin;
 use App\Entity\Clients;
+use App\Entity\Commandes;
 use App\Entity\Produit;
 use App\Form\ModifyUserFormType;
 use App\Form\SigninUserFormType;
 use App\Repository\AdminRepository;
 use App\Repository\CategoriesRepository;
 use App\Repository\ClientsRepository;
+use App\Repository\CommandesRepository;
+use App\Repository\ContenuRepository;
 use App\Repository\FournisseurRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,9 +38,29 @@ class PageController extends AbstractController
         ]);
     }
 
-    #[Route('/commande/{idClient}', name: 'app_client_commande')]
-    public function clientCommande(){
-        
+    #[Route('/commande', name: 'app_client_commande')]
+    public function clientCommande(CategoriesRepository $categoriesRepository,CommandesRepository $commandesRepository, ClientsRepository $clientsRepository,ContenuRepository $contenuRepository){
+        $getCategories = self::Menu($categoriesRepository);
+        $getCommande = $commandesRepository->findAll();
+        $getClient = $clientsRepository->findAll();
+        return $this->render('client_commande/index.html.twig', [
+            'categories'=> $getCategories,
+            'commandes'=>$getCommande,
+            'client'=> $getClient,
+        ]);
+    }
+    #[Route('/commande{id}', name: 'app_commande_view')]
+    public function CommandePage(CategoriesRepository $categoriesRepository,CommandesRepository $commandesRepository, ClientsRepository $clientsRepository,ContenuRepository $contenuRepository,Commandes $commandes){
+        $getCategories = self::Menu($categoriesRepository);
+        $getCommande = $commandesRepository->findAll();
+        $getClient = $clientsRepository->findAll();
+        $contenu = $contenuRepository->findBy(['commandes'=>$commandes->getId()]);
+        return $this->render('client_commande/view.html.twig', [
+            'categories'=> $getCategories,
+            'commandes'=>$getCommande,
+            'client'=> $getClient,
+            'contenu'=>$contenu,
+        ]);
     }
     #[Route('/profil/{id}', name: 'app_client_profil')]
     public function clientDonnees(HttpFoundationRequest $request,Clients $clients,CategoriesRepository $categoriesRepository, AdminRepository $adminRepository, ClientsRepository $clientsRepository, UserPasswordHasherInterface $hashedPwd){
@@ -183,6 +206,7 @@ class PageController extends AbstractController
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
         //on récupère les produits
+        $produit->getCaracteristiques();
         $groupProduit = null;
         if($produit->getGroupProduit()){
             $groupProduit = $produitRepository->findBy(['groupProduit'=> $produit->getGroupProduit(), 'is_active'=>true]);

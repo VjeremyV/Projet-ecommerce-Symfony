@@ -1,0 +1,43 @@
+{% extends "front/template_page.html.twig" %}
+{% block title %}Cerfunos | Mes commandes{% endblock %}
+{% block titre %}Commande{% endblock %}
+{% block content %}
+    {{dump(commandes)}}
+    {% for  commande in commandes %}
+        {{dump(client)}}
+        <div class="card text-center bg-secondary my-5" style="transform: none">
+        <div class="card-header">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="text-white px-5">
+                    <p class="fs-5"> <strong>Commande effectuée le</strong>  </p>
+                    <p>{{commande.createdAt|date("d/m/Y à H\\:i\\:s\\s")}}</p>
+                </li>
+                <li class="text-white px-5">
+                    <p class="fs-5"> <strong>Total TTC</strong>  </p>
+                    <p>{{commande.Montant}}</p>
+                </li>
+                <li class="text-white px-5">
+                    <p class="fs-5"> <strong>Livraison</strong> </p>
+                    <p class=""> {{client.0.adresse}}</p>
+                    <p class=""> {{client.0.ville}}</p>
+                    <p class=""> {{client.0.codePostale}}</p>
+                </li>
+                <li class="text-white px-5">
+                    <p class="fs-5"> <strong>Nom et prénom</strong> </p>
+                    <p > {{client.0.nom}} {{client.0.prenom}}</p>
+                </li>
+                <li class="text-white px-5">
+                    <p class="fs-5"> <strong>N° de commande</strong> </p>
+                    <p > {{commande.id}} </p>
+                </li>
+
+            </ul>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="{{path('app_commande_view',{id:commande.id})}}" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
