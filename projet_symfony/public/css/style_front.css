@@ -37,6 +37,18 @@ svg:hover {
 footer {
     background-color: #f2a950;
 }
+#signin_user_form_Soumettre,#passer_commande_form_Modifier,#modify_user_form_Soumettre{
+    background-color: #f2a950;
+    border-radius: 0;
+    border :  3px solid #f2a950 !important;
+    transition: 0.3s ease;
+    padding: 10px;
+}
+#signin_user_form_Soumettre:hover,#passer_commande_form_Modifier:hover,#modify_user_form_Soumettre:hover{
+    transition-duration: 0.3s;
+    background-color: black;
+    color: #f2a950;
+}
 /***********************************Carrousel*******************************************/
 .carousel-control-prev-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;

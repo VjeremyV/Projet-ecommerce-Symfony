@@ -2,7 +2,6 @@
 {% block title %}Cerfunos | Mes commandes{% endblock %}
 {% block titre %}Commande{% endblock %}
 {% block content %}
-    {{dump(commandes)}}
     <div class="py-5">
     {% for  commande in commandes %}
         <div class="card text-center bg-secondary mt-5" style="transform: none">
@@ -17,12 +16,6 @@
                     <p>{{commande.Montant}}</p>
                 </li>
                 <li class="text-white px-5">
-                    <p class="fs-5"> <strong>Livraison</strong> </p>
-                    <p class=""> {{client.0.adresse}}</p>
-                    <p class=""> {{client.0.ville}}</p>
-                    <p class=""> {{client.0.codePostale}}</p>
-                </li>
-                <li class="text-white px-5">
                     <p class="fs-5"> <strong>Nom et prénom</strong> </p>
                     <p > {{client.0.nom}} {{client.0.prenom}}</p>
                 </li>
@@ -34,7 +27,7 @@
             </ul>
         </div>
         <div class="card-body">
-            <a href="{{path('app_commande_view',{id:commande.id})}}" class="btn btn-primary">Voir le détail</a>
+            <a href="{{path('app_commande_view',{id:commande.id})}}" class="border-orange w-75 h-75 bg-secondary mt-3 text-white text-decoration-none align-middle p-2">Voir le détail</a>
         </div>
     </div>
     {% endfor %}

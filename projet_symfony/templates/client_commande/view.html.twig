@@ -7,6 +7,7 @@
               <thead>
               <tr>
                   <th scope="col">Produit</th>
+                  <th scope="col">Livraison</th>
                   <th scope="col">Quantité</th>
                   <th scope="col">Prix unitaire</th>
                   <th scope="col">Montant total</th>
@@ -17,6 +18,9 @@
                   <tr scope="row">
                       <td>
                           <a class="text-white text-decoration-none" href="{{path('app_categories_produits',{id:contenus.produits.id})}}">{{contenus.produits.nom}}</a>
+                      </td>
+                      <td>
+                          {{contenus.produits.prix * contenus.quantite}} €
                       </td>
                       <td>
                           {{contenus.quantite}}
@@ -42,7 +46,7 @@
 
                   </th>
                   <th>
-                      {{(contenu.0.commandes.Montant)}}
+                      {{(contenu.0.commandes.Montant)}} €
                   </th>
               </tr>
               </tfoot>

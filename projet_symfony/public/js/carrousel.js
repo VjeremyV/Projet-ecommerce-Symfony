@@ -77,7 +77,9 @@
                             nextButton.classList.remove('carousel__next--hidden')//Sinon tu supprime cette class
                         }
                     })
-                }else {
+                }
+
+                else {
                     let nextButton = this.createDivWithClass('carousel__next2') //création du'une div avec l'atribut class :carousel__next
                     let prevButton = this.createDivWithClass('carousel__prev2') //création du'une div avec l'atribut class :carousel__prev
                     this.root.appendChild(nextButton)
@@ -101,14 +103,18 @@
                         }
                     })
                 }
-
-
-
                 }
+
             setStyle() {
+                if (document.getElementById("carousel1")){
                 let ratio = this.items.length / this.slidesVisible //on divise le nombre d'éléments avec children.length pas nombre d'élement visible avec options.slidesVisible
                 this.container.style.width = (ratio * 100) + "%" // on demande si la largeur du containeur soit egal au ratio * 100 avec la valeur %
                 this.items.forEach(item => item.style.width = ((100 / this.slidesVisible) / ratio) + "%") //chaque élement prend 1/3 de la place par rapport au container
+                }else{
+                    let ratio = this.items.length / this.slidesVisible //on divise le nombre d'éléments avec children.length pas nombre d'élement visible avec options.slidesVisible
+                    this.container.style.width = (ratio * 100) + "%" // on demande si la largeur du containeur soit egal au ratio * 100 avec la valeur %
+                    this.items.forEach(item => item.style.width = ((80 / this.slidesVisible) / ratio) + "%") //chaque élement prend 1/3 de la place par rapport au container
+                }
             }
 
             next() {
