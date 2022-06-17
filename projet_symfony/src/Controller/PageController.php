@@ -11,6 +11,7 @@ use App\Form\ModifyUserFormType;
 use App\Form\SigninUserFormType;
 use App\Repository\AdminRepository;
 use App\Form\AddCommentaireFormType;
+use App\Repository\CaracteristiquesRepository;
 use App\Repository\ClientsRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\CategoriesRepository;
@@ -87,7 +88,7 @@ class PageController extends AbstractController
             $infosUtilisateur->checkCp($form, $clients, $cp);
             //si la ville est renseignée
             $infosUtilisateur->checkVille($form, $clients, $ville);
-            
+
             //si il y a un mot de pass
             if ($form['MDP']->getData()) {
                 if ($form['MDP']->getData() === $form['Confirmmdp']->getData()) {
@@ -122,19 +123,27 @@ class PageController extends AbstractController
 
 
     #[Route('/categories/{idCat}', name: 'app_categories_catalogue')]
-    public function categoriesCatalogue(HttpFoundationRequest $request, $idCat, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
+    public function categoriesCatalogue(HttpFoundationRequest $request, $idCat, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir, CaracteristiquesRepository $caracteristiquesRepository): Response
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
         //on récupère la catégorie courante
         $categorie = $categoriesRepository->findBy(['id' => $idCat]);
         //on créée les variables de la pagination
+        $options = ['prix' => $request->query->get('prix')];
+        $typeCaracs = $categorie[0]->getTypeCaracteristique();
+        foreach ($typeCaracs as $typeCarac) {
+            if (isset($_GET[$typeCarac->getId()])) {
+                $typCarac = $_GET[$typeCarac->getId()];
+                foreach($typCarac as $carac){
+                    $options['caracs'][] = $carac;
+                }
+            }
+        }
         $offset = max(0, $request->query->getInt('offset', 0));
-        $produits = $produitRepository->getPaginatorFront($offset, $categorie[0]->getId());
+        $produits = $produitRepository->getPaginatorFront($offset, $categorie[0]->getId(), $options);
         $nbrePages = ceil(count($produits) / ProduitRepository::PAGINATOR_PER_PAGE_FRONT);
         $next = min(count($produits), $offset + ProduitRepository::PAGINATOR_PER_PAGE_FRONT);
         $pageActuelle = ceil($next / ProduitRepository::PAGINATOR_PER_PAGE_FRONT);
-
-
         $difPages = $nbrePages - $pageActuelle;
         return $this->render('front/page/categorie_catalogue.html.twig', [
             'categories' => $getCategories,
@@ -147,12 +156,14 @@ class PageController extends AbstractController
             'nbrePages' => $nbrePages,
             'pageActuelle' => $pageActuelle,
             'difPages' => $difPages,
+            'typeCaracs' => $typeCaracs,
+            'options' => $options
 
         ]);
     }
     #[Route('/produits/{id}', name: 'app_categories_produits')]
     public function categoriesProduit(Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir): Response
-        //pour l'affichage du menu
+    //pour l'affichage du menu
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
 
@@ -207,5 +218,4 @@ class PageController extends AbstractController
 
         return [$nbrePages, $next, $pageActuelle, $difPages];
     }
-
 }

@@ -2,6 +2,9 @@
 body{
     overflow-x: hidden;
 }
+*{
+    list-style-type: none;
+}
 .border-bottom {
     border-bottom: 6px solid #f2a950 !important;
 }
