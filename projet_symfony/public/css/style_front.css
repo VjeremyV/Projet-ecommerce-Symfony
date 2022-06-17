@@ -40,14 +40,14 @@ svg:hover {
 footer {
     background-color: #f2a950;
 }
-#signin_user_form_Soumettre,#passer_commande_form_Modifier,#modify_user_form_Soumettre{
+#signin_user_form_Soumettre,#passer_commande_form_Modifier,#modify_user_form_Soumettre,#btn-commande {
     background-color: #f2a950;
     border-radius: 0;
     border :  3px solid #f2a950 !important;
     transition: 0.3s ease;
     padding: 10px;
 }
-#signin_user_form_Soumettre:hover,#passer_commande_form_Modifier:hover,#modify_user_form_Soumettre:hover{
+#signin_user_form_Soumettre:hover,#passer_commande_form_Modifier:hover,#modify_user_form_Soumettre:hover,#btn-commande:hover {
     transition-duration: 0.3s;
     background-color: black;
     color: #f2a950;
