@@ -40,27 +40,29 @@
 			</div>
 
 			{% for commentaire in comments %}
-
-				<div class="card m-3 bg-dark">
-					<div class="card-header">
-						{{commentaire.auteur}}
-						<br>
-						{{commentaire.createdAt|date('d-m-Y')}}
+				<div class="card bg-secondary text-white">
+					<div class="card-header ">
+						{{commentaire.auteur}} le
 					</div>
 					<div class="card-body">
-						<blockquote class="blockquote mb-0">
-							<p>{{commentaire.contenu}}</p>
-						</blockquote>
+
+						<p class="card-text">{{commentaire.contenu}}</p>
+
 					</div>
+				</div>
 				</div>
 			{% endfor %}
 			<div >
+				{% if app.user.client %}
+
 				{{ form_start(form) }}
 				{{ form_row(form.contenu) }}
 				{{ form_row(form.note) }}
 				{{ form_row(form.auteur, {'value': app.user.client.id}) }}
 				{{ form_row(form.Soumettre) }}
 				{{ form_end(form) }}
+
+				{% endif %}
 			</div>
 		</div>
 	{% endif %}
