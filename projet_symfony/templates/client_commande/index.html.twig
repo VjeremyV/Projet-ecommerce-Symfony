@@ -6,7 +6,7 @@
     {% for  commande in commandes %}
         <div class="card text-center bg-secondary mt-5" style="transform: none">
         <div class="card-header">
-            <ul class="nav nav-pills card-header-pills">
+            <ul class="nav nav-pills card-header-pills justify-content-center">
                 <li class="text-white px-5">
                     <p class="fs-5"> <strong>Commande effectuée le</strong>  </p>
                     <p>{{commande.createdAt|date("d/m/Y à H\\:i\\:s\\s")}}</p>
@@ -27,7 +27,7 @@
             </ul>
         </div>
         <div class="card-body">
-            <a id="btn-commande" href="{{path('app_commande_view',{id:commande.id})}}" class="btn-primary btn">Voir le détail</a>
+            <a href="{{path('app_commande_view',{id:commande.id})}}" class="btn-primary btn">Voir le détail</a>
         </div>
     </div>
     {% endfor %}
