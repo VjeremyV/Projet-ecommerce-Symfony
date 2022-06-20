@@ -53,10 +53,10 @@ class AdminCommandeController extends AbstractController
 
 
     #[Route('/admin/commande/{id}', name: 'app_admin_commande_view')]
-    public function view(ContenuRepository $contenuRepository, Commandes $commande, Clients $clients)
+    public function view(ContenuRepository $contenuRepository, Commandes $commande)
     {
         $contenu = $contenuRepository->findBy(['commandes' => $commande->getId()]);
-  
+        $clients = $commande->getClient();
         return $this->render('admin_commande/view.html.twig', [
             // 'contenus' => $contenu,
             'commandes' => $commande,
