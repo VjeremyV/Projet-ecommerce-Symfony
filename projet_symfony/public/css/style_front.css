@@ -97,8 +97,8 @@ footer {
     background:url(./arrow-right2.svg) center center no-repeat;
     background-size: 50px 50px;
     border-radius: 50%;
-    margin-top: -340px;
-    right: 20vh;
+    margin-top: -300px;
+    right: 5vh;
     cursor: pointer;
     transition-duration: .3s;
 
@@ -124,7 +124,7 @@ footer {
     background:url(./arrow-left2.svg) center center no-repeat;
     background-size: 50px 50px;
     border-radius: 50%;
-    margin-top: -340px;
+    margin-top: -300px;
     right: 0;
     left: -5vh;
     cursor: pointer;
