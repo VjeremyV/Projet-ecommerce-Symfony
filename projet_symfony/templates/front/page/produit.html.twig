@@ -12,14 +12,16 @@
 				<div class="col-md-4">
 					<img src="{{ dir ~ produits.image }}" class="img-fluid rounded-0" alt="{{ produits.description }}">
 				</div>
-				{% for caracteristique in  caracteristiques%}
-					{{dump(caracteristiques)}}
-				{% endfor %}
+
 				<div class="col-md-8">
 					<div class="card-body text-white">
 						<h5 class="card-title pb-3">{{produits.nom}}</h5>
 						<p class="card-text pb-2">{{produits.description}}</p>
-						<p class="card-text text-center fs-4">
+						{% for caracteristique in  caracteristiques%}
+
+						<span class="badge text-bg-warning">{{(caracteristique.nom)}}</span>
+						{% endfor %}
+						<p class="card-text text-center fs-4 py-5">
 							<strong class="text-bold f">Prix à l'unité :
 								{{ produits.prix }} € - {{produits.stock}} en stock
 								</strong>

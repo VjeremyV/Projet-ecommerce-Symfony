@@ -190,11 +190,11 @@ class PageController extends AbstractController
         ]);
     }
     #[Route('/produits/{id}', name: 'app_categories_produits')]
-    public function categoriesProduit($id,Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir, CommentairesRepository $commentairesRepository, ClientsRepository $clientsRepository,CaracteristiquesRepository $caracteristiquesRepository,Caracteristiques $caracteristiques): Response
+    public function categoriesProduit($id,Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir, CommentairesRepository $commentairesRepository, ClientsRepository $clientsRepository,CaracteristiquesRepository $caracteristiquesRepository): Response
     //pour l'affichage du menu
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
-        $caracteristique = $caracteristiquesRepository->findBy(['nom'=>$caracteristiques->getNom()]);
+        $caracteristique = $produit->getCaracteristiques();
         //Si on a une query string 'id' et une autre 'quantite
         if ($request->query->get('id') && $request->query->get('quantite')) {
             //on modifie le panier
