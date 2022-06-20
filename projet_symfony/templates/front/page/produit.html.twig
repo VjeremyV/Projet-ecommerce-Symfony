@@ -38,11 +38,16 @@
 			</div>
 		</div>
 </div>
+
+{% if comments|length > 0 or app.user.client %}
+	
+
 		<div class='text-white p-5 '>
 			<div class='d-flex justify-content-center align-items-center bg-dark p-3 m-3'>
 				<h2 class="text-white text-center border-bottom p-3 " style='width: auto;'>Commentaires</h2>
 			</div>
 		</div >
+{% endif %}
 			{% for commentaire in comments %}
 				<div class="card bg-secondary mb-5">
 					<div class="card-header text-warning ">
@@ -74,11 +79,11 @@
 {% block text %}
 	{% if groupProduits %}
 		<div class="d-flex justify-content-center align-items-center bg-dark py-5">
-			<h2 class="text-white text-center border-bottom p-3">Produits similaires</h2>
+			<h2 class="text-white text-center border-bottom p-3">Produits Associés</h2>
 		</div>
 		<div class="container-fluid p-5 m-5">
 			<div class="bg-dark" id="carousel2">
-				{% for groupProduit in groupProduits %}
+				{% for groupProduit in groupProduits.0 %}
 				<div class="item align-items-center">
 						<a href="{{path('app_categories_produits',{id:groupProduit.id})}}" style="text-decoration: none">
 							<div class='card m-3 bg-dark  ' style="width: 18rem; border:none; box-shadow: none;">

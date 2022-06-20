@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Produit;
 use App\Form\ProduitAddFormType;
 use App\Form\ProduitEditCaracFormType;
+use App\Repository\GroupProduitRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -80,7 +81,7 @@ class AdminProduitController extends AbstractController
     }
 
     #[Route('/admin/produit/update/{id}', name: 'update_produit')]
-    public function updateProduit(Produit $produit, ProduitRepository $produitRepository, Request $request, string $ProduitUpDir, string $ProduitDir): Response
+    public function updateProduit(Produit $produit, ProduitRepository $produitRepository, Request $request, string $ProduitUpDir, string $ProduitDir, GroupProduitRepository $groupProduitRepository): Response
     {
         $form = $this->createForm(ProduitAddFormType::class, $produit);
         $form2 = $this->createForm(ProduitEditCaracFormType::class, $produit, ['data' => $produit]);
@@ -99,8 +100,8 @@ class AdminProduitController extends AbstractController
                 $produitRepository->add($produit, true);
             }
 
-            $this->addFlash('info', 'Le produit a bien été modifié');
             $produitRepository->add($produit, true);
+            $this->addFlash('info', 'Le produit a bien été modifié');
             return $this->redirectToRoute('update_produit', ['id' => $produit->getId()]);
         }
         $form2->handleRequest($request);
@@ -124,4 +125,7 @@ class AdminProduitController extends AbstractController
         $this->addFlash('info', 'Le produit a bien été supprimée');
         return $this->redirectToRoute('admin_produit_updateListe');
     }
+
+
+    
 }

@@ -132,20 +132,22 @@ class ProduitRepository extends ServiceEntityRepository
         return new Paginator($query);
     }
 
-    //    /**
-    //     * @return Produit[] Returns an array of Produit objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+       public function produitParGroup($array): array
+       {
+           $query =  $this->createQueryBuilder('p')
+           ->andWhere('p.is_active = 1')
+           ->join('p.GroupProduit' , 'g');
+
+            foreach($array as $element){
+                $query = $query->andWhere('g = :val')
+                ->setParameter('val' , $element);
+            }
+
+               $query = $query->getQuery()
+               ->getResult()
+           ;
+           return $query;
+       }
 
     //    public function findOneBySomeField($value): ?Produit
     //    {

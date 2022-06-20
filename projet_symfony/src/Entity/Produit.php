@@ -21,8 +21,7 @@ class Produit
     #[ORM\Column(type: 'text')]
     private $description;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $groupProduit;
+   
 
     #[ORM\Column(type: 'float')]
     private $prix;
@@ -53,11 +52,17 @@ class Produit
     #[ORM\OneToMany(mappedBy: 'produits', targetEntity: Contenu::class)]
     private $contenus;
 
+    #[ORM\ManyToMany(targetEntity: GroupProduit::class, inversedBy: 'produits')]
+    private $GroupProduit;
+
+ 
+
     public function __construct()
     {
         $this->commentaire = new ArrayCollection();
         $this->caracteristiques = new ArrayCollection();
         $this->contenus = new ArrayCollection();
+        $this->GroupProduit = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,18 +90,6 @@ class Produit
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getGroupProduit(): ?string
-    {
-        return $this->groupProduit;
-    }
-
-    public function setGroupProduit(?string $groupProduit): self
-    {
-        $this->groupProduit = $groupProduit;
 
         return $this;
     }
@@ -264,4 +257,30 @@ class Produit
     {
         return $this->nom;
     }
+
+    /**
+     * @return Collection<int, GroupProduit>
+     */
+    public function getGroupProduit(): Collection
+    {
+        return $this->GroupProduit;
+    }
+
+    public function addGroupProduit(GroupProduit $groupProduit): self
+    {
+        if (!$this->GroupProduit->contains($groupProduit)) {
+            $this->GroupProduit[] = $groupProduit;
+        }
+
+        return $this;
+    }
+
+    public function removeGroupProduit(GroupProduit $groupProduit): self
+    {
+        $this->GroupProduit->removeElement($groupProduit);
+
+        return $this;
+    }
+
+    
 }

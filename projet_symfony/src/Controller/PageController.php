@@ -21,6 +21,7 @@ use App\Repository\ProduitRepository;
 use App\Repository\CategoriesRepository;
 use App\Repository\CommentairesRepository;
 use App\Repository\FournisseurRepository;
+use App\Repository\GroupProduitRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,10 +35,17 @@ use Symfony\Component\Validator\Constraints\IsFalse;
 class PageController extends AbstractController
 {
     #[Route('/', name: 'app_accueil')]
-    public function index(ProduitRepository $produitRepository, CategoriesRepository $categoriesRepository, string $ProduitDir, FournisseurRepository $fournisseurRepository, string $DirFour): Response
+    public function index(CategoriesRepository $categoriesRepository, string $ProduitDir, FournisseurRepository $fournisseurRepository, string $DirFour, GroupProduitRepository $groupProduitRepository): Response
     {
+        $groupAccueil = $groupProduitRepository->find('1');
+        $gProduits = $groupAccueil->getProduits();
+        $produits = [];
+        foreach($gProduits as $produit){
+            if($produit->isIsActive()){
+                $produits[] = $produit;
+            }
+        }
         $fournisseurs = $fournisseurRepository->findAll();
-        $produits = $produitRepository->findBy(['groupProduit' => 'PDM', 'is_active' => true]);
         $getCategories = self::Menu($categoriesRepository);
         return $this->render('front/page/index.html.twig', [
             'categories' => $getCategories,
@@ -202,11 +210,15 @@ class PageController extends AbstractController
         }
 
         //on définit une variable null
-        $groupProduit = null;
+        $groupProduit = [];
         //Si le produit est affilié à un groupe de produit
-        if ($produit->getGroupProduit()) {
+        // dd($produit->getGroupProduit());
+        if (count($produit->getGroupProduit()) > 0) {
             //on récupère les produits associés dans la variable précédement créée
-            $groupProduit = $produitRepository->findBy(['groupProduit' => $produit->getGroupProduit(), 'is_active' => true]);
+            // $groupProduit = $produitRepository->findBy(['GroupProduit' => $produit->getGroupProduit(), 'is_active' => true]);
+            foreach($produit->getGroupProduit() as $group){
+                $groupProduit[] = $produitRepository->produitParGroup($group);
+            }
         }
         //on initialise un nouveau commentaire
         $comment = new Commentaires();

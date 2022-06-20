@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Categories;
 use App\Entity\Fournisseur;
+use App\Entity\GroupProduit;
 use App\Entity\Produit;
 use App\Entity\TypeCaracteristiques;
 use Doctrine\DBAL\Types\BooleanType;
@@ -27,7 +28,7 @@ class ProduitAddFormType extends AbstractType
             ->add('is_active', CheckboxType::class, ['required' => false,'label' => "Cocher pour que votre produit soit actif dans le catalogue"])
             ->add('nom', TextType::class, ['label' => 'Nom du produit'])
             ->add('description', TextareaType::class, ['label' => 'Description'])
-            ->add('groupProduit', TextType::class, ['required' => false ,'label' => 'Le nom du groupement de produit si celui-ci fait parti d\'un ensemble'])
+            ->add('groupProduit', EntityType::class, ['expanded'=> true, 'multiple' => true, 'class' => GroupProduit::class,'required' => false ,'label' => 'Le nom du groupement de produit si celui-ci fait parti d\'un ensemble (pour le faire apparaitre dans la page d\'Acueil prendre le groupe page1'])
             ->add('prix', NumberType::class, ['label' => 'Prix'])
             ->add('stock', IntegerType::class, ['label' => 'Quantité en stock'])
             ->add('image', FileType::class, [
