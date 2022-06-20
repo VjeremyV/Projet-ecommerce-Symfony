@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Admin;
+use App\Entity\Caracteristiques;
 use App\Entity\Clients;
 use App\Entity\Commandes;
 use App\Entity\Produit;
@@ -189,11 +190,11 @@ class PageController extends AbstractController
         ]);
     }
     #[Route('/produits/{id}', name: 'app_categories_produits')]
-    public function categoriesProduit(Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir, CommentairesRepository $commentairesRepository, ClientsRepository $clientsRepository): Response
+    public function categoriesProduit($id,Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir, CommentairesRepository $commentairesRepository, ClientsRepository $clientsRepository,CaracteristiquesRepository $caracteristiquesRepository,Caracteristiques $caracteristiques): Response
     //pour l'affichage du menu
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
-    
+        $caracteristique = $caracteristiquesRepository->findBy(['nom'=>$caracteristiques->getNom()]);
         //Si on a une query string 'id' et une autre 'quantite
         if ($request->query->get('id') && $request->query->get('quantite')) {
             //on modifie le panier
@@ -234,7 +235,8 @@ class PageController extends AbstractController
             'dir' => $ProduitDir,
             'groupProduits' => $groupProduit,
             'form' => $form->createView(),
-            'comments' => $comments
+            'comments' => $comments,
+            'caracteristiques'=>$caracteristique
         ]);
     }
 
