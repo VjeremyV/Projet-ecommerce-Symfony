@@ -71,6 +71,17 @@ class CommandesRepository extends ServiceEntityRepository
             ->getQuery();
         return new Paginator($query);
     }
+    public const PAGINATOR_PER_PAGE_COMMANDE = 5;
+    public function getPaginatorCommande(int $offset): Paginator
+    {
+        $query = $this->createQueryBuilder('c');
+        $query = $query->addOrderBy('c.createdAt','ASC');
+        $query = $query
+            ->setMaxResults(self::PAGINATOR_PER_PAGE_COMMANDE)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
 
     //    /**
     //     * @return Commandes[] Returns an array of Commandes objects
