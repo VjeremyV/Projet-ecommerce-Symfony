@@ -7,6 +7,8 @@
 
 
 {% block content %}
+{{ dump(panier) }}
+{{ dump(user) }}
 	<div class="mt-5">
 		{% for ligne in panier %}
 			<form action="" method='get' class="p-1 ">
@@ -59,8 +61,11 @@
 					€</h5>
 	
 			{% if app.user %}
+			{% if app.user.client %}
+				
 				<a href='{{path('app_passer_commande', {id: app.user.id})}}' style='padding:12px !important;' class=' border-orange  h-75 bg-dark text-white text-decoration-none align-middle'>
 					Commander</a>
+			{% endif %}
 			{% else %}
 				
 				<p class=' mt-3 p-5 text-white'>Veuillez vous connecter pour finaliser votre commande</p>

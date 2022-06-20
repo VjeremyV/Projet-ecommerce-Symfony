@@ -18,14 +18,15 @@ class PanierController extends AbstractController
             $panier->modifPanier($request->query->get('id'), $request->query->get('quantite'));
         }
         $total = $panier->getTotal();
-
+        $user = $this->getUser();
         $categories = PageController::Menu($categoriesRepository);
         $contenu = $panier->getFullPanier();
         return $this->render('front/panier/panier.html.twig', [
            'categories'=> $categories,
            'panier'=> $contenu,
            'dir' => $ProduitDir,
-           'total' => $total
+           'total' => $total,
+           'user' => $user
         ]);
     }
 

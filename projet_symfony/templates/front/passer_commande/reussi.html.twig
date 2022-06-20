@@ -1,0 +1,12 @@
+{% extends "front/template_page.html.twig" %}
+{% block titre %}Votre paiement a été accepté
+{% endblock %}
+{% block title %}Paiement validé
+{% endblock %}
+{% block content %}
+<div class='text-center mb-5'>
+    <p class='text-white p-5'>Merci pour votre achat !</p>
+    <a href='{{path('app_commande_view', {id: app.user.client.id})}}' style='padding:12px !important;' class=' border-orange  h-75 bg-dark text-white text-decoration-none align-middle '>Récapitulatif de vos dernières commandes</a>
+    
+</div>
+{% endblock %}
