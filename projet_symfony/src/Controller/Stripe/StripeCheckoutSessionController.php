@@ -10,8 +10,10 @@ use App\Repository\CategoriesRepository;
 use App\Repository\ClientsRepository;
 use App\Repository\CommandesRepository;
 use App\Repository\ContenuRepository;
+use App\Repository\ProduitRepository;
 use App\Services\Panier;
 use DateTimeImmutable;
+use DateTimeZone;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,21 +59,27 @@ class StripeCheckoutSessionController extends AbstractController
     }
 
     #[Route('/success-url', name: 'success_url')]
-    public function successUrl(ClientsRepository $clientsRepository,CategoriesRepository $categoriesRepository, CommandesRepository $commandesRepository, Panier $panier, ContenuRepository $contenuRepository, RequestStack $session): Response
+    public function successUrl(ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository, CommandesRepository $commandesRepository, Panier $panier, ContenuRepository $contenuRepository, RequestStack $session): Response
     {
         $categories = PageController::Menu($categoriesRepository);
 
         $commandes = new Commandes;
         $user = $this->getUser()->getClient();
-        $date= new DateTimeImmutable();
+        $date= new DateTimeImmutable('now',  new DateTimeZone('Europe/Paris'));
         $commandes->setClient($user)->setMontant($panier->getTotal())->setIsPanier(0)->setCreatedAt($date);
         $commandesRepository->add($commandes, true);
 
         $lignesP = $panier->getFullPanier();
         foreach ($lignesP as $ligne) {
+
             $contenu = new Contenu;
             $contenu->setCommandes($commandes)->setProduits($ligne['produit'])->setPrix($ligne['produit']->getPrix())->setQuantite($ligne['quantite']);
             $contenuRepository->add($contenu, true);
+
+            $produit = $produitRepository->find($ligne['produit']->getId());
+            $stockA = $produit->getStock();
+            $produit->setStock($stockA - $ligne['quantite']);
+            $produitRepository->add($produit, true);
         }
         $session->getSession()->set('panier', []);
         

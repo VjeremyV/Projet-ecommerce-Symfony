@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\InfosUtilisateur;
 use DateTimeImmutable;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -37,11 +38,12 @@ class PageController extends AbstractController
     #[Route('/', name: 'app_accueil')]
     public function index(CategoriesRepository $categoriesRepository, string $ProduitDir, FournisseurRepository $fournisseurRepository, string $DirFour, GroupProduitRepository $groupProduitRepository): Response
     {
+   
         $groupAccueil = $groupProduitRepository->find('1');
         $gProduits = $groupAccueil->getProduits();
         $produits = [];
-        foreach($gProduits as $produit){
-            if($produit->isIsActive()){
+        foreach ($gProduits as $produit) {
+            if ($produit->isIsActive()) {
                 $produits[] = $produit;
             }
         }
@@ -57,27 +59,29 @@ class PageController extends AbstractController
     }
 
     #[Route('/commande', name: 'app_client_commande')]
-    public function clientCommande(CategoriesRepository $categoriesRepository,CommandesRepository $commandesRepository, ClientsRepository $clientsRepository,ContenuRepository $contenuRepository){
+    public function clientCommande(CategoriesRepository $categoriesRepository, CommandesRepository $commandesRepository, ClientsRepository $clientsRepository, ContenuRepository $contenuRepository)
+    {
         $getCategories = self::Menu($categoriesRepository);
         $getCommande = $commandesRepository->findAll();
         $getClient = $clientsRepository->findAll();
         return $this->render('client_commande/index.html.twig', [
-            'categories'=> $getCategories,
-            'commandes'=>$getCommande,
-            'client'=> $getClient,
+            'categories' => $getCategories,
+            'commandes' => $getCommande,
+            'client' => $getClient,
         ]);
     }
     #[Route('/commande{id}', name: 'app_commande_view')]
-    public function CommandePage(CategoriesRepository $categoriesRepository,CommandesRepository $commandesRepository, ClientsRepository $clientsRepository,ContenuRepository $contenuRepository,Commandes $commandes){
+    public function CommandePage(CategoriesRepository $categoriesRepository, CommandesRepository $commandesRepository, ClientsRepository $clientsRepository, ContenuRepository $contenuRepository, Commandes $commandes)
+    {
         $getCategories = self::Menu($categoriesRepository);
         $getCommande = $commandesRepository->findAll();
         $getClient = $clientsRepository->findAll();
-        $contenu = $contenuRepository->findBy(['commandes'=>$commandes->getId()]);
+        $contenu = $contenuRepository->findBy(['commandes' => $commandes->getId()]);
         return $this->render('client_commande/view.html.twig', [
-            'categories'=> $getCategories,
-            'commandes'=>$getCommande,
-            'client'=> $getClient,
-            'contenu'=>$contenu,
+            'categories' => $getCategories,
+            'commandes' => $getCommande,
+            'client' => $getClient,
+            'contenu' => $contenu,
         ]);
     }
 
@@ -170,7 +174,7 @@ class PageController extends AbstractController
         foreach ($typeCaracs as $typeCarac) {
             if (isset($_GET[$typeCarac->getId()])) {
                 $typCarac = $_GET[$typeCarac->getId()];
-                foreach($typCarac as $carac){
+                foreach ($typCarac as $carac) {
                     $options['caracs'][] = $carac;
                 }
             }
@@ -198,15 +202,19 @@ class PageController extends AbstractController
         ]);
     }
     #[Route('/produits/{id}', name: 'app_categories_produits')]
-    public function categoriesProduit($id,Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir, CommentairesRepository $commentairesRepository, ClientsRepository $clientsRepository,CaracteristiquesRepository $caracteristiquesRepository): Response
+    public function categoriesProduit($id, Panier $panier, HttpFoundationRequest $request, Produit $produit, CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository, string $ProduitDir, CommentairesRepository $commentairesRepository, ClientsRepository $clientsRepository, CaracteristiquesRepository $caracteristiquesRepository): Response
     //pour l'affichage du menu
     {   //pour l'affichage du menu
         $getCategories = self::Menu($categoriesRepository);
         $caracteristique = $produit->getCaracteristiques();
         //Si on a une query string 'id' et une autre 'quantite
         if ($request->query->get('id') && $request->query->get('quantite')) {
+            if ($produit->getStock() >= $request->query->get('quantite')) {
+                $panier->modifPanier($request->query->get('id'), $request->query->get('quantite'));
+            } else {
+                $this->addFlash('error', 'Attention, il ne reste plus que ' . $produit->getStock() . ' unités en stock');
+            }
             //on modifie le panier
-            $panier->modifPanier($request->query->get('id'), $request->query->get('quantite'));
         }
 
         //on définit une variable null
@@ -216,7 +224,7 @@ class PageController extends AbstractController
         if (count($produit->getGroupProduit()) > 0) {
             //on récupère les produits associés dans la variable précédement créée
             // $groupProduit = $produitRepository->findBy(['GroupProduit' => $produit->getGroupProduit(), 'is_active' => true]);
-            foreach($produit->getGroupProduit() as $group){
+            foreach ($produit->getGroupProduit() as $group) {
                 $groupProduit[] = $produitRepository->produitParGroup($group);
             }
         }
@@ -248,7 +256,7 @@ class PageController extends AbstractController
             'groupProduits' => $groupProduit,
             'form' => $form->createView(),
             'comments' => $comments,
-            'caracteristiques'=>$caracteristique
+            'caracteristiques' => $caracteristique
         ]);
     }
 
@@ -256,5 +264,4 @@ class PageController extends AbstractController
     {
         return $categoriesRepository->findAll();
     }
-
 }
