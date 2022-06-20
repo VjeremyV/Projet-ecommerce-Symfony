@@ -33,7 +33,6 @@
 			</div>
 		</div>
 </div>
-	{% if app.user %}
 		<div class='text-white p-5 '>
 			<div class='d-flex justify-content-center align-items-center bg-dark p-3 m-3'>
 				<h2 class="text-white text-center border-bottom p-3 " style='width: auto;'>Commentaires</h2>
@@ -52,6 +51,7 @@
 				</div>
 				</div>
 			{% endfor %}
+	{% if app.user %}
 			<div >
 				{% if app.user.client %}
 
@@ -61,11 +61,11 @@
 				{{ form_row(form.auteur, {'value': app.user.client.id}) }}
 				{{ form_row(form.Soumettre) }}
 				{{ form_end(form) }}
-
 				{% endif %}
+
 			</div>
-		</div>
 	{% endif %}
+		</div>
 {% endblock %}
 
 {% block text %}
