@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * page de conexion
+     * page de connexion
      * @param AuthenticationUtils $authenticationUtils
      * @param CategoriesRepository $categoriesRepository
      * @return Response
@@ -26,15 +26,15 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, CategoriesRepository $categoriesRepository): Response
     {
-        //variables menu
+        //on récupère les catégories pour l'affichage du menu
         $getCategories = PageController::Menu($categoriesRepository);
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
 
-        // get the login error if there is one
+        // obtenir l'erreur de connexion s'il y en a une
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+        // dernier nom d'utilisateur entré par l'utilisateur
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
@@ -44,22 +44,38 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * deconnexion
+     * @return void
+     */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
+        //Cette méthode peut être vide - elle sera interceptée par la clé de déconnexion
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
+    /**
+     * page inscription
+     * @param UserPasswordHasherInterface $hashedPwd
+     * @param CategoriesRepository $categoriesRepository
+     * @param ClientsRepository $clientsRepository
+     * @param Request $request
+     * @param AdminRepository $adminRepository
+     * @return Response
+     */
     #[Route(path: '/inscription', name: 'app_signin')]
     public function signIn(UserPasswordHasherInterface $hashedPwd, CategoriesRepository $categoriesRepository, ClientsRepository $clientsRepository, Request $request, AdminRepository $adminRepository): Response
     {   //    on va chercher les catégories à afficher dans le menu
         $getCategories = PageController::Menu($categoriesRepository);
-        // on instancie un nouveau client et on créée un formulaire
+        // on instancie un nouveau client
         $user = new Clients;
+        //on créée un formulaire pour l'inscription
         $form = $this->createForm(SigninUserFormType::class, $user);
-
+        //si il est soumis on récupère les données de la requête
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+        //si le formulaire est soumis et valide
             if (!$adminRepository->findBy(['pseudo' => $form['pseudo']->getData()])) {
                 //si le pseudo est unique en bdd
                 if (!$clientsRepository->findBy(['telephone' => $form['telephone']->getData()])) {
@@ -68,32 +84,43 @@ class SecurityController extends AbstractController
                         // si le mail est unique en bdd
                         if ($form['MDP']->getData() === $form['Confirmmdp']->getData()) {
                             //si les 2 mot de passe rentrés sont égaux
-                            $exp = '/^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'; // on prépare une regex
+                            $exp = '/^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/';
+                            // on prépare une regex
                             if (preg_match($exp, $form['MDP']->getData())) {
                                 //si le mdp correspond à la regex
-                                $this->addFlash('info', 'Votre inscription s\'est bien passée'); // on ajoute un message de reussite
-    
-                                $adm = new admin; //on instancie un nouvel admin
-                                $pwd = $hashedPwd->hashPassword($adm, $form['MDP']->getData()); //on hash le mdp
-                                $adm->setPseudo($form['pseudo']->getData())->setPassword($pwd)->setRoles(['ROLE_USER']); //on définit les valeurs de Admin avec les champs du formulaire
-                                $user->setAdmin($adm); // on définit le champs Admin de user avec notre objet admin
-    
-                                $clientsRepository->add($user, true); //on envoie sur la bdd
-                                return $this->redirectToRoute('app_signin'); // on redirige sur la même page
+                                $this->addFlash('info', 'Votre inscription s\'est bien passée');
+                                // on ajoute un message de reussite
+                                $adm = new admin;
+                                //on instancie un nouvel admin
+                                $pwd = $hashedPwd->hashPassword($adm, $form['MDP']->getData());
+                                //on hash le mdp
+                                $adm->setPseudo($form['pseudo']->getData())->setPassword($pwd)->setRoles(['ROLE_USER']);
+                                //on définit les valeurs de Admin avec les champs du formulaire
+                                $user->setAdmin($adm);
+                                // on définit le champs Admin de user avec notre objet admin
+                                $clientsRepository->add($user, true);
+                                //on envoie sur la bdd
+                                return $this->redirectToRoute('app_signin');
+                                // on redirige sur la même page
                             } else {
                                 $this->addFlash('error', 'Le mot de passe doit contenir au moins 10 caractères, 1minuscule, 1 majuscule, 1caractère spécial et 1 chiffre');
+                                // on ajoute un message flash avec le flag 'error'
                             }
                         } else {
                             $this->addFlash('error', 'Vos 2 mots de passe ne correspondent pas');
+                            // on ajoute un message flash avec le flag 'error'
                         }
                     } else {
                         $this->addFlash('error', 'L\'adresse Mail est déjà utilisée');
+                        // on ajoute un message flash avec le flag 'error'
                     }
                 } else {
                     $this->addFlash('error', 'Le numéro de téléphone est déjà utilisé');
+                    // on ajoute un message flash avec le flag 'error'
                 }
             } else {
                 $this->addFlash('error', 'Le pseudo est déjà utilisé');
+                // on ajoute un message flash avec le flag 'error'
             }
         }
         return $this->render('security/signin.html.twig', [
@@ -112,32 +139,44 @@ class SecurityController extends AbstractController
                     // si le mail est unique en bdd
                     if ($form['MDP']->getData() === $form['Confirmmdp']->getData()) {
                         //si les 2 mot de passe rentrés sont égaux
-                        $exp = '/^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'; // on prépare une regex
+                        $exp = '/^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/';
+                        // on prépare une regex
                         if (preg_match($exp, $form['MDP']->getData())) {
                             //si le mdp correspond à la regex
-                            $secu->addFlash('info', 'Votre inscription s\'est bien passée'); // on ajoute un message de reussite
+                            $secu->addFlash('info', 'Votre inscription s\'est bien passée');
+                            // on ajoute un message de reussite avec le flag 'info'
+                            $adm = new admin;
+                            //on instancie un nouvel admin
+                            $pwd = $hashedPwd->hashPassword($adm, $form['MDP']->getData());
+                            //on hash le mdp
+                            $adm->setPseudo($form['pseudo']->getData())->setPassword($pwd)->setRoles(['ROLE_USER']);
+                            //on définit les valeurs de Admin avec les champs du formulaire
+                            $user->setAdmin($adm);
+                            // on définit le champs Admin de user avec notre objet admin
 
-                            $adm = new admin; //on instancie un nouvel admin
-                            $pwd = $hashedPwd->hashPassword($adm, $form['MDP']->getData()); //on hash le mdp
-                            $adm->setPseudo($form['pseudo']->getData())->setPassword($pwd)->setRoles(['ROLE_USER']); //on définit les valeurs de Admin avec les champs du formulaire
-                            $user->setAdmin($adm); // on définit le champs Admin de user avec notre objet admin
-
-                            $clientsRepository->add($user, true); //on envoie sur la bdd
-                            return SecurityController::redirectToRoute('app_signin'); // on redirige sur la même page
+                            $clientsRepository->add($user, true);
+                            //on envoie sur la bdd
+                            return SecurityController::redirectToRoute('app_signin');
+                            // on redirige sur la même page
                         } else {
                             $secu->addFlash('error', 'Le mot de passe doit contenir au moins 10 caractères, 1minuscule, 1 majuscule, 1caractère spécial et 1 chiffre');
+                            // on ajoute un message flash avec le flag 'error'
                         }
                     } else {
                         $secu->addFlash('error', 'Vos 2 mots de passe ne correspondent pas');
+                        // on ajoute un message flash avec le flag 'error'
                     }
                 } else {
                     $secu->addFlash('error', 'L\'adresse Mail est déjà utilisée');
+                    // on ajoute un message flash avec le flag 'error'
                 }
             } else {
                 $secu->addFlash('error', 'Le numéro de téléphone est déjà utilisé');
+                // on ajoute un message flash avec le flag 'error'
             }
         } else {
             $secu->addFlash('error', 'Le pseudo est déjà utilisé');
+            // on ajoute un message flash avec le flag 'error'
         }
     }
 }
