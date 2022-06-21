@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\InfosUtilisateur;
 use DateTimeImmutable;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -362,7 +363,7 @@ class PageController extends AbstractController
             //on définit l'utilisateur comme étant l'auteur
             $comment->setAuteur($client);
             //on récupère la date courante
-            $date = new DateTimeImmutable();
+            $date = new DateTimeImmutable('now', new DateTimeZone('Europe/Paris'));
             //on définit la date de cration avec la date courante
             $comment->setCreatedAt($date);
             //on définit le produit associé au commentaire

@@ -39,7 +39,7 @@
 		</div>
 </div>
 
-{% if comments|length > 0 or app.user.client %}
+{% if comments|length > 0 or app.user.client is defined %}
 	
 
 		<div class='text-white p-5 '>
@@ -66,7 +66,6 @@
 
 				{{ form_start(form) }}
 				{{ form_row(form.contenu) }}
-				{{ form_row(form.note) }}
 				{{ form_row(form.auteur, {'value': app.user.client.id}) }}
 				{{ form_row(form.Soumettre) }}
 				{{ form_end(form) }}

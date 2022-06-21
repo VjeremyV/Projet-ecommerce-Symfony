@@ -20,12 +20,6 @@ class AddCommentaireFormType extends AbstractType
             ->add('contenu', TextareaType::class,  [
                 'label' => 'Commentaire'
             ])
-            ->add('note',
-            IntegerType::class,
-            [
-                'label' => 'Note',
-                'required' => false
-            ])
             ->add('auteur', HiddenType::class, ['mapped' => false])
             ->add('Soumettre', SubmitType::class);
         ;
