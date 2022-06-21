@@ -50,7 +50,7 @@ class AdminCategoriesController extends AbstractController
      *
      * @param CategoriesRepository $categoriesRepository
      * @param Request $request
-     * @return void
+     * @return Response
      */
     #[Route('/admin/categories/update', name: 'categories_update_list')]
     public function indexUp(CategoriesRepository $categoriesRepository, Request $request)

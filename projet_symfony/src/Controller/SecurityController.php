@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * page de conexion
+     * page de connexion
      * @param AuthenticationUtils $authenticationUtils
      * @param CategoriesRepository $categoriesRepository
      * @return Response
@@ -26,15 +26,15 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, CategoriesRepository $categoriesRepository): Response
     {
-        //variables menu
+        //on récupère les catégories pour l'affichage du menu
         $getCategories = PageController::Menu($categoriesRepository);
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
 
-        // get the login error if there is one
+        // obtenir l'erreur de connexion s'il y en a une
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+        // dernier nom d'utilisateur entré par l'utilisateur
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
@@ -44,12 +44,26 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * deconnexion
+     * @return void
+     */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
+        //Cette méthode peut être vide - elle sera interceptée par la clé de déconnexion
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
+    /**
+     * page inscription
+     * @param UserPasswordHasherInterface $hashedPwd
+     * @param CategoriesRepository $categoriesRepository
+     * @param ClientsRepository $clientsRepository
+     * @param Request $request
+     * @param AdminRepository $adminRepository
+     * @return Response
+     */
     #[Route(path: '/inscription', name: 'app_signin')]
     public function signIn(UserPasswordHasherInterface $hashedPwd, CategoriesRepository $categoriesRepository, ClientsRepository $clientsRepository, Request $request, AdminRepository $adminRepository): Response
     {   //    on va chercher les catégories à afficher dans le menu
