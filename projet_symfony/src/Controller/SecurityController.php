@@ -17,6 +17,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    /**
+     * page de conexion
+     * @param AuthenticationUtils $authenticationUtils
+     * @param CategoriesRepository $categoriesRepository
+     * @return Response
+     */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, CategoriesRepository $categoriesRepository): Response
     {
