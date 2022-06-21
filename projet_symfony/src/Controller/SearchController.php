@@ -11,10 +11,22 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends AbstractController
 {
+    /**
+     * barre de recherche
+     *
+     * @param CategoriesRepository $categoriesRepository
+     * @param Request $request
+     * @param ProduitRepository $produitRepository
+     * @param string $ProduitDir
+     * @return Response
+     */
     #[Route('/search', name: 'app_search')]
     public function index(CategoriesRepository $categoriesRepository, Request $request, ProduitRepository $produitRepository, string $ProduitDir): Response
     {
+        //on récupère les catégories pour l'affichage du menu
         $categories = PageController::Menu($categoriesRepository);
+
+        //paginator
         $offset = max(0, $request->query->getInt('offset', 0));
         $produits = $produitRepository->getPaginatorSearch($offset, $request->query->get('search'));
         $nbrePages = ceil(count($produits) / ProduitRepository::PAGINATOR_PER_PAGE_FRONT);

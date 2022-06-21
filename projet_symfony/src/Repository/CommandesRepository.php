@@ -91,7 +91,7 @@ class CommandesRepository extends ServiceEntityRepository
     public function getPaginatorCommande(int $offset): Paginator
     {
         $query = $this->createQueryBuilder('c');
-        $query = $query->addOrderBy('c.createdAt','ASC');
+        $query = $query->addOrderBy('c.createdAt','DESC');
         $query = $query
             ->setMaxResults(self::PAGINATOR_PER_PAGE_COMMANDE)
             ->setFirstResult($offset)
