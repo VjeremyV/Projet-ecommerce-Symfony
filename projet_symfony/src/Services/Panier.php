@@ -63,11 +63,19 @@ class Panier{
         return $fullPanier;//on retourne le panier documenté
     }
 
-
+/**
+ * modifier un panier
+ *
+ * @param [type] $id
+ * @param [type] $quantite
+ * @return void
+ */
     public function modifPanier($id, $quantite){
+        //on récupère le panier
         $panier = $this->session->getSession()->get('panier', []);
+        //on modifie la quantité
         $panier[$id]= $quantite;
-
+        // on met à jour le panier
         $this->session->getSession()->set('panier', $panier);
     }
 

@@ -62,16 +62,6 @@ class CaracteristiquesRepository extends ServiceEntityRepository
             ->getQuery();
         return new Paginator($query);
     }
-//    public function getcaractProduit(): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->select('c.nom')
-//            ->from('caracteristiques','c')
-//            ->join('produits','p')
-//            ->where('p.id')
-//            ->getQuery()
-//            ->getResult();
-//    }
 
     public function getListCaracteristique(): array
     {
