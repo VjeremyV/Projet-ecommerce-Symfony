@@ -40,11 +40,11 @@ class CommentairesRepository extends ServiceEntityRepository
         }
     }
     public const PAGINATOR_PER_PAGE = 10;
-    public function getPaginator( int $offset, $options = null): Paginator
+    public function getPaginator( int $offset): Paginator
     {
         $query = $this->createQueryBuilder('c');
         $query = $query
-            ->OrderBy('c.createdAt')
+            ->OrderBy('c.createdAt', 'DESC')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery();

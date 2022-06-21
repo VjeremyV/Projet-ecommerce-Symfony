@@ -41,6 +41,14 @@ class CommandesRepository extends ServiceEntityRepository
     }
 
     public const PAGINATOR_PER_PAGE = 4;
+    /**
+     * paginator coté backoffice
+     *
+     * @param integer $offset
+     * @param [type] $search
+     * @param [type] $options
+     * @return Paginator
+     */
     public function getPaginator(int $offset, $search = null, $options = null): Paginator
     {
         $query = $this->createQueryBuilder('c');
@@ -55,7 +63,7 @@ class CommandesRepository extends ServiceEntityRepository
         }
         if (isset($options['date_search'])) {
             $query = $query
-                ->addOrderBy('c.createdAt');
+                ->addOrderBy('c.createdAt', 'DESC');
         }
         if (isset($options['id_search'])) {
             $query = $query
@@ -66,12 +74,20 @@ class CommandesRepository extends ServiceEntityRepository
                 ->addOrderBy('c.Montant');
         }
         $query = $query
+            ->addOrderBy('c.id', 'DESC')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery();
         return new Paginator($query);
     }
+
     public const PAGINATOR_PER_PAGE_COMMANDE = 5;
+    /**
+     * paginator coté client
+     *
+     * @param integer $offset
+     * @return Paginator
+     */
     public function getPaginatorCommande(int $offset): Paginator
     {
         $query = $this->createQueryBuilder('c');
