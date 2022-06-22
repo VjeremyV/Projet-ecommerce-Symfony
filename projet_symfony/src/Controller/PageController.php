@@ -81,24 +81,23 @@ class PageController extends AbstractController
      * @return void
      */
     #[Route('/commande', name: 'app_client_commande')]
-    public function clientCommande(Request $request, CategoriesRepository $categoriesRepository, CommandesRepository $commandesRepository, ClientsRepository $clientsRepository, ContenuRepository $contenuRepository)
+    public function clientCommande(Request $request, CategoriesRepository $categoriesRepository, CommandesRepository $commandesRepository, ClientsRepository $clientsRepository)
     {
         //on récupère les catégories pour les afficher dans le menu
         $getCategories = self::Menu($categoriesRepository);
-
+        //on récupère le client courant
+        $client = $this->getUser()->getClient();
         //pagination
         $offset = max(0, $request->query->getInt('offset', 0));
-        $getCommande = $commandesRepository->getPaginatorCommande($offset);
-        $getClient = $clientsRepository->findAll();
-        $produits = $commandesRepository->getPaginatorCommande($offset);
-        $nbrePages = ceil(count($produits) / CommandesRepository::PAGINATOR_PER_PAGE_COMMANDE);
-        $next = min(count($produits), $offset + CommandesRepository::PAGINATOR_PER_PAGE_COMMANDE);
+        $getCommande = $commandesRepository->getPaginatorCommande($offset, $client);
+        $nbrePages = ceil(count($getCommande) / CommandesRepository::PAGINATOR_PER_PAGE_COMMANDE);
+        $next = min(count($getCommande), $offset + CommandesRepository::PAGINATOR_PER_PAGE_COMMANDE);
         $pageActuelle = ceil($next / CommandesRepository::PAGINATOR_PER_PAGE_COMMANDE);
         $difPages = $nbrePages - $pageActuelle;
         return $this->render('client_commande/index.html.twig', [
             'categories' => $getCategories,
             'commandes' => $getCommande,
-            'client' => $getClient,
+            'client' => $client,
             'previous' => $offset - CommandesRepository::PAGINATOR_PER_PAGE_COMMANDE,
             'offset' => CommandesRepository::PAGINATOR_PER_PAGE_COMMANDE,
             'next' => $next,

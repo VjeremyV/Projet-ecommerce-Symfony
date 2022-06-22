@@ -54,7 +54,7 @@ class CommandesRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('c');
         if ($search) {
             $query = $query->join('c.Client', 'client')
-            ->Where('client.nom LIKE :nom')
+                ->Where('client.nom LIKE :nom')
                 ->setParameter('nom', '%' . $search . '%');
         }
         if (isset($options['nom_search'])) {
@@ -88,11 +88,12 @@ class CommandesRepository extends ServiceEntityRepository
      * @param integer $offset
      * @return Paginator
      */
-    public function getPaginatorCommande(int $offset): Paginator
+    public function getPaginatorCommande(int $offset, $client): Paginator
     {
-        $query = $this->createQueryBuilder('c');
-        $query = $query->addOrderBy('c.createdAt','DESC');
-        $query = $query
+        $query = $this->createQueryBuilder('c')
+            ->andWhere('c.Client= :client')
+            ->setParameter('client', $client)
+            ->addOrderBy('c.createdAt', 'DESC')
             ->setMaxResults(self::PAGINATOR_PER_PAGE_COMMANDE)
             ->setFirstResult($offset)
             ->getQuery();

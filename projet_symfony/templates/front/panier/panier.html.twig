@@ -33,7 +33,7 @@
 								<div style="width: 150px;">
 									<div style="width: 50px;">
 										<input type="hidden" name="id" value="{{ligne.produit.getId}}">
-										<input type="number" name='quantite' value='{{ligne.quantite}}' style='width:50px;'>
+										<input type="number" min='0' name='quantite' value='{{ligne.quantite}}' style='width:50px;'>
 									</div>
 									<h5 class="mb-0">
 										{{ligne.produit.getPrix *  ligne.quantite}}

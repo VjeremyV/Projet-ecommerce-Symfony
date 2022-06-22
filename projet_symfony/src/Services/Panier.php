@@ -91,7 +91,6 @@ class Panier{
             $totalLigne = $ligne['produit']->getPrix() * $ligne['quantite'];//on multiplie le prix du produit par sa quantité
             $total += $totalLigne;//et on incrémente le total
         }
-
         return $total;//on retourne le total
     }
 }
